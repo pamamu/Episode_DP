@@ -9,55 +9,66 @@
  * @author naker
  */
 public class Station {
-    
-    private int fila;
-    private int columna;
-    private String id;
-    
-    public Station(int fila, int columna){
-        this.fila = fila;
-        this.columna = columna;
-        this.id = Integer.toString(fila) + Integer.toString(columna);
-    }
 
-    public int getFila() {
-        return fila;
-    }
+	private int ID;
 
-    public void setFila(int fila) {
-        this.fila = fila;
-    }
+	/**
+	 * Constructor por defecto
+	 */
+	public Station() {
+		this.ID = 0;
+	}
 
-    public int getColumna() {
-        return columna;
-    }
+	/**
+	 * Constructor parametrizado
+	 * 
+	 * @param iD
+	 *            ID de la estación
+	 */
+	public Station(int iD) {
+		this.ID = iD;
+	}
 
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
+	/**
+	 * Get the ID
+	 * 
+	 * @return the iD
+	 */
+	public int getID() {
+		return ID;
+	}
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+	/**
+	 * Set the ID
+	 * 
+	 * @param iD
+	 *            the iD to set
+	 */
+	public void setID(int iD) {
+		ID = iD;
+	}
+	
+	/**
+	 * Devuelve información sobre la Estación
+	 * 
+	 * @return Devuelve string con información sobre la estación
+	 */
     @Override
     public String toString() {
         String output="Station Info: \n";
         
-        output += "Latitud " + fila +"\n";
-        output += "Longitud " + columna + "\n";
-        output += "ID " + id + "\n";
+        output += "ID " + ID + "\n";
         
         return output;
     }
-    
-    
+
+	/**
+	 * Devuelve que tipo es
+	 * 
+	 * @return Devuelve el string "Station"
+	 */
     public String getType(){
         return "Station ";
     }
-    
+
 }

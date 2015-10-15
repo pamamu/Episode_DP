@@ -4,51 +4,104 @@
  * and open the template in the editor.
  */
 
+import java.util.ArrayList;
+
 /**
  *
- * @author naker
+ * @author naker & Pablo
  */
-public class StarGate extends Station{
-    
-    private Midiclorian[] midiclorians;
-    
-    public StarGate(int fila, int columna){
-        super(fila, columna);
-        this.midiclorians = new Midiclorian[15];
-        
-        initMidiclorians();
-    }
-    
-    private void initMidiclorians(){
-        for(int i = 0;i < midiclorians.length;i++){
-            midiclorians[i]= new Midiclorian(i);
-        }
-    }
-    
-    public void getMidiclorians(){
-        for(Midiclorian i : midiclorians){
-            System.out.print(i.toString());
-        }
-    }
+public class Starsgate extends Station {
 
-    @Override
-    public String toString() {
-        String output = super.toString();
-        
-        output += "\nStarGate Info: \n";
-        output += "Pass Midiclorians: \n";
-        
-        for(Midiclorian i : midiclorians){
-            output += i.toString();
-            output += " | ";
-        }
-        
-        return output;
-    }
-    
-    @Override
-    public String getType(){
-        return "StarGate";
-    }
-    
+	GateLock gateLock;
+
+	// PUBLIC METHODS
+
+	public Starsgate(int iD, int deepCombination) {
+		super(iD);
+		gateLock = new GateLock(deepCombination);
+	}
+
+	public Starsgate() {
+		super();
+		gateLock = new GateLock(0);
+	}
+	
+	public void copy(Starsgate starsgate){
+		this.gateLock = starsgate.gateLock;
+	}
+
+	public void setDeepCombination(int deepCombination){
+		this.gateLock.setDeepCombination(deepCombination);		
+	}
+	/**
+	 * 
+	 */
+	public void close() {
+		gateLock.setStatus(false);
+	}
+
+	/**
+	 * 
+	 */
+	public void open() {
+		gateLock.setStatus(true);
+	}
+
+	/**
+	 * TODO
+	 * 
+	 * @return
+	 */
+	public boolean isOpen() {
+		return gateLock.isOpen();
+	}
+
+	/**
+	 * TODO
+	 * 
+	 * @return
+	 */
+	public boolean checkStatus() {
+		gateLock.checkStatus();
+		return gateLock.isOpen();
+
+	}
+
+	/**
+	 * TODO
+	 * 
+	 * @param midiclorian
+	 */
+	public void testMidiclorian(Midiclorian midiclorian) {
+		if (!gateLock.testMidiclorian(midiclorian))
+			System.out.println("ALARMA: EL MIDICLORIANO SE HA PROBADO POR SEGUNDA VEZ.");
+		else
+			System.out.println("MIDICLORIANO CON ID: " + midiclorian.getID() + " PROBADO CON ÉXITO.");
+		checkStatus();
+		System.out.println(this.gateLock.getInfoGateLock());
+
+	}
+
+	public void configure(ArrayList<Midiclorian> midiclorians) {
+		this.gateLock.configure(midiclorians);
+		this.gateLock.setStatus(false);
+	}
+
+	@Override
+	public String toString() {
+
+		return getType() + " - ID: " +super.getID() + '\n' + this.gateLock.getInfoGateLock();
+
+	}
+
+	/**
+	 * Devuelve que tipo es
+	 * 
+	 * @return Devuelve el string "StarsGate"
+	 */
+	@Override
+	public String getType() {
+		return "StarsGate";
+	}
+
 }

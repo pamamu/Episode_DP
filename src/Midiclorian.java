@@ -6,29 +6,44 @@
 
 /**
  *
- * @author naker
+ * @author naker & Pablo
  */
-public class Midiclorian {
-    
-    private Integer id;
-    
-    public Midiclorian(int id){
-        this.id = id;
-    }
+public class Midiclorian implements Comparable<Midiclorian> {
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer ID;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	/**
+	 * @param iD
+	 */
+	public Midiclorian(Integer iD) {
+		ID = iD;
+	}
 
-    @Override
-    public String toString() {
-        return id.toString();
-    }
-    
-    
-    
+	/**
+	 * @return the iD
+	 */
+	public Integer getID() {
+		return ID;
+	}
+
+	/**
+	 * @param iD
+	 *            the iD to set
+	 */
+	public void setID(Integer iD) {
+		ID = iD;
+	}
+
+	@Override
+	public int compareTo(Midiclorian o) {
+		return this.ID.compareTo(o.getID());
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof Midiclorian) {
+			Midiclorian aux = (Midiclorian) obj;
+			return this.getID() == aux.getID();
+		}
+		return false;
+	}
 }
