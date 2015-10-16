@@ -31,6 +31,7 @@ public class Galaxy {
 	private int deepCombination;
 	private int gateStation;
 	private Station[][] Stations;
+	private Starsgate StarsGate;
 
 	/**
 	 * Algoritmo recursivo que balancea los valores de un array y los almacena
@@ -45,12 +46,27 @@ public class Galaxy {
 	 * @param top
 	 *            Indica la cota inferior sobre la que se quiere balancear
 	 */
-	private void combine(ArrayList<Midiclorian> midiclorians, ArrayList<Midiclorian> combinedMidiclorians, int low, int top) {
+	private void combine(ArrayList<Midiclorian> midiclorians, ArrayList<Midiclorian> combinedMidiclorians, int low,
+			int top) {
 		int middle = (low + top) / 2;
-		combinedMidiclorians.add(midiclorians.get(middle)); //Inserta en combinedMidiclorians el midicloriano de la posicion intermedia de midiclorians
+		combinedMidiclorians.add(midiclorians.get(middle)); // Inserta en
+															// combinedMidiclorians
+															// el midicloriano
+															// de la posicion
+															// intermedia de
+															// midiclorians
 		if (low != top) {
-			combine(midiclorians, combinedMidiclorians, middle + 1, top);//Recursivo con low=mitad+1 y top igual
-			combine(midiclorians, combinedMidiclorians, low, middle - 1); //recursico con low=low y top=mitad-1
+			combine(midiclorians, combinedMidiclorians, middle + 1, top);// Recursivo
+																			// con
+																			// low=mitad+1
+																			// y
+																			// top
+																			// igual
+			combine(midiclorians, combinedMidiclorians, low, middle - 1); // recursico
+																			// con
+																			// low=low
+																			// y
+																			// top=mitad-1
 		}
 
 	}
@@ -73,6 +89,7 @@ public class Galaxy {
 		this.deepCombination = deepCombination;
 		this.gateStation = gateStation;
 		this.Stations = new Station[dimX][dimY];
+		this.StarsGate = null;
 		for (int i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
 				if (gateStation != j + i * dimY)
@@ -81,6 +98,12 @@ public class Galaxy {
 					Stations[i][j] = new Starsgate(gateStation, deepCombination);
 			}
 		}
+	}
+	
+	public void setStarsGate(Starsgate StarsGate){
+		StarsGate.setID(gateStation);
+		StarsGate.setDeepCombination(deepCombination);
+		this.StarsGate = StarsGate;
 	}
 
 	/**
@@ -96,19 +119,6 @@ public class Galaxy {
 		ArrayList<Midiclorian> combinedMidiclorians = new ArrayList<Midiclorian>();
 		combine(midiclorians, combinedMidiclorians, 0, midiclorians.size() - 1);
 		return combinedMidiclorians;
-	}
-
-	/**
-	 * Método que inserta una puerta en la galaxia en la posicion fijada.
-	 * 
-	 * @param starsgate
-	 *            Puerta a insertar
-	 */
-	public void insertGate(Starsgate starsgate) {
-		Station aux = Stations[gateStation / this.dimY][gateStation % this.dimY];
-		if (aux instanceof Starsgate){
-			((Starsgate) aux).copy(starsgate);
-		}
 	}
 
 	@Override
@@ -127,11 +137,12 @@ public class Galaxy {
 
 		return output;
 	}
-	
+
 	/**
 	 * Devuelve información sobre todas las estaciones de la galaxia
 	 * 
-	 * @return Devuelve String con información sobre la galaxia en cuadriculas(estaciones)
+	 * @return Devuelve String con información sobre la galaxia en
+	 *         cuadriculas(estaciones)
 	 */
 
 	public String getInfoStations() {
@@ -142,22 +153,22 @@ public class Galaxy {
 				output += " _______________";
 			}
 			output += "\n";
-			//Linea del id de celda
+			// Linea del id de celda
 			for (int e = 0; e < Stations[i].length; e++) {
 				output += "|" + Stations[i][e].getID() + "\t\t|";
 			}
 			output += "\n";
-			//Linea del tipo
+			// Linea del tipo
 			for (int e = 0; e < Stations[i].length; e++) {
 				output += "|" + Stations[i][e].getType() + "\t|";
 			}
 			output += "\n";
-			//Linea de espacio
+			// Linea de espacio
 			for (int e = 0; e < Stations[i].length; e++) {
 				output += "|\t\t|";
 			}
 			output += "\n";
-			//Linea de espacio
+			// Linea de espacio
 			for (int e = 0; e < Stations[i].length; e++) {
 				output += "|\t\t|";
 			}
@@ -190,12 +201,13 @@ public class Galaxy {
 		int j = 1;
 		for (int i = 0; i < numMidis; i++) {
 			Midiclorian m = new Midiclorian(j);
-			System.out.println(j + " - " + (midicloriansList.add(m) ? "insertado" : "error") );
+			System.out.println(j + " - " + (midicloriansList.add(m) ? "insertado" : "error"));
 			j += 2;
 		}
-
+		
 		// Creación del tablero de la galaxia
-		// Parámetros: estación de la puerta, nº columnas, nº filas y profundidad de combinación secreta
+		// Parámetros: estación de la puerta, nº columnas, nº filas y
+		// profundidad de combinación secreta
 
 		int dimX = 6;
 		int dimY = 6;
@@ -203,7 +215,8 @@ public class Galaxy {
 		int deepCombination = 4;
 		Galaxy galaxy = new Galaxy(gateStation, dimX, dimY, deepCombination);
 
-		// Algoritmo que reordena los identificadores para crear los midiclorianos en el orden correcto
+		// Algoritmo que reordena los identificadores para crear los
+		// midiclorianos en el orden correcto
 
 		System.out.println("SIN ORDENAR");
 
@@ -219,26 +232,35 @@ public class Galaxy {
 			System.out.println(midiclorian.getID());
 		}
 
+
+
 		// Crear la puerta de la galaxia
 
-//		System.out.println(galaxy.getInfoStations());
-//		midicloriansList.clear();
-//		j = 1;
-//		for (int i = 0; i < numMidis; i++) {
-//			Midiclorian m = new Midiclorian(j);
-//			System.out.println(j + " - " + (midicloriansList.add(m) ? "insertado" : "error") );
-//			j += 2;
-//		}
-		
 		Starsgate starsgate = new Starsgate();
 		System.out.println(starsgate);
 		starsgate.configure(midicloriansList);
 		starsgate.close();
-		galaxy.insertGate(starsgate);
-		System.out.println(starsgate);
-		for (Midiclorian midiclorian : midicloriansList) {
-			starsgate.testMidiclorian(midiclorian);;
-		}
+		galaxy.setStarsGate(starsgate);
+
+		Midiclorian mid;
+		mid = new Midiclorian(1);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(5);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(9);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(13);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(17);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(21);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(25);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(29);
+		starsgate.testMidiclorian(mid);
+		mid = new Midiclorian(3);
+		starsgate.testMidiclorian(mid);
 
 	}
 }

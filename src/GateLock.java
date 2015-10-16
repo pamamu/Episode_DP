@@ -1,14 +1,16 @@
-package com.dp.proyecto.puerta;
+package dp.proyecto.structures;
 
 import java.util.ArrayList;
 
-import com.dp.proyecto.edd.Arbol;
-import com.dp.proyecto.midiclorians.Midiclorian;
+import dp.proyecto.edd.Arbol;
 
 public class GateLock {
 
+	/** Midiclorianos ordenados con la configuración inicial */
 	ArrayList<Midiclorian> initialCombination;
+	/** Combinación de midiclorianos de la cerradura */
 	Arbol<Midiclorian> midicloriansCombination;
+	/** Midiclorianos probados */
 	Arbol<Midiclorian> testedMidiclorians;
 
 	/** Estado de la cerradura. FALSE = CERRADA ; TRUE = ABIERTA */
@@ -17,7 +19,7 @@ public class GateLock {
 	/** Profundidad de desbloqueo de la combinación */
 	private int deepCombination;
 
-	//PRIVATE METHODS
+	// PRIVATE METHODS
 
 	/**
 	 * Método que calcula la profundidad de un arbol
@@ -51,9 +53,15 @@ public class GateLock {
 		return interiorNodes;
 	}
 
+	/**
+	 * Método para inicializar un arbol
+	 * 
+	 * @param arbol
+	 *            Arbol que se quiere inicializar
+	 */
+
 	private void cleanTree(Arbol<Midiclorian> arbol) {
-		while (!arbol.vacio())
-			arbol.borrar(arbol.getRaiz());
+		arbol = new Arbol<Midiclorian>();
 	}
 
 	/**
@@ -75,7 +83,14 @@ public class GateLock {
 		return exteriorNodes;
 	}
 
-	//PUBLIC METHODS
+	// PUBLIC METHODS
+
+	/**
+	 * Constructor paramétrizado de GateLock
+	 * 
+	 * @param deepCombination
+	 *            Profundidad de desbloqueo de la combinación
+	 */
 
 	public GateLock(int deepCombination) {
 		this.deepCombination = deepCombination;
@@ -86,6 +101,8 @@ public class GateLock {
 	}
 
 	/**
+	 * Método para saber si la cerradura está abierta
+	 * 
 	 * @return Devuelve true si está abierta
 	 */
 	public boolean isOpen() {
@@ -93,6 +110,8 @@ public class GateLock {
 	}
 
 	/**
+	 * Set de estado.
+	 * 
 	 * @param status
 	 *            El estado a poner. FALSE = CERRADA ; TRUE = ABIERTA
 	 */
@@ -101,6 +120,8 @@ public class GateLock {
 	}
 
 	/**
+	 * Get de Profundidad de desbloqueo de la cerradura
+	 * 
 	 * @return Devuelve la profundidad de la combinación.
 	 */
 	public int getDeepCombination() {
@@ -108,6 +129,8 @@ public class GateLock {
 	}
 
 	/**
+	 * Set de Profundidad de desbloqueo de la cerradura
+	 * 
 	 * @param deepCombination
 	 *            La profundidad de la combinación
 	 */
@@ -115,6 +138,13 @@ public class GateLock {
 		this.deepCombination = deepCombination;
 	}
 
+	/**
+	 * Método para probar un midicloriano en la cerradura
+	 * 
+	 * @param midiclorian
+	 *            Midicloriano que se quiere probar
+	 * @return Devuelve FALSE si el midicloriano no se encuentra en la combinación, TRUE si
+	 */
 	public boolean testMidiclorian(Midiclorian midiclorian) {
 		if (testedMidiclorians.pertenece(midiclorian))
 			return false;
@@ -146,7 +176,8 @@ public class GateLock {
 		System.out.println(this.deepCombination + "deepcombination");
 		System.out.println(getInteriorNodes(midicloriansCombination) + "interior");
 		System.out.println(getExteriorNodes(midicloriansCombination) + "exterior");
-		if (getDeep(midicloriansCombination) < this.deepCombination && getInteriorNodes(midicloriansCombination) >= getExteriorNodes(midicloriansCombination))
+		if (getDeep(midicloriansCombination) < this.deepCombination
+				&& getInteriorNodes(midicloriansCombination) >= getExteriorNodes(midicloriansCombination))
 			status = true;
 
 	}
@@ -161,27 +192,28 @@ public class GateLock {
 	}
 
 	public static void main(String[] args) {
-		GateLock cerradura = new GateLock(5);
-		System.out.println(cerradura.getInfoGateLock());
-		//		
-		//		Midiclorian m = new Midiclorian(5);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(2);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(1);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(4);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(6);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(8);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(7);
-		//		cerradura.testMidiclorian(m);
-		//		m = new Midiclorian(9);
-		//		cerradura.testMidiclorian(m);
-		//		System.out.println(cerradura.getInteriorNodes(cerradura.testedMidiclorians));
-		//		
+		// GateLock cerradura = new GateLock(5);
+		// System.out.println(cerradura.getInfoGateLock());
+		//
+		// Midiclorian m = new Midiclorian(5);
+		// cerradura.testMidiclorian(m);
+		// cerradura.checkStatus();
+		// m = new Midiclorian(2);
+		// cerradura.testMidiclorian(m);
+		// m = new Midiclorian(1);
+		// cerradura.testMidiclorian(m);
+		// m = new Midiclorian(4);
+		// cerradura.testMidiclorian(m);
+		// m = new Midiclorian(6);
+		// cerradura.testMidiclorian(m);
+		// m = new Midiclorian(8);
+		// cerradura.testMidiclorian(m);
+		// m = new Midiclorian(7);
+		// cerradura.testMidiclorian(m);
+		// m = new Midiclorian(9);
+		// cerradura.testMidiclorian(m);
+		// System.out.println(cerradura.getInteriorNodes(cerradura.testedMidiclorians));
+		//
 	}
 
 }
