@@ -233,7 +233,7 @@ public class Galaxy {
 		}
 
 
-
+		
 		// Crear la puerta de la galaxia
 
 		Starsgate starsgate = new Starsgate();
