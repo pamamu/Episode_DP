@@ -1,18 +1,31 @@
-package com.dp.proyecto.edd;
+package edd;
+
 
 /**
- * Implementación de arbol binario de busqueda.
+ *  <p color="#01DF01">
+ *     Este codigo es parte del proyecto StarsWars - DP desarrollado en la Universidad<br/>
+ *     de Extremadura en el curso 2015 - 2016 en la asignatura Desarrollo de Programas
+ *  </p>
+ * <br/>
  * 
- * @version 1.0
- * @author <b> Pablo Macías </b><br>
+ * Implementacion de arbol binario de busqueda de cualquier tipo de dato
  * 
+ *  @since <p color="red">
+ *     by: Fernando G. & Pablo Macias<br/>
+ *         Revenge of the Sithâ„¢ 2015 
+ *      
+ * </p>
+ *  @author Pablo Macias
+ *  @version 1.0 ALFA
+ *
  */
+
 public class Arbol<tipodato extends Comparable<tipodato>> {
 
-	/** Dato almacenado en cada nodo del árbol. */
+	/** Dato almacenado en cada nodo del ï¿½rbol. */
 	private tipodato datoRaiz;
 
-	/** Atributo que indica si el árbol está vacío. */
+	/** Atributo que indica si el ï¿½rbol estï¿½ vacï¿½o. */
 	boolean esVacio;
 
 	/** Hijo izquierdo del nodo actual */
@@ -22,7 +35,7 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	private Arbol<tipodato> hDer;
 
 	/**
-	 * Constructor por defecto de la clase. Inicializa un árbol vacío.
+	 * Constructor por defecto de la clase. Inicializa un ï¿½rbol vacï¿½o.
 	 */
 	public Arbol() {
 		this.esVacio = true;
@@ -31,14 +44,14 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 
 	/**
-	 * Crea un nuevo árbol a partir de los datos pasados por parámetro.
+	 * Crea un nuevo ï¿½rbol a partir de los datos pasados por parï¿½metro.
 	 *
 	 * @param hIzq
-	 *            El hijo izquierdo del árbol que se está creando
+	 *            El hijo izquierdo del ï¿½rbol que se estï¿½ creando
 	 * @param datoRaiz
-	 *            Raíz del árbol que se está creando
+	 *            Raï¿½z del ï¿½rbol que se estï¿½ creando
 	 * @param hDer
-	 *            El hijo derecho del árbol que se está creando
+	 *            El hijo derecho del ï¿½rbol que se estï¿½ creando
 	 */
 	public Arbol(Arbol<tipodato> hIzq, tipodato datoRaiz, Arbol<tipodato> hDer) {
 		this.esVacio = false;
@@ -48,7 +61,7 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 	
 	/**
-	 * Devuelve el hijo izquierdo del árbol
+	 * Devuelve el hijo izquierdo del ï¿½rbol
 	 *
 	 * @return El hijo izquierdo
 	 */
@@ -57,34 +70,34 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 
 	/**
-	 * Devuelve el hijo derecho del árbol
+	 * Devuelve el hijo derecho del ï¿½rbol
 	 *
-	 * @return Hijo derecho del árbol
+	 * @return Hijo derecho del ï¿½rbol
 	 */
 	public Arbol<tipodato> getHijoDer() {
 		return hDer;
 	}
 
 	/**
-	 * Devuelve la raíz del árbol
+	 * Devuelve la raï¿½z del ï¿½rbol
 	 *
-	 * @return La raíz del árbol
+	 * @return La raï¿½z del ï¿½rbol
 	 */
 	public tipodato getRaiz() {
 		return datoRaiz;
 	}
 
 	/**
-	 * Comprueba si el árbol está vacío.
+	 * Comprueba si el ï¿½rbol estï¿½ vacï¿½o.
 	 * 
-	 * @return verdadero si el árbol está vacío, falso en caso contrario
+	 * @return verdadero si el ï¿½rbol estï¿½ vacï¿½o, falso en caso contrario
 	 */
 	public boolean vacio() {
 		return esVacio;
 	}
 
 	/**
-	 * Inserta un nuevo dato en el árbol.
+	 * Inserta un nuevo dato en el ï¿½rbol.
 	 *
 	 * @param dato
 	 *            El dato a insertar
@@ -114,11 +127,11 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 
 	/**
-	 * Comprueba si un dato se encuentra almacenado en el árbol
+	 * Comprueba si un dato se encuentra almacenado en el ï¿½rbol
 	 *
 	 * @param dato
 	 *            El dato a buscar
-	 * @return verdadero si el dato se encuentra en el árbol, falso en caso
+	 * @return verdadero si el dato se encuentra en el ï¿½rbol, falso en caso
 	 *         contrario
 	 */
 	public boolean pertenece(tipodato dato) {
@@ -140,7 +153,7 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 
 	/**
-	 * Borrar un dato del árbol.
+	 * Borrar un dato del ï¿½rbol.
 	 *
 	 * @param dato
 	 *            El dato que se quiere borrar
@@ -164,11 +177,11 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 
 	/**
-	 * Borrar un dato. Este método es utilizado por el método borrar anterior.
+	 * Borrar un dato. Este mï¿½todo es utilizado por el mï¿½todo borrar anterior.
 	 *
 	 * @param dato
 	 *            El dato a borrar
-	 * @return Devuelve el árbol resultante después de haber realizado el
+	 * @return Devuelve el ï¿½rbol resultante despuï¿½s de haber realizado el
 	 *         borrado
 	 */
 	private Arbol<tipodato> borrarOrden(tipodato dato) {
@@ -234,7 +247,7 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	}
 
 	/**
-	 * Recorrido inOrden del árbol.
+	 * Recorrido inOrden del ï¿½rbol.
 	 */
 	public void inOrden() {
 		Arbol<tipodato> aux = null;

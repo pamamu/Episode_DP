@@ -1,43 +1,42 @@
+package estructura;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+import estructura.Midiclorian;
 import java.util.ArrayList;
 
 /**
  *
  * @author naker & Pablo
  */
-public class Starsgate extends Station {
+public class Starsgate {
 
-	GateLock gateLock;
+	private GateLock gateLock;
 
 	// PUBLIC METHODS
 
-	public Starsgate(int iD, int deepCombination) {
-		super(iD);
-		gateLock = new GateLock(deepCombination);
+	public Starsgate(int deepCombination) {
+            gateLock = new GateLock(deepCombination);
 	}
 
 	public Starsgate() {
-		super();
-		gateLock = new GateLock(0);
-	}
-	
-	public void copy(Starsgate starsgate){
-		this.gateLock = starsgate.gateLock;
+            gateLock = new GateLock(0);
 	}
 
 	public void setDeepCombination(int deepCombination){
-		this.gateLock.setDeepCombination(deepCombination);		
+            this.gateLock.setDeepCombination(deepCombination);		
 	}
+        
+        
 	/**
 	 * 
 	 */
 	public void close() {
-		gateLock.setStatus(false);
+                gateLock.setStatus(false);
 	}
 
 	/**
@@ -62,7 +61,7 @@ public class Starsgate extends Station {
 	 * @return
 	 */
 	public boolean checkStatus() {
-		gateLock.checkStatus();
+                gateLock.checkStatus();
 		return gateLock.isOpen();
 
 	}
@@ -76,7 +75,7 @@ public class Starsgate extends Station {
 		if (!gateLock.testMidiclorian(midiclorian))
 			System.out.println("ALARMA: EL MIDICLORIANO SE HA PROBADO POR SEGUNDA VEZ.");
 		else
-			System.out.println("MIDICLORIANO CON ID: " + midiclorian.getID() + " PROBADO CON ÉXITO.");
+			System.out.println("MIDICLORIANO CON ID: " + midiclorian.getID() + " PROBADO CON EXITO.");
 		checkStatus();
 		System.out.println(this.gateLock.getInfoGateLock());
 
@@ -90,7 +89,7 @@ public class Starsgate extends Station {
 	@Override
 	public String toString() {
 
-		return getType() + " - ID: " +super.getID() + '\n' + this.gateLock.getInfoGateLock();
+		return getType() + '\n' + this.gateLock.getInfoGateLock();
 
 	}
 
@@ -99,9 +98,9 @@ public class Starsgate extends Station {
 	 * 
 	 * @return Devuelve el string "StarsGate"
 	 */
-	@Override
 	public String getType() {
 		return "StarsGate";
 	}
+
 
 }
