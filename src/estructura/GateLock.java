@@ -170,7 +170,7 @@ public class GateLock {
             return true;
 
     }
-
+    
     public void restart() {
             cleanTree(midicloriansCombination);
             cleanTree(testedMidiclorians);
@@ -178,6 +178,7 @@ public class GateLock {
 
     }
 
+    
     public void configure(ArrayList<Midiclorian> midiclorians) {
             this.initialCombination.clear();
             for (int i = 0; i < midiclorians.size(); i++) {

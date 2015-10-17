@@ -1,84 +1,81 @@
 package estructura;
 
 /**
- *  <p color="#01DF01">
- *     Este codigo es parte del proyecto StarsWars - DP desarrollado en la Universidad<br/>
- *     de Extremadura en el curso 2015 - 2016 en la asignatura Desarrollo de Programas
- *  </p>
+ * <p color="#01DF01">
+ * Este codigo es parte del proyecto StarsWars - DP desarrollado en la
+ * Universidad<br/>
+ * de Extremadura en el curso 2015 - 2016 en la asignatura Desarrollo de
+ * Programas
+ * </p>
  * <br/>
  * 
- *  @since <p color="red">
- *     by: Fernando G. & Pablo Macias<br/>
- *         Revenge of the Sith™ 2015 
- *      
- * </p>
- *  @author Fernando.G & Pablo Macias
- *  @version 1.0 ALFA
+ * @since
+ * 		<p color="red">
+ *        by: Fernando G. & Pablo Macias<br/>
+ *        Revenge of the Sith™ 2015
+ * 
+ *        </p>
+ * @author Fernando.G & Pablo Macias
+ * @version 1.0 ALFA
  *
  */
 public class Station {
-        
-    
-        //ATRIBUTOS ############################################################
-    
-        //Privados
+
+	// ATRIBUTOS ############################################################
+
+	// Privados
+	/** Identificador de la Estación */
 	private int ID;
-        private Midiclorian midicloriano;
-        
-        //Publicos
-        public Starsgate starsgate;
-        
-        //CONSTRUCTORES ########################################################
+
+	// Publicos
+	/** Starsgate */
+	public Starsgate starsgate;
+
+	// CONSTRUCTORES ########################################################
 	/**
 	 * <p color="red">
-         *      Constructor parametrizado sin atributos especiales
-         * </p><br/>
-         * No posee ni midicloriano, ni puerta
+	 * Constructor parametrizado sin atributos especiales
+	 * </p>
+	 * <br/>
+	 * No posee ni midicloriano, ni puerta
 	 * 
 	 * @param ID<br/>
-         *      ID de la estacion<br/>
+	 *            ID de la estacion<br/>
+	 * @pre ID >= 0
+	 * @post ID con valor de parámetro y starsgate = null
+	 * @complex O(1)
 	 */
 	public Station(int ID) {
 		this.ID = ID;
-                this.midicloriano = null;
-                this.starsgate = null;
+		this.starsgate = null;
 	}
+	
 
 	/**
-	 * <p color="red">
-         *      Constructor parametrizado con midicloriano
-         * </p><br/>
-         * Al poseer midicloriano, la estacion no tendra puerta
-	 * 
-	 * @param ID<br/>
-                ID de la estacion<br/>
-         * @param midicloriano<br/>
-         *      Midicloriano asignado a la estacion, en caso de poseer<br/>
+	 * Constructor parametrizado con puerta.<br/>
+	 * Al poseer puerta, dicha estacion no tendra midicloriano asociado
+	 *
+	 * @param ID
+	 *            ID de la estacion
+	 * @param starsgate
+	 *            Starsgate asociada a una estacion, en caso de poseer
+	 * @pre ID >=0, starsgate inicializada correctamente
+	 * @post ID y starsgate con valores del parámetro
+	 * @complex O(1)
 	 */
-	public Station(int ID, Midiclorian midicloriano) {
+	public Station(int ID, Starsgate starsgate) {
 		this.ID = ID;
-                this.midicloriano = midicloriano;
-                this.starsgate = null;
+		this.starsgate = starsgate;
 	}
-        /**
-         * Constructor parametrizado con puerta.<br/>
-         * Al poseer puerta, dicha estacion no tendra midicloriano asociado
-         *
-         * @param ID
-	 *      ID de la estacion
-         * @param starsgate 
-         *      Starsgate asociada a una estacion, en caso de poseer
-         */
-        public Station(int ID, Starsgate starsgate){
-            this.ID = ID;
-            this.midicloriano = null;
-            this.starsgate = starsgate;
-        }
-        
-        //Getter & Setter ######################################################
+
+	// Getter & Setter ######################################################
 	/**
 	 * Get ID
+	 * 
 	 * @return the iD
+	 * @pre 
+	 * @post Devuelve el ID de la estación
+	 * @complex O(1)
 	 */
 	public int getID() {
 		return ID;
@@ -86,43 +83,60 @@ public class Station {
 
 	/**
 	 * Set ID
+	 * 
 	 * @param iD<br/>
-	 *      the iD to set
+	 *            the iD to set
+	 * @pre ID >=0
+	 * @post Introduce el parámetro como valor en unn atributo de la instancia
+	 * @complex O(1)
 	 */
 	public void setID(int iD) {
 		ID = iD;
 	}
-	
-        
-        //PRIVADOS #############################################################
-        
-        //PUBLICOS #############################################################
-        
-        public boolean haveGate(){
-            return (this.starsgate != null);
-        }
-        
+
+	// PRIVADOS #############################################################
+
+	// PUBLICOS #############################################################
+
 	/**
-	 * Devuelve informaci�n sobre la Estaci�n
+	 * Comporbar si tiene puerta o no
 	 * 
-	 * @return Devuelve string con informaci�n sobre la estaci�n
+	 * @return Devuelve TRUE si tiene puerta, FALSE si no la tiene.
+	 * @pre 
+	 * @post Devuelve TRUE si la estación contiene una starsgate, FALSE en el otro caso.
+	 * @complex O(1)
 	 */
-        @Override
-        public String toString() {
-            String output="Station Info: \n";
+	public boolean haveGate() {
+		return (this.starsgate != null);
+	}
 
-            output += "ID " + ID + "\n";
+	/**
+	 * Devuelve información sobre la Estación
+	 * 
+	 * @return Devuelve string con información sobre la estación
+	 * @pre 
+	 * @post Devuelve el ID y toda la información de la estación.
+	 * @complex O(1)
+	 */
+	@Override
+	public String toString() {
+		String output = "Station Info: \n";
 
-            return output;
-        }
+		output += "ID " + ID + "\n";
+
+		return output;
+	}
 
 	/**
 	 * Devuelve que tipo es
 	 * 
 	 * @return Devuelve el string "Station"
+	 * @pre 
+	 * @post Devuelve el string "Station"
+	 * @complex O(1)
 	 */
-        public String getType(){
-            return "Station ";
-        }
+	public String getType() {
+		return "Station ";
+	}
 
 }

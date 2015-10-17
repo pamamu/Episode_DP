@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class Main {
     /**
-	 * M�todo main donde se inicializan los objetos y se simula el sistema
+	 * Método main donde se inicializan los objetos y se simula el sistema
 	 * 
 	 * @param args
 	 */
