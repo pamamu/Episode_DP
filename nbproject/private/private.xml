@@ -3,15 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Arbol.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/WormHole.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/GateLock.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Midiclorian.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/nbproject/build-impl.xml</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Galaxy.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Station.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Starsgate.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/Galaxy.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/Station.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/GateLock.java</file>
             <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Main.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/BaseStation.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/GateStation.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/NormalStation.java</file>
         </group>
     </open-files>
 </project-private>

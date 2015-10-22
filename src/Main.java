@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class Main {
     /**
-	 * Método main donde se inicializan los objetos y se simula el sistema
+	 * M�todo main donde se inicializan los objetos y se simula el sistema
 	 * 
 	 * @param args
 	 */
@@ -97,5 +97,7 @@ public class Main {
 		starsgate.testMidiclorian(mid);
 		mid = new Midiclorian(3);
                 starsgate.testMidiclorian(mid);
+                
+                System.out.println(galaxy.getInfoStations());
 	}
 }

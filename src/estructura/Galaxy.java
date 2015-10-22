@@ -42,7 +42,7 @@ public class Galaxy {
 	/** Starsgate o puerta de salida de la galaxia */
 	private Starsgate starsgate;
 	/** Estaciones que forman una galaxia */
-	private Station[][] Stations;
+	private BaseStation[][] Stations;
 
 	// CONSTRUCTORES ########################################################
 
@@ -66,14 +66,14 @@ public class Galaxy {
 		this.dimY = dimY;
 
 		this.starsgate = null;
-		this.Stations = new Station[dimX][dimY];
+		this.Stations = new BaseStation[dimX][dimY];
 
 		for (int i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
 				if (gateStation != j + i * dimY)
-					Stations[i][j] = new Station(j + i * dimY);
+					Stations[i][j] = new NormalStation(j + i * dimY);
 				else
-					Stations[i][j] = new Station(j + i * dimY, starsgate);
+					Stations[i][j] = new GateStation(j + i * dimY, starsgate);
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public class Galaxy {
 		for (int i = 0; i < Stations.length; i++) {
 			output += "|";
 			for (int e = 0; e < Stations[i].length; e++) {
-				if (Stations[i][e].haveGate())
+				if (Stations[i][e].getType().equals("GateStation"))
 					output += "STARSGATE ";
 				output += Stations[i][e].getID() + "|";
 			}
@@ -218,7 +218,7 @@ public class Galaxy {
 			output += "\n";
 			// Linea de espacio | y si tiene puerta
 			for (int e = 0; e < Stations[i].length; e++) {
-				if (Stations[i][e].haveGate())
+				if (Stations[i][e].getType().equals("GateStation"))
 					output += "|" + "STARGATE" + "\t|";
 				else
 					output += "|\t\t|";
