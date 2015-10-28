@@ -26,7 +26,9 @@ public class NormalStation extends BaseStation{
     
     // ATRIBUTOS ###############################################################
         /** Lista de midiclorianos que posee la estacion*/
-        private List<Midiclorian> midiclorians;
+        private List<Midiclorian> midiclorians; //TODO ¿cola?
+        
+        //TODO EDD de personajes en la estación
         
     // CONSTRUCTORES ###########################################################
         /**
@@ -94,6 +96,8 @@ public class NormalStation extends BaseStation{
 	public String getType() {
 		return "Station";
 	}
+        
+    //TODO Metodo simular() Sesion03
     
     
 }
