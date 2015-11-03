@@ -31,7 +31,7 @@ public class Character {
 	private String name;
 
 	/** ArrayList de los midiclorianos que porta el personaje */
-	private ArrayList<Midiclorian> midiclorians;
+	protected ArrayList<Midiclorian> midiclorians;
 
 	/** */
 	private ArrayList<String> route;
@@ -63,36 +63,14 @@ public class Character {
 	}
 
 	/**
-	 * @param midiclorianos
+	 * @param midiclorians
 	 *            El/La midiclorianos a poner
 	 */
-	public void setMidiclorianos(ArrayList<Midiclorian> midiclorians) {
+	public void setMidiclorianos(ArrayList<Midiclorian> midiclorians)
+	{
 		this.midiclorians = midiclorians;
 	}
 
-	/**
-	 * Introduce un midicloriano en la ED del personaje
-	 * 
-	 * @param midiclorian
-	 */
-	public void cogerMidicloraino(Midiclorian midiclorian) {
-		this.midiclorians.add(midiclorian);
-	}
-
-	/**
-	 * Elimina el ultimo midicloriano que tiene almacenado el personaje en la ED
-	 */
-	public void tirarMidicloriano() {
-		this.midiclorians.remove(midiclorians.size() - 1);
-	}
-
-	public void onGate() {
-
-	}
-
-	public void catchMidiclorian() {
-
-	}
 
 	public void move() {
 

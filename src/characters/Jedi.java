@@ -8,18 +8,18 @@ package characters;
  * Programas
  * </p>
  * <br/>
- * 
+ *
  * @since
  * 		<p color="red">
  *        by: Fernando G. & Pablo Macias<br/>
  *        Revenge of the Sith™ 2015
- * 
+ *
  *        </p>
  * @author Fernando.G & Pablo Macias
  * @version 1.0 ALFA
  *
  */
 
-public class Jedi extends Character{
+public class Jedi extends LightSide {
 
 }

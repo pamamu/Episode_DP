@@ -1,6 +1,7 @@
 package characters;
 
 import characters.Character;
+import estructura.Midiclorian;
 
 /**
  * <p color="#01DF01">
@@ -23,5 +24,22 @@ import characters.Character;
  */
 
 public class Empire extends Character{
+
+    /**
+     * Constructor parametrizado
+     *
+     * @param iD
+     *      iD del personaje
+     * @param name
+     *      Nombre del personaje
+     */
+    Empire(char iD, String name){
+        super(iD, name);
+    }
+
+    Midiclorian throwMidiclorian(){
+        return super.midiclorians.remove(0);
+    }
+
 
 }
