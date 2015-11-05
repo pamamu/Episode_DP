@@ -1,6 +1,9 @@
 package estructura;
 
+import characters.Character;
+
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 
@@ -29,10 +32,11 @@ public class BaseStation {
 	// Privados
 	/** Identificador de la Estación */
 	private int ID;
-        /** Cola de personajes*/
-        private Queue<personajes.Personaje> personajes;
-
-    // CONSTRUCTORES ###########################################################
+	/** Cola de personajes*/
+	private Queue<Character> characters;
+	/** Cola de preferencias de midiclorianos obtenidos*/
+	private PriorityQueue<Midiclorian> midiclorians;
+	// CONSTRUCTORES ###########################################################
 	/**
 	 * <p color="red">
 	 * Constructor parametrizado
@@ -46,10 +50,10 @@ public class BaseStation {
 	 */
 	public BaseStation(int ID) {
 		this.ID = ID;
-                this.personajes = new LinkedList<>();
+		this.characters = new LinkedList<>();
 	}
         
-    // Getter & Setter #########################################################
+	// Getter & Setter #########################################################
 	/**
 	 * Get ID
 	 * 
@@ -75,10 +79,20 @@ public class BaseStation {
 		ID = iD;
 	}
 
-    // PRIVADOS ################################################################
+	// PRIVADOS ################################################################
 
-    //PUBLICOS #################################################################
-        /**
+	//PUBLICOS #################################################################
+
+	/**
+	 * Inserta un personaje en la ED de la Estación
+	 * @param character
+	 * personaje a insertar en la estación
+	 */
+	public void insertCharacter(Character character) {
+		characters.add(character);
+	}
+
+	/**
 	 * Devuelve información sobre la Estación
 	 * 
 	 * @return Devuelve string con información sobre la estación
@@ -90,7 +104,7 @@ public class BaseStation {
 	public String toString() {
 		String output = "Station Info: \n";
 		output += "ID " + ID + "\n";
-                output += "Personajes: \n" + personajes.toString();
+                output += "Personajes: \n" + characters.toString();
 
 		return output;
 	}

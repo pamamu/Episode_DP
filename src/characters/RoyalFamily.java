@@ -22,4 +22,7 @@ package characters;
 
 public class RoyalFamily extends LightSide{
 
+    public RoyalFamily(char iD, String name) {
+        super(iD, name);
+    }
 }

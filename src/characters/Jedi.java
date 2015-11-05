@@ -22,4 +22,7 @@ package characters;
 
 public class Jedi extends LightSide {
 
+    public Jedi(char iD, String name) {
+        super(iD, name);
+    }
 }

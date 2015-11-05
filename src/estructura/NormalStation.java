@@ -20,8 +20,11 @@ import java.util.List;
  *        </p>
  * @author Fernando.G & Pablo Macias
  * @version 1.0 ALFA
+ * @deprecated
+ * @see BaseStation
  *
  */
+
 public class NormalStation extends BaseStation{
     
     // ATRIBUTOS ###############################################################

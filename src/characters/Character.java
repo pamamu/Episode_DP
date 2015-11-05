@@ -1,6 +1,7 @@
 package characters;
 
 import estructura.Midiclorian;
+
 import java.util.ArrayList;
 
 /**
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  * @version 1.0 ALFA
  *
  */
-public class Character {
+public abstract class Character {
 
 	/** Marca identificativa */
 	private char iD;
@@ -33,11 +34,11 @@ public class Character {
 	/** ArrayList de los midiclorianos que porta el personaje */
 	protected ArrayList<Midiclorian> midiclorians;
 
-	/** */
-	private ArrayList<String> route;
+	/** ArrayList de Caminos*/
+	private ArrayList<Way> route;
 
-	/** */
-	private int position;
+	/** Turno del personaje */
+	private int turn;
 
 	/**
 	 * Constructor por defecto
@@ -71,8 +72,10 @@ public class Character {
 		this.midiclorians = midiclorians;
 	}
 
+	public abstract void onGate();
+
 
 	public void move() {
-
+	//TODO Implementar mover
 	}
 }

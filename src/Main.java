@@ -1,7 +1,7 @@
-
 import estructura.Galaxy;
-import estructura.Starsgate;
 import estructura.Midiclorian;
+import estructura.Starsgate;
+
 import java.util.ArrayList;
 
 /**
@@ -99,5 +99,11 @@ public class Main {
                 starsgate.testMidiclorian(mid);
                 
                 System.out.println(galaxy.getInfoStations());
+	//EC2
+
+
+
+
+
 	}
 }

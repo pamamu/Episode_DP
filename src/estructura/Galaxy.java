@@ -241,4 +241,21 @@ public class Galaxy {
 
 		return output;
 	}
+
+	/**
+	 * Reparte midiclorianos por las estaciones de la galaxia de 5 en 5
+	 * @param midiclorians
+     */
+	public void dispenseMidiclorians(ArrayList<Midiclorian> midiclorians){
+		//TODO Implementar metodo para repartir midiclorianos
+	}
+
+	public void simulate(int turns){
+		for (int turn = 0; turn < turns; turn++)
+			for (int i = 0; i < dimY; i++)
+				for (int j = 0; j < dimX; j++) {
+//					Stations[i][j].simulate(turn);
+				}
+
+	}
 }

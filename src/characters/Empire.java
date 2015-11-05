@@ -1,6 +1,5 @@
 package characters;
 
-import characters.Character;
 import estructura.Midiclorian;
 
 /**
@@ -37,9 +36,18 @@ public class Empire extends Character{
         super(iD, name);
     }
 
+    /**
+     * Elimina y devuelve el primer midicloriano que tiene almacenado
+     * @return
+     * Devuelve el primer midicloriano de la ED
+     */
     Midiclorian throwMidiclorian(){
         return super.midiclorians.remove(0);
     }
 
+    /**
+     *
+     */
+    public void onGate(){}
 
 }

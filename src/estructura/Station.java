@@ -17,7 +17,7 @@ package estructura;
  *        </p>
  * @author Fernando.G & Pablo Macias
  * @version 1.0 ALFA
- * @deprecated 
+ * @deprecated
  * 
  *      Se desaconseja el uso de esta clase, ya que ha sido reestructurada la 
  *      estructura del proyecto siendo su uso el de NormalStation y GateStation

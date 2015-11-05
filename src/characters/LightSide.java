@@ -11,38 +11,56 @@ import estructura.Midiclorian;
  * </p>
  * <br/>
  *
- * @since
+ *  @since
  * 		<p color="red">
  *        by: Fernando G. & Pablo Macias<br/>
  *        Revenge of the Sith™ 2015
  *
  *        </p>
+ *
  * @author Fernando.G & Pablo Macias
  * @version 1.0 ALFA
- *
+ * @since <p color="red">
+ * by: Fernando G. & Pablo Macias<br/>
+ * Revenge of the Sith™ 2015
+ * <p>
+ * </p>
  */
 
-public class LightSide extends Character{
+public class LightSide extends Character {
 
     /**
      * Constructor parametrizado
      *
-     * @param iD
-     *      iD del personaje
-     * @param name
-     *      Nombre del personaje
+     * @param iD   iD del personaje
+     * @param name Nombre del personaje
      */
-    LightSide(char iD, String name){
+    LightSide(char iD, String name) {
         super(iD, name);
     }
 
     /**
-     * Inserta un midicloriano en la ED
-     * @param midiclorian
+     * Inserta un midicloriano en la primera prosición de la ED
+     *
+     * @param midiclorian midicloriano a insertar en la ED
      */
-    void takeMidiclorian(Midiclorian midiclorian){
-        super.midiclorians.add(midiclorian);
+    void takeMidiclorian(Midiclorian midiclorian) {
+        super.midiclorians.add(0, midiclorian);
     }
+
+    /**
+     * Borra y devuelve el primer midicloriano almacenado en la estructura de control
+     *
+     * @return Devuelve el primer midicloriano que tiene almacenado
+     */
+    Midiclorian getMidiclorian() {
+        return super.midiclorians.remove(0);
+    }
+
+    /**
+     *
+     */
+    public void onGate(){}
 
     /**
      * Devuelve tipo
