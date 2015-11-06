@@ -1,5 +1,7 @@
 package characters;
 
+import estructura.BaseStation;
+import estructura.GateStation;
 import estructura.Midiclorian;
 
 /**
@@ -46,8 +48,21 @@ public class Empire extends Character{
     }
 
     /**
+     * TODO IMPLEMENTAR COMPORTAMIENTO EN ESTACIÓN NORMAL
      *
+     * @param station
      */
-    public void onGate(){}
+    @Override
+    public void onStation(BaseStation station) {
+        station.insertMidiclorian(this.throwMidiclorian());
+    }
+
+    /**
+     * TODO IMPLEMENTAR COMPORTAMIENTO EN ESTACION CON PUERTA
+     * @param station
+     */
+    @Override
+    public void onGate(GateStation station) {
+    }
 
 }

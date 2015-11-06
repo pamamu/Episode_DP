@@ -1,5 +1,7 @@
 package characters;
 
+import estructura.BaseStation;
+import estructura.GateStation;
 import estructura.Midiclorian;
 
 /**
@@ -45,7 +47,7 @@ public class LightSide extends Character {
      * @param midiclorian midicloriano a insertar en la ED
      */
     void takeMidiclorian(Midiclorian midiclorian) {
-        super.midiclorians.add(0, midiclorian);
+        midiclorians.add(0, midiclorian);
     }
 
     /**
@@ -54,13 +56,29 @@ public class LightSide extends Character {
      * @return Devuelve el primer midicloriano que tiene almacenado
      */
     Midiclorian getMidiclorian() {
-        return super.midiclorians.remove(0);
+        return midiclorians.remove(0);
+    }
+
+
+    /**
+     * Simula la acción del personaje en una estacion normal.
+     * El personaje coge un midicloriano que hubiera en la estacion;
+     *
+     * @param station
+     */
+    @Override
+    public void onStation(BaseStation station) {
+        this.takeMidiclorian(station.collectMidiclorian());
     }
 
     /**
-     *
+     * TODO IMPLEMENTAR COMPORTAMIENTO EN ESTACIÓN CON PUERTA
+     * @param station
      */
-    public void onGate(){}
+    @Override
+    public void onGate(GateStation station) {
+        station.starsgate.testMidiclorian(this.getMidiclorian());
+    }
 
     /**
      * Devuelve tipo
