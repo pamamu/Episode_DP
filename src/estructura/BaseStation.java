@@ -95,7 +95,7 @@ public class BaseStation {
     }
 
     public Character takeCharacter() {
-        return characters.remove();
+        return characters.poll();
     }
 
     /**
@@ -124,8 +124,17 @@ public class BaseStation {
      * @param galaxy Galaxia en la que se está simulando el juego
      * @param turn   Turno general de la partida
      */
-    public void simulate(Galaxy galaxy, int turn) {
-
+    public boolean simulate(Galaxy galaxy, int turn) {
+        Character character = this.takeCharacter();
+        while (true) {
+            if (characters.peek().getTurn() < turn) {
+                characters.poll();
+                if (character.simulate(this, galaxy))
+                    return true;
+            } else
+                break;
+        }
+        return false;
     }
 
     /**

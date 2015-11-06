@@ -187,9 +187,10 @@ public class Galaxy {
      * @param turns turnos que se quieren jugar
      */
     public void simulate(int turns) {
-        for (int turn = 0; turn < turns; turn++)
-            for (int i = 0; i < dimY; i++)
-                for (int j = 0; j < dimX; j++) {
+        boolean openGate = false;
+        for (int turn = 0; turn < turns && !openGate; turn++)
+            for (int i = 0; i < dimY && !openGate; i++)
+                for (int j = 0; j < dimX && !openGate; j++) {
                     Stations[i][j].simulate(this, turn);
                 }
 

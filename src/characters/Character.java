@@ -74,6 +74,15 @@ public abstract class Character {
     }
 
     /**
+     * TODO DOCUMENTAR
+     *
+     * @return
+     */
+    public int getTurn() {
+        return turn;
+    }
+
+    /**
      * @param midiclorians El/La midiclorianos a poner
      */
     public void setMidiclorianos(ArrayList<Midiclorian> midiclorians) {
@@ -93,7 +102,6 @@ public abstract class Character {
      * @pre El personaje debe de estar sacado de
      */
     public boolean move(BaseStation originStation, Galaxy galaxy) {
-        turn++;
         //En way se guarda el siguiente camino y se vuelve a insertar en la cola
         Way way = route.poll();
         route.add(way);
@@ -111,10 +119,14 @@ public abstract class Character {
         return false;
     }
 
-    public void simulate(BaseStation originStation, Galaxy galaxy) {
-        if (originStation instanceof GateStation)
-            this.onGate(originStation);
-        else
+    public boolean simulate(BaseStation originStation, Galaxy galaxy) {
+        turn++;
+        if (originStation instanceof GateStation) {
+            this.onGate((GateStation) originStation);
+            if (((GateStation) originStation).starsgate.checkStatus())
+                return true;
+        } else
             this.onStation(originStation);
+        return false;
     }
 }
