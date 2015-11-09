@@ -1,5 +1,7 @@
 package characters;
 
+import estructura.BaseStation;
+
 /**
  * <p color="#01DF01">
  * Este codigo es parte del proyecto StarsWars - DP desarrollado en la
@@ -22,7 +24,16 @@ package characters;
 
 public class Jedi extends LightSide {
 
-    public Jedi(char iD, String name) {
-        super(iD, name);
+    private char classMark = 'J';
+    
+    public Jedi(char iD, String name, BaseStation originStation) {
+        super(iD, name, originStation);
     }
+
+    @Override
+    public String toString() {
+        return ""+classMark+"";
+    }
+    
+    
 }

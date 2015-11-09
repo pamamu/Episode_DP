@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/characters/Character.java</file>
             <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/Galaxy.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/Station.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/GateLock.java</file>
             <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/Main.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/characters/Contrabandist.java</file>
             <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/BaseStation.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/GateStation.java</file>
-            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/NormalStation.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/estructura/Midiclorian.java</file>
+            <file>file:/Users/fernandogonzalez/NetBeansProjects/starswars-dp/src/characters/Jedi.java</file>
         </group>
     </open-files>
 </project-private>

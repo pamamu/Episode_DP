@@ -37,8 +37,8 @@ public class LightSide extends Character {
      * @param iD   iD del personaje
      * @param name Nombre del personaje
      */
-    LightSide(char iD, String name) {
-        super(iD, name);
+    LightSide(char iD, String name, BaseStation originStation) {
+        super(iD, name, originStation);
     }
 
     /**
@@ -91,4 +91,5 @@ public class LightSide extends Character {
     public String getType() {
         return "LightSide";
     }
+
 }

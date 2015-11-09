@@ -34,8 +34,8 @@ public class Empire extends Character{
      * @param name
      *      Nombre del personaje
      */
-    Empire(char iD, String name){
-        super(iD, name);
+    Empire(char iD, String name, BaseStation originStation){
+        super(iD, name, originStation);
     }
 
     /**

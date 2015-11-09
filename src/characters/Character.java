@@ -25,7 +25,7 @@ import java.util.LinkedList;
  * <p>
  * </p>
  */
-public abstract class Character {
+public abstract class Character implements Comparable<Character> {
 
     /**
      * Marca identificativa
@@ -53,24 +53,34 @@ public abstract class Character {
     private int turn;
 
     /**
+     * Estacion de origen del personaje
+     */
+    //Se utilizara, para que el personaje conozca su posicion de origen, en cada 
+    //movimiento y asi liberar al main de este tipo de control (se autogestiona)
+    private BaseStation originStation;
+
+    /**
      * Constructor por defecto
      */
     public Character() {
         this.iD = ' ';
         this.name = "";
         this.midiclorians = new ArrayList<Midiclorian>();
+        this.originStation = null;
     }
 
     /**
      * Constructor parametrizado
      *
-     * @param iD   marca identificativa del personaje
+     * @param iD marca identificativa del personaje
      * @param name nombre del personaje
      */
-    public Character(char iD, String name) {
+    public Character(char iD, String name, BaseStation originStation) {
         this.iD = iD;
         this.name = name;
         this.midiclorians = new ArrayList<Midiclorian>();
+        this.originStation = originStation;
+        this.originStation.insertCharacter(this);
     }
 
     /**
@@ -89,31 +99,44 @@ public abstract class Character {
         this.midiclorians = midiclorians;
     }
 
+    /**
+     * @param route ruta a seguir
+     */
+    public void setRoute(LinkedList<Way> route) {
+        this.route = route;
+    }
+
+    public void setOriginStation(BaseStation station) {
+        this.originStation = station;
+        originStation.insertCharacter(this);
+    }
+
     public abstract void onStation(BaseStation station);
 
     public abstract void onGate(GateStation station);
 
     /**
-     * Mueve el personaje desde una estación(dada por parámetro) a otra estación de
-     * una galaxia(dada por parámetro)
+     * Mueve el personaje desde una estación de origen a otra estación de una
+     * galaxia(dada por parámetro)
      *
-     * @param originStation Estación en la que está acutalmente el personaje
-     * @param galaxy        Galaxia en donde se encuentran las estaciones y los personajes
+     * @param galaxy Galaxia en donde se encuentran las estaciones y los
+     * personajes
      * @pre El personaje debe de estar sacado de
      */
-    public boolean move(BaseStation originStation, Galaxy galaxy) {
+    public boolean move(Galaxy galaxy) {
         //En way se guarda el siguiente camino y se vuelve a insertar en la cola
         Way way = route.poll();
         route.add(way);
         //Se calculan las coordenadas del destino a partir del ID de la estación de origen
         int[] coord = new int[2];
-        galaxy.IDtoCoordinates(originStation.getID(), coord);
-        int row = coord[0] + way.getWidth();
-        int column = coord[1] + way.getHeight();
+        galaxy.IDtoCoordinates(this.originStation.getID(), coord);
+        int row = coord[0] + way.getHeight();
+        int column = coord[1] + way.getWidth();
         //Si las coordenadas son permitidas se mueve el personaje
         if (galaxy.stationPermitted(row, column)) {
             BaseStation destinationStation = galaxy.getStation(row, column);
-            destinationStation.insertCharacter(this);
+            destinationStation.insertCharacter(this.originStation.takeCharacter());
+            this.originStation = destinationStation;
             return true;
         }
         return false;
@@ -123,10 +146,32 @@ public abstract class Character {
         turn++;
         if (originStation instanceof GateStation) {
             this.onGate((GateStation) originStation);
-            if (((GateStation) originStation).starsgate.checkStatus())
+            if (((GateStation) originStation).starsgate.checkStatus()) {
                 return true;
-        } else
+            }
+        } else {
             this.onStation(originStation);
+        }
+        return false;
+    }
+
+
+    @Override
+    public int compareTo(Character o) {
+        return 1;
+    }
+
+    /**
+     *
+     *
+     * @pre @post @complex O()
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Character) {
+            Character aux = (Character) obj;
+            return this == aux;
+        }
         return false;
     }
 }

@@ -3,6 +3,7 @@ package estructura;
 import characters.Character;
 
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 
 /**
@@ -33,7 +34,7 @@ public class BaseStation {
     /**
      * Cola de personajes
      */
-    private PriorityQueue<Character> characters;
+    private Queue<Character> characters;
     /**
      * Cola de preferencias de midiclorianos obtenidos
      */
@@ -135,6 +136,22 @@ public class BaseStation {
                 break;
         }
         return false;
+    }
+    
+    public String getCharacter(){
+        String output = "";
+        
+        if(!characters.isEmpty()){
+            output += characters.toString();
+            if(characters.size() < 2){
+                output += "\t";
+            }
+        }else{
+            output += "\t";
+        }
+        
+        
+        return output;
     }
 
     /**

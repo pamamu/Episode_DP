@@ -205,7 +205,7 @@ public class Galaxy {
      * FALSE: La fila y la columna no son compatibles con las dimensiones de la galaxia
      */
     public boolean stationPermitted(int row, int column) {
-        if (row >= dimX || column <= dimY || row < 0 || column < 0)
+        if (row >= dimX || column >= dimY || row < 0 || column < 0)
             return false;
         return true;
     }
@@ -291,9 +291,9 @@ public class Galaxy {
                     output += "|\t\t|";
             }
             output += "\n";
-            // Linea de espacio
+            // Linea de Personajes
             for (int e = 0; e < Stations[i].length; e++) {
-                output += "|\t\t|";
+                output += "|"+Stations[i][e].getCharacter() + "\t|";
             }
             output += "\n";
             for (int e = 0; e < Stations[i].length; e++) {

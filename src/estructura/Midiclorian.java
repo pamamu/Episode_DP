@@ -98,4 +98,5 @@ public class Midiclorian implements Comparable<Midiclorian> {
 		}
 		return false;
 	}
+
 }
