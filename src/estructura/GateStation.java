@@ -58,6 +58,8 @@ public class GateStation extends BaseStation{
 	public String toString() {
 		String output = "GateStation Info: \n";
 		output += super.toString();
+                if(this.starsgate == null)
+                    System.out.println("ES NULL CAPULLO 1");
                 output += starsgate.toString();
 
 		return output;

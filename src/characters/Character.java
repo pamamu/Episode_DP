@@ -30,7 +30,7 @@ public abstract class Character implements Comparable<Character> {
     /**
      * Marca identificativa
      */
-    private char iD;
+    private char classMark;
 
     /**
      * Variable que indica el nombre del personaje
@@ -63,7 +63,7 @@ public abstract class Character implements Comparable<Character> {
      * Constructor por defecto
      */
     public Character() {
-        this.iD = ' ';
+        this.classMark = ' ';
         this.name = "";
         this.midiclorians = new ArrayList<Midiclorian>();
         this.originStation = null;
@@ -76,13 +76,16 @@ public abstract class Character implements Comparable<Character> {
      * @param name nombre del personaje
      */
     public Character(char iD, String name, BaseStation originStation) {
-        this.iD = iD;
+        this.classMark = iD;
         this.name = name;
         this.midiclorians = new ArrayList<Midiclorian>();
         this.originStation = originStation;
         this.originStation.insertCharacter(this);
     }
 
+    public BaseStation getOriginStation(){
+        return this.originStation;
+    }
     /**
      * TODO DOCUMENTAR
      *
@@ -110,17 +113,39 @@ public abstract class Character implements Comparable<Character> {
         this.originStation = station;
         originStation.insertCharacter(this);
     }
+    
+    public char getClassMark(){
+        return this.classMark;
+    }
 
-    public abstract void onStation(BaseStation station);
+    public abstract void onStation(Galaxy galaxy);
 
-    public abstract void onGate(GateStation station);
+    public abstract void onGate(Galaxy galaxy);
 
+    public void action(Galaxy galaxy){
+        //Comprobamos donde estamos
+        if(this.originStation instanceof GateStation){
+            //Si estamos en puerta
+            onGate(galaxy);
+        }else{
+            //Si no
+            //Mueve
+            this.move(galaxy);
+            //Ejecuta su accion personalizada
+            onStation(galaxy);
+        }
+        
+        //Aumenta el turno del personaje
+        this.turn++;
+        
+    }
+    
     /**
      * Mueve el personaje desde una estación de origen a otra estación de una
      * galaxia(dada por parámetro)
      *
      * @param galaxy Galaxia en donde se encuentran las estaciones y los
-     * personajes
+     *      personajes
      * @pre El personaje debe de estar sacado de
      */
     public boolean move(Galaxy galaxy) {
@@ -135,26 +160,13 @@ public abstract class Character implements Comparable<Character> {
         //Si las coordenadas son permitidas se mueve el personaje
         if (galaxy.stationPermitted(row, column)) {
             BaseStation destinationStation = galaxy.getStation(row, column);
-            destinationStation.insertCharacter(this.originStation.takeCharacter());
+            destinationStation.insertCharacter(this);
+            originStation.delete(this);
             this.originStation = destinationStation;
             return true;
         }
         return false;
     }
-
-    public boolean simulate(BaseStation originStation, Galaxy galaxy) {
-        turn++;
-        if (originStation instanceof GateStation) {
-            this.onGate((GateStation) originStation);
-            if (((GateStation) originStation).starsgate.checkStatus()) {
-                return true;
-            }
-        } else {
-            this.onStation(originStation);
-        }
-        return false;
-    }
-
 
     @Override
     public int compareTo(Character o) {
@@ -174,4 +186,11 @@ public abstract class Character implements Comparable<Character> {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return this.midiclorians.toString();
+    }
+    
+    
 }

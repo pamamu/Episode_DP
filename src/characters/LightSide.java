@@ -1,6 +1,7 @@
 package characters;
 
 import estructura.BaseStation;
+import estructura.Galaxy;
 import estructura.GateStation;
 import estructura.Midiclorian;
 
@@ -56,19 +57,42 @@ public class LightSide extends Character {
      * @return Devuelve el primer midicloriano que tiene almacenado
      */
     Midiclorian getMidiclorian() {
-        return midiclorians.remove(0);
+        if(!midiclorians.isEmpty())
+            return midiclorians.remove(0);
+        else
+            return null;
     }
-
-
+    
     /**
      * Simula la acción del personaje en una estacion normal.
-     * El personaje coge un midicloriano que hubiera en la estacion;
+     * El personaje coge un midicloriano que hubiera en la estacion y se mueve
+     * 
+     * @param galaxy Galaxia donde se encuentra
      *
-     * @param station
      */
     @Override
-    public void onStation(BaseStation station) {
-        this.takeMidiclorian(station.collectMidiclorian());
+    public void onStation(Galaxy galaxy) {
+        //Nueva estacion
+        BaseStation originStation = this.getOriginStation();
+        
+        if(originStation instanceof GateStation){
+            //Salta a onGate
+            this.onGate(galaxy);
+        }else{
+            Midiclorian midiActual = originStation.collectMidiclorian();
+            //Si hay midicloriano - lo coge
+            if(midiActual != null)
+                this.takeMidiclorian(midiActual);
+        }
+        
+//        BaseStation originStation = this.getOriginStation();
+//        
+//        Midiclorian midiActual = originStation.collectMidiclorian();
+//        if(midiActual != null)
+//            this.takeMidiclorian(midiActual);
+//        
+//        this.move(galaxy);
+        
     }
 
     /**
@@ -76,8 +100,16 @@ public class LightSide extends Character {
      * @param station
      */
     @Override
-    public void onGate(GateStation station) {
-        station.starsgate.testMidiclorian(this.getMidiclorian());
+    public void onGate(Galaxy galaxy) {
+        //Probamos midiclorianos
+        GateStation originStation = (GateStation)this.getOriginStation();
+        //Prueba midicloriano
+        Midiclorian midiProbar = this.getMidiclorian();
+        //Si tenemos midiclorianos prueba
+        if(midiProbar != null)
+            if(originStation.starsgate.testMidiclorian(midiProbar))
+                System.out.println("PUERTA ABIERTA!!!");
+        
     }
 
     /**
@@ -91,5 +123,9 @@ public class LightSide extends Character {
     public String getType() {
         return "LightSide";
     }
-
+    
+    @Override
+    public String toString() {
+        return ""+super.getClassMark()+"";
+    }
 }

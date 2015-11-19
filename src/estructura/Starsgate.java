@@ -120,13 +120,14 @@ public class Starsgate {
 	 *       el estado de apertura.
 	 * @complex O(n)
 	 */
-	public void testMidiclorian(Midiclorian midiclorian) {
+	public boolean testMidiclorian(Midiclorian midiclorian) {
 		if (!gateLock.testMidiclorian(midiclorian))
 			System.out.println("ALARMA: EL MIDICLORIANO SE HA PROBADO POR SEGUNDA VEZ.");
 		else
 			System.out.println("MIDICLORIANO CON ID: " + midiclorian.getID() + " PROBADO CON EXITO.");
-		checkStatus();
-		System.out.println(this.gateLock.getInfoGateLock());
+		
+                //System.out.println(this.gateLock.getInfoGateLock());
+                return this.checkStatus();
 
 	}
 
@@ -154,7 +155,8 @@ public class Starsgate {
 	 */
 	@Override
 	public String toString() {
-
+                if(this.gateLock == null)
+                    System.out.println("ES NUL CAPULLO");
 		return getType() + '\n' + this.gateLock.getInfoGateLock();
 
 	}

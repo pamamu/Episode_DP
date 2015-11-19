@@ -23,15 +23,9 @@ import estructura.BaseStation;
  */
 
 public class RoyalFamily extends LightSide{
-
-    private char classMark = 'R';
     
     public RoyalFamily(char iD, String name, BaseStation originStation) {
         super(iD, name, originStation);
     }
     
-    @Override
-    public String toString() {
-        return ""+classMark+"";
-    }
 }

@@ -162,6 +162,10 @@ public class Galaxy {
     public void setStarsGate(Starsgate StarsGate, int deepCombination) {
         StarsGate.setDeepCombination(deepCombination);
         this.starsgate = StarsGate;
+        
+        GateStation nuevaPuerta = new GateStation(dimX*dimY, StarsGate);
+        Stations[dimX-1][dimY-1] = nuevaPuerta;
+        
         System.gc();
     }
 
@@ -174,33 +178,32 @@ public class Galaxy {
     public void dispenseMidiclorians(ArrayList<Midiclorian> midiclorians, int stationMidiclorians) {
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {
-                //Sentencia que salta de 5 en 5 las estaciones
-                if(Stations[i][j].getID() % 5 == 0){
-                    for (int k = 0; k < stationMidiclorians; k++) {
-                        if(!midiclorians.isEmpty()){
-                            Stations[i][j].insertMidiclorian(midiclorians.get(0));
-                            midiclorians.remove(0);
-                        }
+                for (int k = 0; k < stationMidiclorians; k++) {
+                    if(!midiclorians.isEmpty()){
+                        Stations[i][j].insertMidiclorian(midiclorians.get(0));
+                        midiclorians.remove(0);
+                    }else{
+                        return;
                     }
                 }
             }
         }
     }
 
-    /**
-     * Método que simula una partida real con movimiento prefijados y 50 turnos. EC2.
-     *
-     * @param turns turnos que se quieren jugar
-     */
-    public void simulate(int turns) {
-        boolean openGate = false;
-        for (int turn = 0; turn < turns && !openGate; turn++)
-            for (int i = 0; i < dimY && !openGate; i++)
-                for (int j = 0; j < dimX && !openGate; j++) {
-                    Stations[i][j].simulate(this, turn);
-                }
-
-    }
+//    /**
+//     * Método que simula una partida real con movimiento prefijados y 50 turnos. EC2.
+//     *
+//     * @param turns turnos que se quieren jugar
+//     */
+//    public void simulate(int turns) {
+//        boolean openGate = false;
+//        for (int turn = 0; turn < turns && !openGate; turn++)
+//            for (int i = 0; i < dimY && !openGate; i++)
+//                for (int j = 0; j < dimX && !openGate; j++) {
+//                    Stations[i][j].simulate(this, turn);
+//                }
+//
+//    }
 
     /**
      * Dado la fila y la columna comprueba si son "legales" en la galaxia creada
@@ -304,7 +307,11 @@ public class Galaxy {
             output += "\n";
             // Linea de midiclorianos
             for (int e = 0; e < Stations[i].length; e++) {
-                output += "|"+Stations[i][e].getMidiclorians() + "\t|";
+                output += "|";
+                    if(!Stations[i][e].getMidiclorians().equals("\t"))
+                        output+= "*\t\t|";
+                    else
+                        output+= "\t\t|";
             }
             output += "\n";
             for (int j = 0; j < Stations[i].length; j++) {

@@ -23,17 +23,9 @@ import estructura.BaseStation;
  */
 
 public class Jedi extends LightSide {
-
-    private char classMark = 'J';
     
     public Jedi(char iD, String name, BaseStation originStation) {
         super(iD, name, originStation);
     }
-
-    @Override
-    public String toString() {
-        return ""+classMark+"";
-    }
-    
     
 }

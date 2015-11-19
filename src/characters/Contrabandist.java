@@ -24,14 +24,8 @@ import estructura.BaseStation;
 
 public class Contrabandist extends LightSide {
     
-    private char classMark = 'C';
-    
     public Contrabandist(char iD, String name, BaseStation originStation) {
         super(iD, name, originStation);
     }
     
-    @Override
-    public String toString() {
-        return ""+classMark+"";
-    }
 }

@@ -162,10 +162,12 @@ public class GateLock {
      * @return Devuelve FALSE si el midicloriano no se encuentra en la combinaciÛn, TRUE si
      */
     public boolean testMidiclorian(Midiclorian midiclorian) {
-            if (testedMidiclorians.pertenece(midiclorian))
+            if (testedMidiclorians.pertenece(midiclorian)){
                     return false;
-            if (midicloriansCombination.pertenece(midiclorian))
+            }
+            if (midicloriansCombination.pertenece(midiclorian)){
                     midicloriansCombination.borrar(midiclorian);
+            }
             this.testedMidiclorians.insertar(midiclorian);
             return true;
 

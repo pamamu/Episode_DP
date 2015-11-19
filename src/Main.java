@@ -1,5 +1,6 @@
 
 import characters.Contrabandist;
+import characters.Empire;
 import characters.Jedi;
 import characters.RoyalFamily;
 import characters.Way;
@@ -158,49 +159,88 @@ public class Main {
         starsgate.close();
         galaxy.setStarsGate(starsgate, deepCombination);
         
+        
         System.out.println(starsgate);
         System.out.println(midicloriansList.toString());
         
-        galaxy.dispenseMidiclorians(midicloriansList, 3);
+        galaxy.dispenseMidiclorians(midicloriansList, 5);
         
         //Crea los personajes
-        Jedi skyWalker = new Jedi('J', "Anakin", galaxy.getStation(1, 1));
+        Jedi skyWalker = new Jedi('J', "Anakin", galaxy.getStation(0, 0));
         
         LinkedList<Way> rutaAnakin = new LinkedList();
         
         rutaAnakin.add(Way.EAST);
-        rutaAnakin.add(Way.NORTH);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.WEST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
+        rutaAnakin.add(Way.EAST);
         rutaAnakin.add(Way.EAST);
         rutaAnakin.add(Way.SOUTH);
-        rutaAnakin.add(Way.WEST);
-        
+        rutaAnakin.add(Way.SOUTH);
+        rutaAnakin.add(Way.SOUTH);
+        rutaAnakin.add(Way.SOUTH);
+        rutaAnakin.add(Way.SOUTH);
+
         //Seteamos la ruta al personaje
         skyWalker.setRoute(rutaAnakin);
         
-        RoyalFamily amidala = new RoyalFamily('R', "Amidala", galaxy.getStation(0, 0));
+        Empire vader = new Empire('V', "Vader", galaxy.getStation(5, 0));
         
-        LinkedList<Way> rutaAmidala = new LinkedList();
+        LinkedList<Way> rutaVader = new LinkedList();
         
-        rutaAmidala.add(Way.EAST);
-        rutaAmidala.add(Way.EAST);
-        rutaAmidala.add(Way.EAST);
-        rutaAmidala.add(Way.SOUTH);
-        
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.WEST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.EAST);
+        rutaVader.add(Way.SOUTH);
+        rutaVader.add(Way.SOUTH);
+        rutaVader.add(Way.SOUTH);
+        rutaVader.add(Way.SOUTH);
+        rutaVader.add(Way.SOUTH);
+
         //Seteamos la ruta al personaje
-        amidala.setRoute(rutaAmidala);
-        
-        
-        Contrabandist solo = new Contrabandist('C', "Han Solo", galaxy.getStation(0, 5));
-        
-        LinkedList<Way> rutaSolo = new LinkedList();
-        
-        rutaSolo.add(Way.EAST);
-        rutaSolo.add(Way.WEST);
-        rutaSolo.add(Way.WEST);
-        rutaSolo.add(Way.SOUTH);
-        
-        //Seteamos la ruta al personaje
-        solo.setRoute(rutaSolo);
+        vader.setRoute(rutaVader);
         
         //Muestra el tablero
         System.out.println(galaxy.getInfoStations());
@@ -209,9 +249,10 @@ public class Main {
             System.out.print("Presiona la tecla Enter para continuar");
             waitForKeypress.nextLine();
             //Movemos el personaje
-            skyWalker.move(galaxy);
-            amidala.move(galaxy);
-            solo.move(galaxy);
+            skyWalker.action(galaxy);
+            vader.action(galaxy);
+//            amidala.move(galaxy);
+//            solo.move(galaxy);
 
             //ESPACIOS PARA MOSTRAR ENTRE TURNOS aqui debe ir informacion adicional
             // de turnos info de midiclorianos estado de puerta

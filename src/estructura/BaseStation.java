@@ -119,25 +119,25 @@ public class BaseStation {
         return this.midiclorians.poll();
     }
 
-    /**
-     * Simula el juego dentro de una estación haciendo que los personajes realicen
-     * una acción en ese turno
-     *
-     * @param galaxy Galaxia en la que se está simulando el juego
-     * @param turn   Turno general de la partida
-     */
-    public boolean simulate(Galaxy galaxy, int turn) {
-        Character character = this.takeCharacter();
-        while (true) {
-            if (characters.peek().getTurn() < turn) {
-                characters.poll();
-                if (character.simulate(this, galaxy))
-                    return true;
-            } else
-                break;
-        }
-        return false;
-    }
+//    /**
+//     * Simula el juego dentro de una estación haciendo que los personajes realicen
+//     * una acción en ese turno
+//     *
+//     * @param galaxy Galaxia en la que se está simulando el juego
+//     * @param turn   Turno general de la partida
+//     */
+//    public boolean simulate(Galaxy galaxy, int turn) {
+//        Character character = this.takeCharacter();
+//        while (true) {
+//            if (characters.peek().getTurn() < turn) {
+//                characters.poll();
+//                if (character.action(this, galaxy))
+//                    return true;
+//            } else
+//                break;
+//        }
+//        return false;
+//    }
     
     public String getMidiclorians(){
         String output = "";
@@ -167,6 +167,10 @@ public class BaseStation {
         }
         
         return output;
+    }
+    
+    public boolean delete(Character character){
+        return this.characters.remove(character);
     }
 
     /**
