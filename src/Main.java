@@ -121,6 +121,7 @@ public class Main {
     //SIMULACION DE LA SEGUNDA ENTREGA
     private static void simulacionEC2(){
         
+        //Scanner para leer la tecla ENTER en cada turno
         Scanner waitForKeypress = new Scanner(System.in);
         
         //TODO:
@@ -137,6 +138,30 @@ public class Main {
         int gateStation = (dimX * dimY) - 1;
 
         Galaxy galaxy = new Galaxy(gateStation, dimX, dimY);
+        
+        //Preparacion de la lista de midiclorianos a generar
+        int numMidis = 15;
+        int deepCombination = 4;
+
+        ArrayList<Midiclorian> midicloriansList = new ArrayList<Midiclorian>();
+        int j = 1;
+        for (int i = 0; i < numMidis; i++) {
+            Midiclorian m = new Midiclorian(j);
+            System.out.println(j + " - " + (midicloriansList.add(m) ? "insertado" : "error"));
+            j += 2;
+        }
+        
+        midicloriansList = galaxy.generateCombination(midicloriansList);
+        
+        Starsgate starsgate = new Starsgate();
+        starsgate.configure(midicloriansList);
+        starsgate.close();
+        galaxy.setStarsGate(starsgate, deepCombination);
+        
+        System.out.println(starsgate);
+        System.out.println(midicloriansList.toString());
+        
+        galaxy.dispenseMidiclorians(midicloriansList, 3);
         
         //Crea los personajes
         Jedi skyWalker = new Jedi('J', "Anakin", galaxy.getStation(1, 1));
@@ -193,6 +218,10 @@ public class Main {
             for(int i=0;i<50;i++){
                 System.out.println("");
             }
+            
+            System.out.println("TURNO: " + (turn+1)+"º");
+            // Muestra el estado de la puerta
+            System.out.println(starsgate);
             //Muestra el tablero
             System.out.println(galaxy.getInfoStations());
         }

@@ -34,7 +34,7 @@ public class BaseStation {
     /**
      * Cola de personajes
      */
-    private Queue<Character> characters;
+    private PriorityQueue<Character> characters;
     /**
      * Cola de preferencias de midiclorianos obtenidos
      */
@@ -54,6 +54,7 @@ public class BaseStation {
     public BaseStation(int ID) {
         this.ID = ID;
         this.characters = new PriorityQueue<>();
+        this.midiclorians = new PriorityQueue<>();
     }
 
     // Getter & Setter #########################################################
@@ -138,6 +139,21 @@ public class BaseStation {
         return false;
     }
     
+    public String getMidiclorians(){
+        String output = "";
+        
+        if(!midiclorians.isEmpty()){
+            output += midiclorians.toString();
+            if(midiclorians.size() < 2){
+                output += "\t\t";
+            }
+        }else{
+            output += "\t";
+        }
+        
+        return output;
+    }
+    
     public String getCharacter(){
         String output = "";
         
@@ -149,7 +165,6 @@ public class BaseStation {
         }else{
             output += "\t";
         }
-        
         
         return output;
     }

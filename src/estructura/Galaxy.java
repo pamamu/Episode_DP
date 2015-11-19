@@ -174,8 +174,14 @@ public class Galaxy {
     public void dispenseMidiclorians(ArrayList<Midiclorian> midiclorians, int stationMidiclorians) {
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {
-                for (int k = 0; k < stationMidiclorians; k++) {
-                    Stations[i][j].insertMidiclorian(midiclorians.remove(0));
+                //Sentencia que salta de 5 en 5 las estaciones
+                if(Stations[i][j].getID() % 5 == 0){
+                    for (int k = 0; k < stationMidiclorians; k++) {
+                        if(!midiclorians.isEmpty()){
+                            Stations[i][j].insertMidiclorian(midiclorians.get(0));
+                            midiclorians.remove(0);
+                        }
+                    }
                 }
             }
         }
@@ -296,8 +302,9 @@ public class Galaxy {
                 output += "|"+Stations[i][e].getCharacter() + "\t|";
             }
             output += "\n";
+            // Linea de midiclorianos
             for (int e = 0; e < Stations[i].length; e++) {
-                output += "|\t\t|";
+                output += "|"+Stations[i][e].getMidiclorians() + "\t|";
             }
             output += "\n";
             for (int j = 0; j < Stations[i].length; j++) {
