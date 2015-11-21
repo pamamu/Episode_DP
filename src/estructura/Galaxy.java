@@ -163,7 +163,7 @@ public class Galaxy {
         StarsGate.setDeepCombination(deepCombination);
         this.starsgate = StarsGate;
         
-        GateStation nuevaPuerta = new GateStation(dimX*dimY, StarsGate);
+        GateStation nuevaPuerta = new GateStation(dimX*dimY -1, StarsGate);
         Stations[dimX-1][dimY-1] = nuevaPuerta;
         
         System.gc();

@@ -123,6 +123,7 @@ public abstract class Character implements Comparable<Character> {
     public abstract void onGate(Galaxy galaxy);
 
     public void action(Galaxy galaxy){
+        
         //Comprobamos donde estamos
         if(this.originStation instanceof GateStation){
             //Si estamos en puerta

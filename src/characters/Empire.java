@@ -26,7 +26,7 @@ import estructura.Midiclorian;
  */
 public class Empire extends Character {
 
-    
+    private boolean iClosed;    //Bandera que se utiliza como switch si he cerrado o no
     
     /**
      * Constructor parametrizado
@@ -36,8 +36,13 @@ public class Empire extends Character {
      */
     public Empire(char iD, String name, BaseStation originStation) {
         super(iD, name, originStation);
+        this.iClosed = false;
     }
 
+    
+    public boolean getClosed(){
+        return iClosed;
+    }
     /**
      * Elimina y devuelve el primer midicloriano que tiene almacenado
      *
@@ -59,8 +64,6 @@ public class Empire extends Character {
             //Salta a onGate
             this.onGate(galaxy);
         } else {
-            //Mueve
-            this.move(galaxy);
             //Si tengo midiclorianos, inserto en la nueva estacion
             if (!this.midiclorians.isEmpty()) {
                 this.getOriginStation().insertMidiclorian(this.throwMidiclorian());
@@ -75,9 +78,24 @@ public class Empire extends Character {
      */
     @Override
     public void onGate(Galaxy galaxy) {
-        GateStation originStation = (GateStation) this.getOriginStation();
-        originStation.starsgate.close();
-        this.move(galaxy);
+        //Si no he cerrado cierro
+        if(!getClosed()){
+            GateStation originStation = (GateStation) this.getOriginStation();
+            System.out.println("CERRANDO PUERTA");
+            originStation.starsgate.close();
+        }else{
+            //Si he cerrado me muevo
+            System.out.println("MOVIENDO");
+            this.move(galaxy);
+        }
+        
+        //Cambio de estado mi memoria de cerrado
+        iClosed();
+        
+    }
+    
+    public void iClosed() {
+        iClosed = !iClosed;
     }
 
     /**

@@ -213,31 +213,24 @@ public class Main {
         rutaVader.add(Way.EAST);
         rutaVader.add(Way.EAST);
         rutaVader.add(Way.EAST);
+        rutaVader.add(Way.NORTH);
+        rutaVader.add(Way.NORTH);
+        rutaVader.add(Way.NORTH);
+        rutaVader.add(Way.NORTH);
+        rutaVader.add(Way.NORTH);
         rutaVader.add(Way.WEST);
         rutaVader.add(Way.WEST);
         rutaVader.add(Way.WEST);
         rutaVader.add(Way.WEST);
         rutaVader.add(Way.WEST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.WEST);
-        rutaVader.add(Way.WEST);
-        rutaVader.add(Way.WEST);
-        rutaVader.add(Way.WEST);
-        rutaVader.add(Way.WEST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
-        rutaVader.add(Way.EAST);
         rutaVader.add(Way.SOUTH);
         rutaVader.add(Way.SOUTH);
         rutaVader.add(Way.SOUTH);
         rutaVader.add(Way.SOUTH);
         rutaVader.add(Way.SOUTH);
+        
+
+        
 
         //Seteamos la ruta al personaje
         vader.setRoute(rutaVader);
