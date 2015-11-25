@@ -72,18 +72,24 @@ public class LightSide extends Character {
      */
     @Override
     public void onStation(Galaxy galaxy) {
-        //Nueva estacion
-        BaseStation originStation = this.getOriginStation();
         
-        if(originStation instanceof GateStation){
-            //Salta a onGate
-            this.onGate(galaxy);
-        }else{
-            Midiclorian midiActual = originStation.collectMidiclorian();
-            //Si hay midicloriano - lo coge
-            if(midiActual != null)
-                this.takeMidiclorian(midiActual);
-        }
+        //Intenta coger midicloriano
+        Midiclorian midiActual = this.getOriginStation().collectMidiclorian();
+        if(midiActual != null)
+            this.takeMidiclorian(midiActual);
+        
+//        //Nueva estacion
+//        BaseStation originStation = this.getOriginStation();
+//        
+//        if(originStation instanceof GateStation){
+//            //Salta a onGate
+//            this.onGate(galaxy);
+//        }else{
+//            Midiclorian midiActual = originStation.collectMidiclorian();
+//            //Si hay midicloriano - lo coge
+//            if(midiActual != null)
+//                this.takeMidiclorian(midiActual);
+//        }
         
 //        BaseStation originStation = this.getOriginStation();
 //        
@@ -101,6 +107,7 @@ public class LightSide extends Character {
      */
     @Override
     public void onGate(Galaxy galaxy) {
+        
         //Probamos midiclorianos
         GateStation originStation = (GateStation)this.getOriginStation();
         //Prueba midicloriano
@@ -108,7 +115,7 @@ public class LightSide extends Character {
         //Si tenemos midiclorianos prueba
         if(midiProbar != null)
             if(originStation.starsgate.testMidiclorian(midiProbar))
-                System.out.println("PUERTA ABIERTA!!!");
+                System.out.println("<<<<<<<<<<<<<<<<<<PUERTA ABIERTA!!!>>>>>>>>>>>>>>>>>>>>");
         
     }
 

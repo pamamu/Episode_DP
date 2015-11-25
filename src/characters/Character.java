@@ -94,11 +94,16 @@ public abstract class Character implements Comparable<Character> {
     public int getTurn() {
         return turn;
     }
+    
+    public void showmidiclorians(){
+        System.out.println(this.midiclorians);
+    }
 
     /**
      * @param midiclorians El/La midiclorianos a poner
      */
     public void setMidiclorianos(ArrayList<Midiclorian> midiclorians) {
+        //CUIDADO ALOMEJOR HAY QUE CLONAR POR LOS PUNTEROS
         this.midiclorians = midiclorians;
     }
 

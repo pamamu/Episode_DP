@@ -59,16 +59,21 @@ public class Empire extends Character {
      */
     @Override
     public void onStation(Galaxy galaxy) {
-        //Nueva estacion
-        if (this.getOriginStation() instanceof GateStation) {
-            //Salta a onGate
-            this.onGate(galaxy);
-        } else {
-            //Si tengo midiclorianos, inserto en la nueva estacion
-            if (!this.midiclorians.isEmpty()) {
-                this.getOriginStation().insertMidiclorian(this.throwMidiclorian());
-            }
+        
+        //Si tengo midiclorianos, inserto en la nueva estacion
+        if (!this.midiclorians.isEmpty()) {
+            this.getOriginStation().insertMidiclorian(this.throwMidiclorian());
         }
+//        //Nueva estacion
+//        if (this.getOriginStation() instanceof GateStation) {
+//            //Salta a onGate
+//            this.onGate(galaxy);
+//        } else {
+//            //Si tengo midiclorianos, inserto en la nueva estacion
+//            if (!this.midiclorians.isEmpty()) {
+//                this.getOriginStation().insertMidiclorian(this.throwMidiclorian());
+//            }
+//        }
     }
 
     /**
@@ -78,19 +83,28 @@ public class Empire extends Character {
      */
     @Override
     public void onGate(Galaxy galaxy) {
-        //Si no he cerrado cierro
-        if(!getClosed()){
-            GateStation originStation = (GateStation) this.getOriginStation();
-            System.out.println("CERRANDO PUERTA");
-            originStation.starsgate.close();
-        }else{
-            //Si he cerrado me muevo
-            System.out.println("MOVIENDO");
-            this.move(galaxy);
-        }
         
-        //Cambio de estado mi memoria de cerrado
-        iClosed();
+        GateStation originStation = (GateStation) this.getOriginStation();
+        System.out.println("CERRANDO PUERTA");
+        originStation.starsgate.close();
+        
+        this.move(galaxy);
+        
+        this.onStation(galaxy);
+        
+//        //Si no he cerrado cierro
+//        if(!getClosed()){
+//            GateStation originStation = (GateStation) this.getOriginStation();
+//            System.out.println("CERRANDO PUERTA");
+//            originStation.starsgate.close();
+//        }else{
+//            //Si he cerrado me muevo
+//            System.out.println("MOVIENDO");
+//            this.move(galaxy);
+//        }
+//        
+//        //Cambio de estado mi memoria de cerrado
+//        iClosed();
         
     }
     

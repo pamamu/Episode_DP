@@ -163,6 +163,8 @@ public class Main {
         System.out.println(starsgate);
         System.out.println(midicloriansList.toString());
         
+        ArrayList<Midiclorian> midisForVader = (ArrayList)midicloriansList.clone();
+        
         galaxy.dispenseMidiclorians(midicloriansList, 5);
         
         //Crea los personajes
@@ -228,12 +230,14 @@ public class Main {
         rutaVader.add(Way.SOUTH);
         rutaVader.add(Way.SOUTH);
         rutaVader.add(Way.SOUTH);
-        
-
-        
 
         //Seteamos la ruta al personaje
         vader.setRoute(rutaVader);
+        
+        System.out.println("MIDISFORVADER: " +midisForVader);
+        vader.setMidiclorianos(midisForVader);
+        
+        vader.showmidiclorians();
         
         //Muestra el tablero
         System.out.println(galaxy.getInfoStations());
@@ -241,9 +245,7 @@ public class Main {
         for(int turn=0;turn<50;turn++){
             System.out.print("Presiona la tecla Enter para continuar");
             waitForKeypress.nextLine();
-            //Movemos el personaje
-            skyWalker.action(galaxy);
-            vader.action(galaxy);
+            
 //            amidala.move(galaxy);
 //            solo.move(galaxy);
 
@@ -252,6 +254,12 @@ public class Main {
             for(int i=0;i<50;i++){
                 System.out.println("");
             }
+            
+            //Movemos el personaje
+            skyWalker.action(galaxy);
+            vader.action(galaxy);
+            System.out.print("Vader lleva: ");
+            vader.showmidiclorians();
             
             System.out.println("TURNO: " + (turn+1)+"º");
             // Muestra el estado de la puerta
