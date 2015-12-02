@@ -1,5 +1,7 @@
 package estructura;
 
+import edd.Grafo;
+import etc.GenAleatorios;
 import java.util.ArrayList;
 
 /**
@@ -29,11 +31,9 @@ import java.util.ArrayList;
  * <p>
  * </p>
  */
-
 public class Galaxy {
 
     // ATRIBUTOS ############################################################
-
     /**
      * Número de filas de la galaxia
      */
@@ -54,18 +54,102 @@ public class Galaxy {
      * Estaciones que forman una galaxia
      */
     private BaseStation[][] Stations;
+    /**
+     * Estructura de datos que almacena las conexiones entre las galaxias
+     */
+    private Grafo grafo;
+    /**
+     * Estructura de datos que almacena las paredes
+     */
+    private ArrayList<Pared> paredes;
+
+    public class Pared {
+
+        private int origen;
+        private int destino;
+
+        public Pared(int origen, int destino) {
+            this.origen = origen;
+            this.destino = destino;
+
+        }
+
+        public int getOrigen() {
+            return origen;
+        }
+
+        public int getDestino() {
+            return destino;
+        }
+    }
 
     // CONSTRUCTORES ########################################################
+    private void construirParedesIni(Grafo grafo, ArrayList<Pared> paredes, int dimX, int dimY) {
+        int destino;
+        for (int estacion = 0; estacion < dimX * dimY; estacion++) {
+            //ESTACIÓN NORTE
+            if (estacion >= dimY) {
+                destino = estacion - dimY;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+            //ESTACIÓN ESTE
+            if ((estacion % dimY != dimY - 1)) {
+                destino = estacion + 1;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+            //ESTACIÓN SUR
+            if ((estacion / dimY) < dimY - 1) {
+                destino = estacion + dimY;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+            //ESTACIÓN OESTE
+            if ((estacion % dimY) != 0) {
+                destino = estacion - 1;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+
+        }
+
+    }
+
+    private void kruskal(ArrayList<Pared> paredes, Grafo grafo) {
+        ArrayList<Pared> aux = (ArrayList<Pared>) paredes.clone();
+        while(!aux.isEmpty()){
+            
+            
+            
+        }
+        
+        
+    }
+
+    private Grafo construirGalaxia(int dimX, int dimY, ArrayList<Pared> paredes) {
+        Grafo grafo = new Grafo();
+        //CREACION DE NODOS
+        for (int i = 0; i < dimX * dimY; i++) {
+            grafo.nuevoNodo(i);
+        }
+        //CREACION DE PAREDES
+        construirParedesIni(grafo, paredes, dimX, dimY);
+
+        return grafo;
+
+    }
 
     /**
      * Constructor parametrizado de una galaxia
      *
      * @param gateStation Estacion donde se coloca la puerta
-     * @param dimX        Dimension X de la galaxia(numero de filas)
-     * @param dimY        Dimension Y de la galaxia(numero de columnas)
+     * @param dimX Dimension X de la galaxia(numero de filas)
+     * @param dimY Dimension Y de la galaxia(numero de columnas)
      * @pre gateStation > 0 && dimX > 0 && dimY > 0
      * @post Atributos con valores de parámetros && starsgate = null && Matriz
-     * de dimX x dimY creada con estaciones. Creada estación de salida con ID = 111
+     * de dimX x dimY creada con estaciones. Creada estación de salida con ID =
+     * 111
      * @complex O(n^2)
      */
     public Galaxy(int gateStation, int dimX, int dimY) {
@@ -79,24 +163,33 @@ public class Galaxy {
 
         for (int i = 0; i < dimX; i++) {
             for (int j = 0; j < dimY; j++) {
-                if (gateStation != j + i * dimY)
+                if (gateStation != j + i * dimY) {
                     Stations[i][j] = new BaseStation(j + i * dimY);
-                else
+                } else {
                     Stations[i][j] = new GateStation(j + i * dimY, starsgate);
+                }
             }
         }
+        paredes = new ArrayList<>();
+        grafo = construirGalaxia(dimX, dimY, paredes);
+        System.out.println(paredes.size());
+//        paredes.floyd();
+//        paredes.warshall();
+//        paredes.mostrarFloydC();
+//        paredes.mostrarPW();
+        grafo.mostrarNodos();
+        //grafo.mostrarArcos();
     }
 
     // PRIVADOS #############################################################
-
     /**
      * Algoritmo recursivo que balancea los valores de un array y los almacena
      * en otro
      *
-     * @param midiclorians         ArrayList de midiclorianos que se quieren balancear
+     * @param midiclorians ArrayList de midiclorianos que se quieren balancear
      * @param combinedMidiclorians ArrayList de midiclorianos balanceados
-     * @param low                  Indica la cota superior sobre la que se quiere balancear
-     * @param top                  Indica la cota inferior sobre la que se quiere balancear
+     * @param low Indica la cota superior sobre la que se quiere balancear
+     * @param top Indica la cota inferior sobre la que se quiere balancear
      * @pre <i>midiclorians</i> inicializado correctamente &&
      * <i>combinedMidiclorians</i> inicializado correctamente && <i>low</i>
      * > 0 && <i>top</i> > 0
@@ -105,33 +198,33 @@ public class Galaxy {
      * @complex O(n)
      */
     private void combine(ArrayList<Midiclorian> midiclorians, ArrayList<Midiclorian> combinedMidiclorians, int low,
-                         int top) {
+            int top) {
         int middle = (low + top) / 2;
         /*
          * Inserta en combinedMidiclorians el midicloriano de la posicion
 		 * intermedia de midiclorians
-		 */
+         */
         combinedMidiclorians.add(midiclorians.get(middle));
 
         if (low != top) {
             /*
              * Recursivo con low=mitad+1 y top igual
-			 */
+             */
             combine(midiclorians, combinedMidiclorians, middle + 1, top);
             /*
              * Recursivo con low=low y top=mitad-1
-			 */
+             */
             combine(midiclorians, combinedMidiclorians, low, middle - 1);
         }
     }
 
     // PUBLICOS #############################################################
-
     /**
      * Método para generar un ArrayList de Midiclorianos balanceados a partir
      * del ArrayList de entrada con una combinación dada.
      *
-     * @param midiclorians ArrayList de Midiclorianos usado para generar la combinación.
+     * @param midiclorians ArrayList de Midiclorianos usado para generar la
+     * combinación.
      * @return Devuelve ArrayList de midiclorianos con midiclorianos ordenados
      * según combinación dada.
      * @pre <i>midiclorians</i> inicializado correctamente
@@ -149,40 +242,42 @@ public class Galaxy {
      * Introduce una Stargate con una profundidad de combinación determinada en
      * la Galaxia
      *
-     * @param StarsGate       Stargate que se quiere introducir en la Galaxia
-     * @param deepCombination Profundidad de combinación con la que se desbloquea la
-     *                        cerradura de la galaxia
+     * @param StarsGate Stargate que se quiere introducir en la Galaxia
+     * @param deepCombination Profundidad de combinación con la que se
+     * desbloquea la cerradura de la galaxia
      * @pre <i>StarsGate</i> inicicializada correctamente &&
      * <i>deepCombination</i> > 0
      * @post Se inserta una nueva starsgate en la galaxia con los parametros
-     * introducidos. Se ejecuta el recolector de basura por si hubiera
-     * alguna puerta insertada anteriormente.
+     * introducidos. Se ejecuta el recolector de basura por si hubiera alguna
+     * puerta insertada anteriormente.
      * @complex O(1)
      */
     public void setStarsGate(Starsgate StarsGate, int deepCombination) {
         StarsGate.setDeepCombination(deepCombination);
         this.starsgate = StarsGate;
-        
-        GateStation nuevaPuerta = new GateStation(dimX*dimY -1, StarsGate);
-        Stations[dimX-1][dimY-1] = nuevaPuerta;
-        
+
+        GateStation nuevaPuerta = new GateStation(dimX * dimY - 1, StarsGate);
+        Stations[dimX - 1][dimY - 1] = nuevaPuerta;
+
         System.gc();
     }
 
     /**
      * Reparte midiclorianos por las estaciones de la galaxia de 5 en 5
      *
-     * @param midiclorians        ED con midiclorianos que se desean insertar en la galaxia
-     * @param stationMidiclorians Entero que indica cuantos midiclorianos se desaean insertar por cada estación
+     * @param midiclorians ED con midiclorianos que se desean insertar en la
+     * galaxia
+     * @param stationMidiclorians Entero que indica cuantos midiclorianos se
+     * desaean insertar por cada estación
      */
     public void dispenseMidiclorians(ArrayList<Midiclorian> midiclorians, int stationMidiclorians) {
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {
                 for (int k = 0; k < stationMidiclorians; k++) {
-                    if(!midiclorians.isEmpty()){
+                    if (!midiclorians.isEmpty()) {
                         Stations[i][j].insertMidiclorian(midiclorians.get(0));
                         midiclorians.remove(0);
-                    }else{
+                    } else {
                         return;
                     }
                 }
@@ -204,18 +299,19 @@ public class Galaxy {
 //                }
 //
 //    }
-
     /**
      * Dado la fila y la columna comprueba si son "legales" en la galaxia creada
      *
-     * @param row    fila que se quiere comprobar
+     * @param row fila que se quiere comprobar
      * @param column columna que se quiere comprobar
-     * @return TRUE: La fila y la columna son compatibles con las dimensiones de la galaxia
-     * FALSE: La fila y la columna no son compatibles con las dimensiones de la galaxia
+     * @return TRUE: La fila y la columna son compatibles con las dimensiones de
+     * la galaxia FALSE: La fila y la columna no son compatibles con las
+     * dimensiones de la galaxia
      */
     public boolean stationPermitted(int row, int column) {
-        if (row >= dimX || column >= dimY || row < 0 || column < 0)
+        if (row >= dimX || column >= dimY || row < 0 || column < 0) {
             return false;
+        }
         return true;
     }
 
@@ -231,8 +327,9 @@ public class Galaxy {
     }
 
     /**
-     * @param ID    ID que se quiere convertir a fila y columna
-     * @param coord Parámetro de salida donde coord[0] es el número de fila y coord[1] el número de columnas
+     * @param ID ID que se quiere convertir a fila y columna
+     * @param coord Parámetro de salida donde coord[0] es el número de fila y
+     * coord[1] el número de columnas
      */
     public void IDtoCoordinates(int ID, int[] coord) {
         coord[0] = ID / dimY;
@@ -255,8 +352,9 @@ public class Galaxy {
         for (int i = 0; i < Stations.length; i++) {
             output += "|";
             for (int e = 0; e < Stations[i].length; e++) {
-                if (Stations[i][e].getType().equals("GateStation"))
+                if (Stations[i][e].getType().equals("GateStation")) {
                     output += "STARSGATE ";
+                }
                 output += Stations[i][e].getID() + "|";
             }
             output += "\n";
@@ -294,24 +392,26 @@ public class Galaxy {
             output += "\n";
             // Linea de espacio | y si tiene puerta
             for (int e = 0; e < Stations[i].length; e++) {
-                if (Stations[i][e].getType().equals("GateStation"))
+                if (Stations[i][e].getType().equals("GateStation")) {
                     output += "|" + "STARGATE" + "\t|";
-                else
+                } else {
                     output += "|\t\t|";
+                }
             }
             output += "\n";
             // Linea de Personajes
             for (int e = 0; e < Stations[i].length; e++) {
-                output += "|"+Stations[i][e].getCharacter() + "\t|";
+                output += "|" + Stations[i][e].getCharacter() + "\t|";
             }
             output += "\n";
             // Linea de midiclorianos
             for (int e = 0; e < Stations[i].length; e++) {
                 output += "|";
-                    if(!Stations[i][e].getMidiclorians().equals("\t"))
-                        output+= "*\t\t|";
-                    else
-                        output+= "\t\t|";
+                if (!Stations[i][e].getMidiclorians().equals("\t")) {
+                    output += "*\t\t|";
+                } else {
+                    output += "\t\t|";
+                }
             }
             output += "\n";
             for (int j = 0; j < Stations[i].length; j++) {
@@ -321,6 +421,16 @@ public class Galaxy {
         }
 
         return output;
+    }
+
+    public static void main(String[] args) {
+        Galaxy galaxia = new Galaxy(35, 6, 6);
+        System.out.println(GenAleatorios.generarNumero(36));
+        System.out.println(GenAleatorios.generarNumero(36));
+        System.out.println(GenAleatorios.generarNumero(36));
+        System.out.println(GenAleatorios.generarNumero(36));
+        System.out.println(GenAleatorios.generarNumero(36));
+        System.out.println(GenAleatorios.generarNumero(36));
     }
 
 }
