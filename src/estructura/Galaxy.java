@@ -336,7 +336,22 @@ public class Galaxy {
         
         return null;
     }
-
+    
+    //Retorna la dimension del ANCHO de la galaxia
+    //El ancho viene definido por el numero de COLUMNAS
+    public int getWidth(){
+        return this.dimY;
+    }
+    //Retorna la dimension del ALTO de la galaxia
+    //El alto viene definido por el numero de FILAS
+    public int getHeight(){
+        return this.dimX;
+    }
+    
+    public int getStationGateId(){
+        return (dimX * dimY) - 1;
+    }
+    
     /**
      * @param ID ID que se quiere convertir a fila y columna
      * @param coord Parámetro de salida donde coord[0] es el número de fila y

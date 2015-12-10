@@ -1,16 +1,13 @@
 
-import characters.Contrabandist;
 import characters.Empire;
 import characters.Jedi;
-import characters.RoyalFamily;
 import characters.Way;
 import estructura.Galaxy;
 import estructura.Midiclorian;
 import estructura.Starsgate;
-import etc.Reader;
+import etc.Loader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -273,74 +270,26 @@ public class Main {
             
     }
     
-    //Carga los datos de los personajes que hay en el fichero y los pasa a un arraylist de objetos
-    private static ArrayList<Object> loadData(Reader reader, Galaxy galaxy, String[] dataGalaxy){
-        
-        String[][] dataCharacters;
-        //Lista de personajes
-        ArrayList<Object> output = new ArrayList<>();
-        
-        //Crea los Jedis
-        dataCharacters = reader.getJedis();
-        Jedi jedi;
-        for (int i = 0; i < dataCharacters.length; i++) {
-            jedi = new Jedi(dataCharacters[i][2].charAt(0), dataCharacters[i][1], 
-                    galaxy.getStation(0));
-            output.add(jedi);
-        }
-        
-        //Crea los Contrabandistas
-        dataCharacters = reader.getContrabandists();
-        Contrabandist contrabandist;
-        for (int i = 0; i < dataCharacters.length; i++) {
-            contrabandist = new Contrabandist(dataCharacters[i][2].charAt(0), dataCharacters[i][1], 
-                    galaxy.getStation(Integer.parseInt(dataGalaxy[2]) -1, 0));
-            output.add(contrabandist);
-        }
-        
-        //Crea los Familia Real
-        dataCharacters = reader.getRoyal();
-        RoyalFamily royalFamily;
-        for (int i = 0; i < dataCharacters.length; i++) {
-            royalFamily = new RoyalFamily(dataCharacters[i][2].charAt(0), dataCharacters[i][1], 
-                    galaxy.getStation(0));
-            output.add(royalFamily);
-        }
-        
-        //Crea los Imperiales
-        dataCharacters = reader.getEmpire();
-        Empire empire;
-        for (int i = 0; i < dataCharacters.length; i++) {
-            empire = new Empire(dataCharacters[i][2].charAt(0), dataCharacters[i][1], 
-                    galaxy.getStation(Integer.parseInt(dataGalaxy[3])));
-            output.add(empire);
-        }
-        
-        return output;
-    }
+    
     //SIMULACION DE LA TERCERA ENTREGA
     private static void simulacionEC3() throws IOException{
         
-        //Leer fichero de configuracion
-        Reader reader = new Reader();
-        
-        //Estructuras de almacenamiento de datos de inicio
-        String[] dataGalaxy = reader.getGalaxyInfo();
-        
-        //Crea la galaxia respecto a las especificaciones del archivo de datos
-        Galaxy galaxy = new Galaxy(Integer.parseInt(dataGalaxy[3]), //Num Puerta
-                                   Integer.parseInt(dataGalaxy[2]), //Ancho
-                                   Integer.parseInt(dataGalaxy[1]));//Alto
+        //Cargador -> lee / carga / e inicializa los personajes y la galaxia
+        Loader load = new Loader();
         
         //Lista de personajes
-        ArrayList<Object> personajes = loadData(reader, galaxy, dataGalaxy);
+        ArrayList<Object> personajes = load.getPersonajes();
         
+        //Galaxia
+        Galaxy galaxy = load.getGalaxy();
         
-        //MUESTRA INFORMACION DE LOS PERSONAJES Y LA GALAXIA
-        for (Iterator<Object> iterator = personajes.iterator(); iterator.hasNext();) {
-            Object next = iterator.next();
-            System.out.println(next.toString());
-        }
+//        
+//        
+//        //MUESTRA INFORMACION DE LOS PERSONAJES Y LA GALAXIA
+//        for (Iterator<Object> iterator = personajes.iterator(); iterator.hasNext();) {
+//            Object next = iterator.next();
+//            System.out.println(next.toString());
+//        }
         
         System.out.println(galaxy.getInfoStations());
     }
