@@ -158,12 +158,29 @@ public class BaseStation {
         String output = "";
         
         if(!characters.isEmpty()){
-            output += characters.toString();
-            if(characters.size() < 2){
-                output += "\t";
+            
+            switch(characters.size()){
+                case 1:
+                    
+                case 2:
+                    output += characters.toString();
+                    output += "\t\t";
+                    break;
+                case 3:
+                    
+                case 4:
+                    output += characters.toString();
+                    output += "\t";
+                    break;
+                case 5:
+                    output += characters.toString();
+                    break;
+                default:
+                    output += "+" + characters.size();
+                    output += "\t\t";
             }
         }else{
-            output += "\t";
+            output += "\t\t";
         }
         
         return output;

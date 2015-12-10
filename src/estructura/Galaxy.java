@@ -325,6 +325,17 @@ public class Galaxy {
     public BaseStation getStation(int row, int column) {
         return Stations[row][column];
     }
+    
+    public BaseStation getStation(int id) {
+        for (int i = 0; i < Stations.length; i++) {
+            for (int j = 0; j < Stations[i].length; j++) {
+                if(Stations[i][j].getID() == id)
+                    return Stations[i][j];
+            }
+        }
+        
+        return null;
+    }
 
     /**
      * @param ID ID que se quiere convertir a fila y columna
@@ -401,7 +412,7 @@ public class Galaxy {
             output += "\n";
             // Linea de Personajes
             for (int e = 0; e < Stations[i].length; e++) {
-                output += "|" + Stations[i][e].getCharacter() + "\t|";
+                output += "|" + Stations[i][e].getCharacter() + "|";
             }
             output += "\n";
             // Linea de midiclorianos

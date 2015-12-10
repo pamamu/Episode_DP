@@ -122,6 +122,10 @@ public abstract class Character implements Comparable<Character> {
     public char getClassMark(){
         return this.classMark;
     }
+    
+    public String getName(){
+        return this.name;
+    }
 
     public abstract void onStation(Galaxy galaxy);
 
