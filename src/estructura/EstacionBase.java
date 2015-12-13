@@ -58,6 +58,7 @@ public class EstacionBase {
     public EstacionBase(int ID) {
         this.ID = ID;
         this.personajes = new PriorityQueue<>();
+        midiclorianos = new PriorityQueue<>();
     }
 // Getter & Setter #########################################################
 

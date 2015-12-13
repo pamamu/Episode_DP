@@ -6,6 +6,7 @@
 package estructura;
 
 import edd.Grafo;
+import etc.GenAleatorios;
 import java.util.ArrayList;
 
 /**
@@ -108,6 +109,12 @@ public class Galaxia {
         public int getDestino() {
             return destino;
         }
+
+        @Override
+        public String toString() {
+            return "[" + origen + "," + destino + "]";
+        }
+
     }
 // CONSTRUCTORES ###########################################################
 
@@ -173,23 +180,6 @@ public class Galaxia {
 
 // PRIVADOS ################################################################
     /**
-     * Método para construir una Galaxia inicial.
-     *
-     * @pre Galaxia inicializada con éxito
-     * @post Se crean todos los nodos (ID de estaciones) y se llama a
-     * construirParedesIni()
-     * @complex O(n)
-     */
-    private void construirGalaxia() {
-        //CREACION DE NODOS
-        for (int i = 0; i < dimX * dimY; i++) {
-            grafo.nuevoNodo(i);
-        }
-        //CREACION DE PAREDES
-        construirParedesIni();
-    }
-
-    /**
      * Método para construir las paredes iniciales - Conectar todas las
      * estaciones con sus estacion más próximas.
      *
@@ -207,29 +197,109 @@ public class Galaxia {
             if (estacion >= dimY) {
                 destino = estacion - dimY;
                 paredes.add(new Pared(estacion, destino));
-                grafo.nuevoArco(estacion, destino, 1);
+//                grafo.nuevoArco(estacion, destino, 1);
             }
             //ESTACIÓN ESTE
             if ((estacion % dimY != dimY - 1)) {
                 destino = estacion + 1;
                 paredes.add(new Pared(estacion, destino));
-                grafo.nuevoArco(estacion, destino, 1);
+//                grafo.nuevoArco(estacion, destino, 1);
             }
             //ESTACIÓN SUR
             if ((estacion / dimY) < dimY - 1) {
                 destino = estacion + dimY;
                 paredes.add(new Pared(estacion, destino));
-                grafo.nuevoArco(estacion, destino, 1);
+//                grafo.nuevoArco(estacion, destino, 1);
             }
             //ESTACIÓN OESTE
             if ((estacion % dimY) != 0) {
                 destino = estacion - 1;
                 paredes.add(new Pared(estacion, destino));
-                grafo.nuevoArco(estacion, destino, 1);
+//                grafo.nuevoArco(estacion, destino, 1);
             }
         }
     }
 // PÚBLICOS #################################################################
+
+    /**
+     * Método para construir una Galaxia inicial.
+     *
+     * @pre Galaxia inicializada con éxito
+     * @post Se crean todos los nodos (ID de estaciones) y se llama a
+     * construirParedesIni()
+     * @complex O(n)
+     */
+    public void construirGalaxia() {
+        //CREACION DE NODOS
+        for (int i = 0; i < dimX * dimY; i++) {
+            grafo.nuevoNodo(i);
+        }
+        //CREACION DE PAREDES
+        construirParedesIni();
+    }
+
+    /**
+     * Expande un ID a todos los IDs con valor = varinicial
+     *
+     * @param nodos ED con nodos de enteros
+     * @param valorinicial Valor el cual se quiere modificar
+     * @param valorfinal Valor al cual se va a modificar
+     * @pre Galaxia inicializada con éxito
+     * @post Todos los nodos de la matriz que sean iguales al parámetro
+     * valorinicial se convierten en valorfinal
+     * @complex O(n^2)
+     */
+    private void expandirConexion(int[][] nodos, int valorinicial, int valorfinal) {
+        for (int i = 0; i < nodos.length; i++) {
+            for (int j = 0; j < nodos[i].length; j++) {
+                if (nodos[i][j] == valorinicial) {
+                    nodos[i][j] = valorfinal;
+                }
+            }
+        }
+    }
+
+    /**
+     * Método para generar un laberinto.
+     *
+     * @pre Galaxia inicializada con éxito
+     * @post Genera un laberinto a través del Algoritmo de Kruskal ayudandose de
+     * una matriz de enteros haciendo referencia a los IDS de las galaxias.
+     * Sobre esta matriz se realizan los cálculos del ALgoritmo de Kruskal.
+     * Sobre el grafo de la gaxia se insertan arcos de las estaciones adyacentes
+     * según el Algoritmo.
+     * @complex O(n^3)
+     *
+     */
+    public void generarLaberinto() {
+        //Nodos auxiliares con ID de estaciones
+        int[][] nodos = new int[dimX][dimY];
+        for (int i = 0; i < nodos.length; i++) {
+            for (int j = 0; j < nodos[i].length; j++) {
+                nodos[i][j] = Estaciones[i][j].getID();
+            }
+        }
+
+        int npared; //Enesima pared
+        Pared pared; //Variable para alamecenar pared
+        //Variables para almacenar coordenadas de origen y destino
+        int[] coordorigen, coordestino;
+        int nodorigen, nododestino;
+        while (!paredes.isEmpty()) {
+            npared = GenAleatorios.generarNumero(paredes.size());
+            pared = paredes.remove(npared);
+            coordorigen = IDtoCoordenadas(pared.origen);
+            coordestino = IDtoCoordenadas(pared.destino);
+            nodorigen = nodos[coordorigen[0]][coordorigen[1]];
+            nododestino = nodos[coordestino[0]][coordestino[1]];
+            if (nodorigen != nododestino) {
+                grafo.nuevoArco(pared.origen, pared.destino, 1);
+                grafo.nuevoArco(pared.destino, pared.origen, 1);
+                System.out.println(nodorigen + "-" + nododestino);
+                expandirConexion(nodos, nododestino, nodorigen);
+            }
+        }
+    }
 
     /**
      * Método que convierte un ID de la estación en coordenadas cartesianas
@@ -237,9 +307,27 @@ public class Galaxia {
      * @param ID ID que se desea convertir a coordenadas
      * @return Devuelve int[] de 2 posiciones donde: - int[0] = fila (eje x) -
      * int[1] = columnas (eje y)
+     * @pre Galaxia inicializada con éxito
+     * @post -
+     * @complex O(1)
      */
-    public int[] IDtoCoordinates(int ID) {
+    public int[] IDtoCoordenadas(int ID) {
         return new int[]{(ID / dimY), (ID % dimY)};
+    }
+
+    /**
+     * Método que convierte unas coordenadas cartesianas en ID
+     *
+     * @param fila EJE Y coordenadas
+     * @param columna EJE X coordenadas
+     * @return Devuelve el ID correspondiente a las coordenadas según tamaño de
+     * la Galaxia
+     * @pre Galaxia inicializada con éxito
+     * @post -
+     * @complex O(1)
+     */
+    public int coordenadastoID(int fila, int columna) {
+        return fila * dimY + columna;
     }
 
     /**
@@ -249,7 +337,7 @@ public class Galaxia {
      * @return EstacionBase de la galaxia con ID (parámetro entrada)
      */
     public EstacionBase getEstacion(int ID) {
-        int[] coordenadas = IDtoCoordinates(ID);
+        int[] coordenadas = IDtoCoordenadas(ID);
         return Estaciones[coordenadas[0]][coordenadas[1]];
     }
 
@@ -276,51 +364,151 @@ public class Galaxia {
     public String imprimir() {
         String output = "";
 
+        for (int j = 0; j < Estaciones[0].length; j++) {
+            output += " _______________";
+        }
+        output += "\n";
         for (int i = 0; i < Estaciones.length; i++) {
-            for (int j = 0; j < Estaciones[i].length; j++) {
-                output += " _______________";
+            // Linea del id de celda
+            output += "|";
+            for (int e = 0; e < Estaciones[i].length; e++) {
+                output += Estaciones[i][e].getID() + "\t\t";
+                if (e == Estaciones[i].length - 1) {
+                    output += "|";
+                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
+                    output += " ";
+                } else {
+                    output += "|";
+                }
             }
             output += "\n";
             // Linea del id de celda
+            output += "|";
             for (int e = 0; e < Estaciones[i].length; e++) {
-                output += "|" + Estaciones[i][e].getID() + "\t\t|";
+                output += Estaciones[i][e].getType() + "\t";
+                if (e == Estaciones[i].length - 1) {
+                    output += "|";
+                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
+                    output += " ";
+                } else {
+                    output += "|";
+                }
             }
             output += "\n";
-            // Linea del tipo
-            for (int e = 0; e < Estaciones[i].length; e++) {
-                output += "|" + Estaciones[i][e].getType() + "\t|";
-            }
-            output += "\n";
+            // Linea del id de celda
+            output += "|";
             // Linea de espacio | y si tiene puerta
             for (int e = 0; e < Estaciones[i].length; e++) {
                 if (Estaciones[i][e].getType().equals("GateStation")) {
-                    output += "|" + "STARGATE" + "\t|";
+                    output += "" + "STARGATE" + "\t";
                 } else {
-                    output += "|\t\t|";
+                    output += "\t\t";
+                }
+                if (e == Estaciones[i].length - 1) {
+                    output += "|";
+                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
+                    output += " ";
+                } else {
+                    output += "|";
                 }
             }
             output += "\n";
-            // Linea de Personajes
+            // Linea del id de celda
+            output += "|";
             for (int e = 0; e < Estaciones[i].length; e++) {
-                output += "|" + Estaciones[i][e].imprimirPersonajes() + "\t|";
+                output += Estaciones[i][e].imprimirPersonajes() + "\t";
+                if (e == Estaciones[i].length - 1) {
+                    output += "|";
+                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
+                    output += " ";
+                } else {
+                    output += "|";
+                }
             }
             output += "\n";
-            // Linea de midiclorianos
+            // Linea del id de celda
+            output += "|";
             for (int e = 0; e < Estaciones[i].length; e++) {
-                output += "|";
                 if (!Estaciones[i][e].imprimirMidiclorianos().equals("\t")) {
-                    output += "*\t\t|";
+                    output += "*\t\t";
                 } else {
-                    output += "\t\t|";
+                    output += "\t\t";
+                }
+                if (e == Estaciones[i].length - 1) {
+                    output += "|";
+                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
+                    output += " ";
+                } else {
+                    output += "|";
                 }
             }
             output += "\n";
+            output += "|";
             for (int j = 0; j < Estaciones[i].length; j++) {
-                output += "| ______________";
+                if (i == Estaciones[i].length - 1) {
+                    output += "________________";
+                } else if (grafo.adyacente((i * dimY) + j, ((i + 1) * dimY) + j)) {
+                    output += "                ";
+                } else {
+                    output += "________________";
+                }
             }
             output += "\n";
         }
 
         return output;
     }
+
+    public String imprimirLaberinto() {
+        String out = "";
+        for (int i = 0; i < dimY - 1; i++) {
+            out += "=====";
+        }
+        out += "\n";
+        for (int i = 0; i < dimX; i++) {
+            out += "|";
+            for (int j = 0; j < dimY; j++) {
+                if (j == 0) {
+                    if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
+                        out += "    ";
+                    } else {
+                        out += "   |";
+                    }
+
+                } else if (j == dimY - 1) {
+                    out += "   ";
+                } else if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
+                    out += "    ";
+                } else {
+                    out += "   |";
+                }
+            }
+            out += "|\n";
+            System.out.print(out);
+            out = "";
+            for (int j = 0; j < dimY; j++) {
+                if (grafo.adyacente((i * dimY) + j, ((i + 1) * dimY) + j)) {
+                    out += "    ";
+                } else {
+                    out += "====";
+                }
+            }
+            out += "\n";
+            System.out.print(out);
+            out = "";
+
+        }
+
+        return out;
+    }
+
+//    public static void main(String[] args) {
+//        Cerradura cerradura = new Cerradura(4);
+//        EstacionPuerta estacion = new EstacionPuerta(35, cerradura);
+//        Galaxia galaxia = Galaxia.obtenerInstancia(35, estacion, 6, 6);
+//        galaxia.construirGalaxia();
+//        galaxia.generarLaberinto();
+//        System.out.println(galaxia.imprimir());
+//
+//    }
 }

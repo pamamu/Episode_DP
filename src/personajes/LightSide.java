@@ -5,7 +5,7 @@
  */
 package personajes;
 
-import estructura.EstacionNormal;
+import estructura.EstacionBase;
 import estructura.EstacionPuerta;
 import estructura.Midicloriano;
 
@@ -84,8 +84,7 @@ public class LightSide extends Personaje {
      */
     @Override
     public void accionEstacion() {
-        EstacionNormal estacion = (EstacionNormal) estacionPosicion;
-        Midicloriano midicloriano = estacion.sacarMidicloriano();
+        Midicloriano midicloriano = estacionPosicion.sacarMidicloriano();
         if (midicloriano != null) {
             recogerMidicloriano(midicloriano);
         }

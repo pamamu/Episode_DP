@@ -181,7 +181,7 @@ public abstract class Personaje implements Comparable<Personaje> {
         ruta.add(camino);
         //Calcula fila y columna de la esatcion destino
         Galaxia galaxia = Galaxia.obtenerInstancia();
-        int[] coord = galaxia.IDtoCoordinates(estacionPosicion.getID());
+        int[] coord = galaxia.IDtoCoordenadas(estacionPosicion.getID());
         int fila = coord[0] + camino.getAlto();
         int columna = coord[1] + camino.getAncho();
         //Devuelve estaciondestino
@@ -238,6 +238,7 @@ public abstract class Personaje implements Comparable<Personaje> {
     public void accion() {
         if (estacionPosicion.esPuerta()) {
             accionPuerta();
+            moverA(estacionPosicion);
         } else {
             mover();
             accionEstacion();
