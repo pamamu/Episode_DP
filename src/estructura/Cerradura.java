@@ -70,6 +70,7 @@ public class Cerradura {
      * @complex O()
      */
     public Cerradura(int alturaDesbloqueo) {
+        this.midiclorianosIniciales = new ArrayList<>();
         this.combinacionInicio = new ArrayList<>();
         this.combinacionCerradura = new Arbol<>();
         this.midiclorianosProbados = new Arbol<>();
@@ -110,7 +111,7 @@ public class Cerradura {
      * @param midiclorianosIniciales ArrayList con midiclorianos que se desean
      * combinar para la cerradura.
      */
-    public void setCombinacion(ArrayList<Midicloriano> midiclorianosIniciales) {
+    public void setCombinacionInicial(ArrayList<Midicloriano> midiclorianosIniciales) {
         this.midiclorianosIniciales = midiclorianosIniciales;
     }
 // PRIVADOS ################################################################
@@ -284,13 +285,14 @@ public class Cerradura {
      * Método para reiniciar la cerradura a su combinación inicial
      *
      * @pre Cerradura inicializada correctamente
-     * @post Cerradura inicializada con configuración inicial
+     * @post Cerradura inicializada con configuración inicial y cerrada
      * @complex O(n)
      */
     public void reiniciar() {
         vaciarArbol(combinacionCerradura);
         vaciarArbol(midiclorianosProbados);
         configurarCerradura(combinacionInicio);
+        setEstado(false);
     }
 
     /**
@@ -323,17 +325,6 @@ public class Cerradura {
         output += "\n\tMidiclorianos Externos: " + nodosExternos(combinacionCerradura);
         return output;
     }
-    
-    public static void main(String[] args) {
-        Cerradura cerradura = new Cerradura(4);
-        ArrayList<Midicloriano> midiclorianos = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            midiclorianos.add(new Midicloriano(i));
-        }
-        cerradura.configurarCerradura(midiclorianos);
-        cerradura.generarCombinacion();
-        cerradura.setEstado(false);
-        System.out.println(cerradura.informacionCerradura());
-    }
+   
 
 }

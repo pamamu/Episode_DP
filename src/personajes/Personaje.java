@@ -6,6 +6,7 @@
 package personajes;
 
 import estructura.EstacionBase;
+import estructura.Galaxia;
 import estructura.Midicloriano;
 import etc.Camino;
 import java.util.ArrayList;
@@ -30,37 +31,56 @@ import java.util.LinkedList;
  * @version 1.0 ALFA
  *
  */
-public class Personaje implements Comparable<Personaje> {
+public abstract class Personaje implements Comparable<Personaje> {
 
 // ATRIBUTOS ###############################################################
-    private char marcaClase;
-
-    private ArrayList<Midicloriano> midiclorianos;
-
+    /**
+     * Marca identificativa del Personaje
+     */
+    private final char marcaClase;
+    /**
+     * ED con midilorianos que porta el personaje
+     */
+    protected ArrayList<Midicloriano> midiclorianos;
+    /**
+     * ED con la ruta del personaje
+     */
     private LinkedList<Camino> ruta;
-
+    /**
+     * Turno en el que empieza el personaje
+     */
+    private final int turnoInicio;
+    /**
+     * Turno actual del personaje
+     */
     private int turno;
-
-    private EstacionBase estacionPosicion;
+    /**
+     * Estacion en la que está actualmente el personaje
+     */
+    protected EstacionBase estacionPosicion;
 
 // CONSTRUCTORES ###########################################################
     /**
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
-     * @param estacionPosicion Estación donde se quiere insertar el personaje
-     * @pre EstacionPosicion inicializada con éxito
+     * @param estacionPosicion ID de la estación donde se quiere insertar el
+     * personaje
+     * @param turnoInicio Turno en el que se empieza a mover al personaje
+     * @pre -
      * @post Instacia de Personaje inicializada con marcaClase y
      * estacionPosicion por parámetros y midiclorianos como nueva ArrayList.
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Personaje(char marcaClase, EstacionBase estacionPosicion) {
+    public Personaje(char marcaClase, int estacionPosicion, int turnoInicio) {
         this.marcaClase = marcaClase;
         this.midiclorianos = new ArrayList<>();
-        this.estacionPosicion = estacionPosicion;
-        this.estacionPosicion.insertarPersonaje(this);
         this.turno = 0;
+        this.turnoInicio = turnoInicio;
+        this.estacionPosicion = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
+        this.estacionPosicion.insertarPersonaje(this);
+
     }
 
     // Getter & Setter #########################################################
@@ -74,6 +94,19 @@ public class Personaje implements Comparable<Personaje> {
      */
     public int getTurno() {
         return turno;
+    }
+
+    /**
+     * Método que devuelve el turno de inicio del Personaje
+     *
+     * @return Devuelve el turno de inicio del Personaje - Turno en el que se
+     * empieza a mover
+     * @pre Personaje inicializado correctamente
+     * @post -
+     * @complex O(1)
+     */
+    public int getTurnoInicio() {
+        return turnoInicio;
     }
 
     /**
@@ -112,6 +145,7 @@ public class Personaje implements Comparable<Personaje> {
         this.ruta = ruta;
     }
 
+// PRIVADOS ################################################################
     /**
      * Método que pone en el Personaje una estacion actual (posición)
      *
@@ -122,25 +156,121 @@ public class Personaje implements Comparable<Personaje> {
      * personaje)
      * @complex O(1)
      */
-    public void setEstacionPosicion(EstacionBase estacion) {
+    private void moverA(EstacionBase estacion) {
         this.estacionPosicion = estacion;
         this.estacionPosicion.insertarPersonaje(this);
     }
 
-// PRIVADOS ################################################################
+    /**
+     * Método que devuelve la siguiente estación al personaje según ruta
+     *
+     * @return Devuelve siguiente estacion del personaje
+     * @pre Personaje inicializado correctamente
+     * @post Primera orientacion de la ruta es sacada y se vuelve a insertar en
+     * la ED de la ruta, y se ejecutan los métodos para calcular siguiente
+     * posicion con ayuda de dos variables (fila y columna).
+     * @complex O(1)
+     */
+    private EstacionBase getSiguienteEstacion() {
+        /*
+        Extrae el siguiente camino(E,N,O,S)  y lo vuelve a insertar en la ED de 
+        caminos para que nunca se quede pueda quedarse sin posibles 
+        orientaciones para el siguiente movimiento.
+         */
+        Camino camino = ruta.poll();
+        ruta.add(camino);
+        //Calcula fila y columna de la esatcion destino
+        Galaxia galaxia = Galaxia.obtenerInstancia();
+        int[] coord = galaxia.IDtoCoordinates(estacionPosicion.getID());
+        int fila = coord[0] + camino.getAlto();
+        int columna = coord[1] + camino.getAncho();
+        //Devuelve estaciondestino
+        return galaxia.getEstacion(fila, columna);
+
+    }
+
     // PÚBLICOS #################################################################
+    /**
+     * Devuelve el ultimo midicloriano que tiene el personaje en si ED
+     *
+     * @return Ultimo midicloriano de ED del personaje
+     * @pre Personaje inicializado correctamente
+     * @post ED de midiclorianos con un elemento menos (último)
+     * @complex O(1)
+     */
+    public Midicloriano sacarMidicloriano() {
+        return midiclorianos.remove(midiclorianos.size() - 1);
+    }
+
+    /**
+     * Inserta en la ED el midicloriano por parámetros
+     *
+     * @param midicloriano Midicloriano a insertar en la ED del personaje
+     * @pre Personaje inicializado correctamente
+     * @post ED de midiclorianos con un elemento más (última posición)
+     * @complex O(1)
+     */
+    public void recogerMidicloriano(Midicloriano midicloriano) {
+        midiclorianos.add(midicloriano);
+    }
+
+    /**
+     * Método que ejecuta la acción de mover de un personaje
+     *
+     * @pre Personaje inicializado correctamente
+     * @post El personaje se mueve a la siguiente estación
+     * @complex O(1)
+     */
+    public void mover() {
+        moverA(getSiguienteEstacion());
+    }
+
+    /**
+     * Método encargado de accionar-simular al personaje durante 1 turno.
+     *
+     * @pre Personaje inicializado correctamente e insertado dentro de la
+     * Galaxia
+     * @post Si el personaje está en una estación, se ejecuta accionEstacion().
+     * SI el personaje está en una puerta, se ejecuta accionPuerta(). En
+     * cualquiera de los casos se incrementa el turno en 1.
+     * @complex O(1)
+     */
     public void accion() {
-        if (enPuerta()) {
+        if (estacionPosicion.esPuerta()) {
             accionPuerta();
         } else {
-            accionEstacion();
             mover();
+            accionEstacion();
         }
         turno++;
     }
-    
-    public boolean 
 
+    /**
+     * Método que acciona el comportamiento de un personaje en una puerta
+     *
+     * @see Imperial
+     * @see LightSide
+     */
+    public abstract void accionPuerta();
+
+    /**
+     * Método que acciona el comportamiento de un personaje en una estacion
+     *
+     * @see Imperial
+     * @see LightSide
+     */
+    public abstract void accionEstacion();
+
+    /**
+     * Método para comparar un Personaje con la instancia actual
+     *
+     * @param o Objeto Midicloriano con el que se desea comparar
+     * @return Entero indicando si es menor(número negaativo), igual(0) o
+     * mayor(número positivo)
+     * @pre Midicloriano inicializado correctamente
+     * @post Devuelve 1(mayor)
+     * @complex O(1)
+     */
     @Override
     public int compareTo(Personaje o) {
         return 1;

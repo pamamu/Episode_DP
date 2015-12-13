@@ -30,7 +30,22 @@ public class Contrabandista extends LightSide{
 // ATRIBUTOS ###############################################################
 
 // CONSTRUCTORES ###########################################################
-
+ /**
+     * Constructor parametrizado de la clase Personaje
+     *
+     * @param marcaClase Marca de clase con la que inicializar el Personaje
+     * @param estacionPosicion ID de la estación donde se quiere insertar el
+     * personaje
+     * @param turnoInicio Turno en el que se empieza a mover al personaje
+     * @pre -
+     * @post Instacia de Contrabandista inicializada con marcaClase y
+     * estacionPosicion por parámetros y midiclorianos como nueva ArrayList.
+     * Inserta en la estacionPosicion al personaje.
+     * @complex O(1)
+     */
+    public Contrabandista(char marcaClase, int estacionPosicion, int turnoInicio) {
+        super(marcaClase, estacionPosicion, turnoInicio);
+    }
 // Getter & Setter #########################################################
 
 // PRIVADOS ################################################################

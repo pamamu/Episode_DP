@@ -30,7 +30,7 @@ public class Midicloriano implements Comparable<Midicloriano> {
     /**
      * Identificador del Midicloriano
      */
-    private int ID;
+    private final int ID;
 
 // CONSTRUCTORES ###########################################################
     /**

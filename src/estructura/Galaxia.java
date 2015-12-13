@@ -68,7 +68,7 @@ public class Galaxia {
      * Clase donde se especifica e implementa el objeto Pared Usado en la
      * creación del laberinto de la Galaxia.
      */
-    public class Pared {
+    private class Pared {
 
         /**
          * Entero que indica la estación de origen de la puerta
@@ -140,11 +140,11 @@ public class Galaxia {
             }
         }
         paredes = new ArrayList<>();
-        grafo = null;//TODO
+        grafo = new Grafo();
 
     }
-// Getter & Setter #########################################################
 
+// Getter & Setter #########################################################
     /**
      * Método sobrecargado que devuelve la única instancia de la Galaxia. Los
      * parámetros se utilizan para construir la Galaxia inicial.
@@ -170,8 +170,99 @@ public class Galaxia {
     public static Galaxia obtenerInstancia() {
         return instancia;
     }
+
 // PRIVADOS ################################################################
+    /**
+     * Método para construir una Galaxia inicial.
+     *
+     * @pre Galaxia inicializada con éxito
+     * @post Se crean todos los nodos (ID de estaciones) y se llama a
+     * construirParedesIni()
+     * @complex O(n)
+     */
+    private void construirGalaxia() {
+        //CREACION DE NODOS
+        for (int i = 0; i < dimX * dimY; i++) {
+            grafo.nuevoNodo(i);
+        }
+        //CREACION DE PAREDES
+        construirParedesIni();
+    }
+
+    /**
+     * Método para construir las paredes iniciales - Conectar todas las
+     * estaciones con sus estacion más próximas.
+     *
+     * @pre DimX y DimY con valores válidos, Grafo y paredes inicialiadas con
+     * éxito.
+     * @post Grafo con todos los arcos que unen las estaciones con sus
+     * estaciones vecinas (N,S,E,O) y todas las paredes almacenadas en ED
+     * paredes, la cual ayudará a implementar algoritmo de Kruskal.
+     * @complex O(n)
+     */
+    private void construirParedesIni() {
+        int destino;
+        for (int estacion = 0; estacion < dimX * dimY; estacion++) {
+            //ESTACIÓN NORTE
+            if (estacion >= dimY) {
+                destino = estacion - dimY;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+            //ESTACIÓN ESTE
+            if ((estacion % dimY != dimY - 1)) {
+                destino = estacion + 1;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+            //ESTACIÓN SUR
+            if ((estacion / dimY) < dimY - 1) {
+                destino = estacion + dimY;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+            //ESTACIÓN OESTE
+            if ((estacion % dimY) != 0) {
+                destino = estacion - 1;
+                paredes.add(new Pared(estacion, destino));
+                grafo.nuevoArco(estacion, destino, 1);
+            }
+        }
+    }
 // PÚBLICOS #################################################################
+
+    /**
+     * Método que convierte un ID de la estación en coordenadas cartesianas
+     *
+     * @param ID ID que se desea convertir a coordenadas
+     * @return Devuelve int[] de 2 posiciones donde: - int[0] = fila (eje x) -
+     * int[1] = columnas (eje y)
+     */
+    public int[] IDtoCoordinates(int ID) {
+        return new int[]{(ID / dimY), (ID % dimY)};
+    }
+
+    /**
+     * Devuelve la estación situada en el ID por parámetros
+     *
+     * @param ID ID de la estación que se desea devolver
+     * @return EstacionBase de la galaxia con ID (parámetro entrada)
+     */
+    public EstacionBase getEstacion(int ID) {
+        int[] coordenadas = IDtoCoordinates(ID);
+        return Estaciones[coordenadas[0]][coordenadas[1]];
+    }
+
+    /**
+     * Método que devuelve la estación situado en las coordenadas dadas.
+     *
+     * @param fila Fila de la estacion a devolver
+     * @param columna Columna de la estacion a devolver
+     * @return Devuelve la estación en las coordenadas dadas
+     */
+    public EstacionBase getEstacion(int fila, int columna) {
+        return Estaciones[fila][columna];
+    }
 
     /**
      * Devuelve informacion sobre todas las estaciones de la galaxia
@@ -211,13 +302,13 @@ public class Galaxia {
             output += "\n";
             // Linea de Personajes
             for (int e = 0; e < Estaciones[i].length; e++) {
-                output += "|" + Estaciones[i][e].getCharacter() + "\t|";
+                output += "|" + Estaciones[i][e].imprimirPersonajes() + "\t|";
             }
             output += "\n";
             // Linea de midiclorianos
             for (int e = 0; e < Estaciones[i].length; e++) {
                 output += "|";
-                if (!Estaciones[i][e].getMidiclorians().equals("\t")) {
+                if (!Estaciones[i][e].imprimirMidiclorianos().equals("\t")) {
                     output += "*\t\t|";
                 } else {
                     output += "\t\t|";

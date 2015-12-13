@@ -52,6 +52,20 @@ public class EstacionPuerta extends EstacionBase {
 // PÚBLICOS ################################################################
 
     /**
+     * Método que devuelve si una estacion es de tipo puerta o no
+     *
+     * @return Deuvelve valor booleano con información sobre si la pestacion es
+     * una puerta o no. Devuelve false.
+     * @pre EstacionBase inicializada correctamente
+     * @post Devuelve true
+     * @complex O(1)
+     */
+    @Override
+    public boolean esPuerta() {
+        return true;
+    }
+
+    /**
      * Devuelve información sobre la Estación
      *
      * @return Devuelve string con información sobre la estación
