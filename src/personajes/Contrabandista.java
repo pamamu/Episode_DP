@@ -25,16 +25,16 @@ package personajes;
  * @version 1.0 ALFA
  *
  */
-public class Contrabandista extends LightSide {
+public class Contrabandista extends LightSide{
 
 // ATRIBUTOS ###############################################################
 
 // CONSTRUCTORES ###########################################################
-    /**
+ /**
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
-     * @param nombre Nombre del personaje
+     * @param nombre Nombre con el que inicializar al personaje.
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
@@ -44,44 +44,14 @@ public class Contrabandista extends LightSide {
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Contrabandista(char marcaClase, String nombre, int estacionPosicion,
-            int turnoInicio) {
+    public Contrabandista(char marcaClase, String nombre ,int estacionPosicion, int turnoInicio) {
         super(marcaClase, nombre, estacionPosicion, turnoInicio);
     }
 // Getter & Setter #########################################################
 
 // PRIVADOS ################################################################
 
-// PÚBLICOS ################################################################
-    
-    /**
-     * Método que indica si es objeto de clase Jedi
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esJedi() {
-        return false;
-    }
+// PÚBLICOS #################################################################
 
-    /**
-     * Método que indica si es objeto de clase Contrabandista
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esContrabandista() {
-        return true;
-    }
-
-    /**
-     * Método que indica si es objeto de clase FamiliaReal
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esFamiliaReal() {
-        return false;
-    }
 
 }

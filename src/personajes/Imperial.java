@@ -5,8 +5,13 @@
  */
 package personajes;
 
+import edd.Grafo;
 import estructura.EstacionPuerta;
+import estructura.Galaxia;
 import estructura.Midicloriano;
+import etc.Camino;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * <p color="#01DF01">
@@ -30,24 +35,29 @@ import estructura.Midicloriano;
 public class Imperial extends Personaje {
 
 // ATRIBUTOS ###############################################################
+    /**
+     * ED con la ruta inicial del personaje que ayudará a restaurarla
+     */
+    private LinkedList<Camino> rutaInicial;
 // CONSTRUCTORES ###########################################################
+
     /**
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
-     * @param nombre Nombre del personaje
+     * @param nombre Nombre con el que inicializar al personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
      * @pre -
-     * @post Instacia de Imperial inicializada con marcaClase y
-     * estacionPosicion por parámetros y midiclorianos como nueva ArrayList.
-     * Inserta en la estacionPosicion al personaje.
+     * @post Instacia de Imperial inicializada con marcaClase y estacionPosicion
+     * por parámetros y midiclorianos como nueva ArrayList. Inserta en la
+     * estacionPosicion al personaje. rutaInicial es una nueva LinkedList
      * @complex O(1)
      */
-    public Imperial(char marcaClase, String nombre, int estacionPosicion, 
-            int turnoInicio) {
+    public Imperial(char marcaClase, String nombre, int estacionPosicion, int turnoInicio) {
         super(marcaClase, nombre, estacionPosicion, turnoInicio);
+        rutaInicial = new LinkedList<>();
     }
 
 // Getter & Setter #########################################################
@@ -59,18 +69,15 @@ public class Imperial extends Personaje {
      * @pre Imperial inicializado con éxito
      * @post Se guarda la estacionPosicion como EstacionPuerta, se reinicia la
      * puerta de la estación con puerta y se ejecuta el movimiento del
-     * personaje.
+     * personaje. Antes del movimiento se reinicia la ruta.
      * @complex O(n)
      */
     @Override
     public void accionPuerta() {
-        Midicloriano midicloriano = sacarMidicloriano();
-            if(midicloriano != null)
-                estacionPosicion.insertarMidicloriano(midicloriano);
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
         puerta.cerradura.reiniciar();
+        setRuta(rutaInicial);
         mover();
-        //accionEstacion();
     }
 
     /**
@@ -85,60 +92,76 @@ public class Imperial extends Personaje {
     public void accionEstacion() {
         if (estacionPosicion.getID() % 2 == 0) {
             Midicloriano midicloriano = sacarMidicloriano();
-            if(midicloriano != null)
+            if (midicloriano != null) {
                 estacionPosicion.insertarMidicloriano(midicloriano);
+            }
         }
     }
 
     /**
-     * Método que indica si es objeto de clase LightSide
-     * 
-     * @return boolean
+     * Método para generar un camino utilizando el recorrido por caminos mínimos
+     *
+     * @param grafo ED donde se encuentran las conexiones entre las distintas
+     * estaciones
+     * @param solucion ED donde se va almacenando las posibles soluciones
+     * @param estacionOrigen Variable que indica la estacion de origen de la
+     * ruta.
+     * @param estacionDestino Variable que indica la estacion de destino de la
+     * ruta.
+     * @pre Grafo, solucion y personaje inicializado con éxito
+     * @post Almacena en solucion el recorrido de estaciones(ID) por las que hay
+     * que pasar para llegar desde la estacionOrigen a la estacionDestino
+     * @complex O(n)
      */
-    @Override
-    public boolean esLightSide() {
-        return false;
+    private void generarCaminoBT(Grafo grafo, ArrayList<Integer> solucion, int estacionOrigen, int estacionDestino) {
+        int estacionsiguiente = grafo.siguiente(estacionOrigen, estacionDestino);
+        solucion.add(estacionsiguiente);
+        if (estacionsiguiente == estacionDestino) {
+//            solucion.add(estacionDestino);
+            return;
+        }
+        generarCaminoBT(grafo, solucion, estacionsiguiente, estacionDestino);
     }
 
     /**
-     * Método que indica si es objeto de clase Jedi
-     * 
-     * @return boolean
+     * Método para generar un camino de un personaje
+     *
+     * @pre Personaje inicializado con éxito
+     * @post Desde la galaxia, se recupera el grafo que une las estaciones y se
+     * usa para calcular los caminos. En este caso, el personaje Imperial
+     * recorre las estaciones en el orden: EstacionPuerta - Estacion NE -
+     * Estacion NO - Estacion SO - EstacionPuerta. Inserta la secuencia de
+     * estaciones al personaje a través del método setruta() y a su vez, para
+     * que el perssonaje no llegue a algún momento donde se le acaben las
+     * orientaciones del camino, se guarda la ruta del personaje en rutaInicial
+     * para poder recuperar la
+     * @complex O(n)
      */
     @Override
-    public boolean esJedi() {
-        return false;
+    public void generarCamino() {
+        Galaxia galaxia = Galaxia.obtenerInstancia();
+        ArrayList<Integer> solucion = new ArrayList<>();
+        int estaciondestino, estacioninicio;
+        //Desde estacionPosicion a estacion NE
+        estacioninicio = estacionPosicion.getID();
+        estaciondestino = galaxia.getDimY() - 1;
+        generarCaminoBT(galaxia.getGrafo(), solucion, estacioninicio, estaciondestino);
+        //Desde estacion NE a estacion NO
+        estacioninicio = estaciondestino;
+        estaciondestino = 0;
+        generarCaminoBT(galaxia.getGrafo(), solucion, estacioninicio, estaciondestino);
+        //Desde estacion NE a estacion SO
+        estacioninicio = estaciondestino;
+        estaciondestino = galaxia.getDimY() * (galaxia.getDimY() - 1);
+        generarCaminoBT(galaxia.getGrafo(), solucion, estacioninicio, estaciondestino);
+        //Desde estacion SO a estacion SE
+        estacioninicio = estaciondestino;
+        estaciondestino = galaxia.getIdEstacionPuerta();
+        generarCaminoBT(galaxia.getGrafo(), solucion, estacioninicio, estaciondestino);
+        //Añade la ruta al personaje
+        setRuta(solucion);
+        //Recupera la ruta  en rutaInicial
+        rutaInicial = getRuta();
     }
 
-    /**
-     * Método que indica si es objeto de clase Contrabandista
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esContrabandista() {
-        return false;
-    }
-
-    /**
-     * Método que indica si es objeto de clase FamiliaReal
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esFamiliaReal() {
-        return false;
-    }
-
-    /**
-     * Método que indica si es objeto de clase Imperial
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esImperial() {
-        return true;
-    }
-    
-    
 }

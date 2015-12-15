@@ -32,6 +32,7 @@ public enum Camino {
         this.ancho = ancho;
         this.alto = alto;
     }
+    
     /**
      * Método que devuelve la variación del ancho(eje y) en el camino.
      * 
@@ -48,4 +49,11 @@ public enum Camino {
     public int getAlto() {
         return alto;
     }
+
+    @Override
+    public String toString() {
+        return camino;
+    }
+    
+    
 }

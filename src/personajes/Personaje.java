@@ -39,7 +39,7 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     private final char marcaClase;
     /**
-     * Nombre del Personaje
+     * Nombre del personaje
      */
     private final String nombre;
     /**
@@ -68,7 +68,7 @@ public abstract class Personaje implements Comparable<Personaje> {
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
-     * @param nombre Nombre del personaje
+     * @param nombre Nombre del personaje con la que inicializar al Personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
@@ -78,19 +78,14 @@ public abstract class Personaje implements Comparable<Personaje> {
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Personaje(char marcaClase, String nombre, int estacionPosicion,
-            int turnoInicio) {
-        
+    public Personaje(char marcaClase, String nombre, int estacionPosicion, int turnoInicio) {
         this.marcaClase = marcaClase;
         this.nombre = nombre;
         this.midiclorianos = new ArrayList<>();
-
-        //TURNO DE INICIO SERA EL TURNO GLOBAL
-        this.turno = turnoInicio;
-
+        this.turno = 0;
         this.turnoInicio = turnoInicio;
-        this.estacionPosicion
-                = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
+        this.ruta = new LinkedList<Camino>();
+        this.estacionPosicion = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
         this.estacionPosicion.insertarPersonaje(this);
 
     }
@@ -134,6 +129,18 @@ public abstract class Personaje implements Comparable<Personaje> {
     }
 
     /**
+     * Método que devuelve la marca de clase del personaje
+     *
+     * @return Devuelve marca de clase del personaje
+     * @pre Personaje inicializado correctamente
+     * @post -
+     * @complex O(1)
+     */
+    public char getMarcaClase() {
+        return marcaClase;
+    }
+
+    /**
      * Método que inserta un conjunto de Midiclorianos en el Personaje
      *
      * @param midiclorianos Midiclorianos a poner en el personaje
@@ -143,6 +150,15 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     public void setMidiclorianos(ArrayList<Midicloriano> midiclorianos) {
         this.midiclorianos = midiclorianos;
+    }
+
+    /**
+     * Método que devuelve la ruta del Personaje
+     *
+     * @return Devuelve ruta del personaje
+     */
+    public LinkedList<Camino> getRuta() {
+        return ruta;
     }
 
     /**
@@ -157,11 +173,43 @@ public abstract class Personaje implements Comparable<Personaje> {
         this.ruta = ruta;
     }
 
-    public char getMarca() {
-        return marcaClase;
+    /**
+     * Método que inserta una secuencia de Estaciones(ID) como transformación a
+     * una secuencia de Ordenes en formato de orientaciones
+     *
+     * @param camino ED donde se almacena secuenccia de Estaciones(ID)
+     * @pre Personaje inicializado correctamente, estacionPosicion no se
+     * encuentra en la ED camino
+     * @post Se inserta en la ruta del personaje una serie de secuencia de
+     * orientaciones acorde con la secuencia de estaciones introducida por
+     * parámetro.
+     * @complex O(n)
+     */
+    public void setRuta(ArrayList<Integer> camino) {
+        int posicionactual = estacionPosicion.getID(), posicionsiguiente;
+        int variacion;
+        while (!camino.isEmpty()) {
+            posicionsiguiente = camino.remove(0);
+            variacion = posicionsiguiente - posicionactual;
+            switch (variacion) {
+                case 1:
+                    ruta.add(Camino.ESTE);
+                    break;
+                case -1:
+                    ruta.add(Camino.OESTE);
+                    break;
+                default:
+                    if (variacion > 1) {
+                        ruta.add(Camino.SUR);
+                    } else {
+                        ruta.add(Camino.NORTE);
+                    }
+            }
+            posicionactual = posicionsiguiente;
+        }
     }
-
 // PRIVADOS ################################################################
+
     /**
      * Método que pone en el Personaje una estacion actual (posición)
      *
@@ -172,7 +220,7 @@ public abstract class Personaje implements Comparable<Personaje> {
      * personaje)
      * @complex O(1)
      */
-    private void moverA(EstacionBase estacion) {
+    protected void moverA(EstacionBase estacion) {
         this.estacionPosicion = estacion;
         this.estacionPosicion.insertarPersonaje(this);
     }
@@ -189,28 +237,23 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     private EstacionBase getSiguienteEstacion() {
         /*
-         Extrae el siguiente camino(E,N,O,S)  y lo vuelve a insertar en la ED de 
-         caminos para que nunca se quede pueda quedarse sin posibles 
-         orientaciones para el siguiente movimiento.
+        Extrae el siguiente camino(E,N,O,S).
          */
         Camino camino = ruta.poll();
-        ruta.add(camino);
+        if (camino == null) {
+            return null;
+        }
         //Calcula fila y columna de la esatcion destino
         Galaxia galaxia = Galaxia.obtenerInstancia();
         int[] coord = galaxia.IDtoCoordenadas(estacionPosicion.getID());
         int fila = coord[0] + camino.getAlto();
         int columna = coord[1] + camino.getAncho();
         //Devuelve estaciondestino
-        //CUIDADO FALLO IDENTIFICADO SE SALE DEL RANGO DE ESTACIONES DE LA GALAXIA
-        if(fila >= 0 && fila < galaxia.getAltura() &&
-           columna >= 0 && columna < galaxia.getAnchura())
-            return galaxia.getEstacion(fila, columna);
-        else{
-            return null;
-        }
+        return galaxia.getEstacion(fila, columna);
+
     }
 
-    // PÚBLICOS ############################################################
+    // PÚBLICOS #################################################################
     /**
      * Devuelve el ultimo midicloriano que tiene el personaje en si ED
      *
@@ -220,11 +263,10 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public Midicloriano sacarMidicloriano() {
-        if (!midiclorianos.isEmpty()) {
-            return midiclorianos.remove(midiclorianos.size() - 1);
+        if (midiclorianos.isEmpty()) {
+            return null;
         }
-
-        return null;
+        return midiclorianos.remove(midiclorianos.size() - 1);
     }
 
     /**
@@ -247,27 +289,10 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public void mover() {
-        EstacionBase estacionSiguiente =  getSiguienteEstacion();
-        
-        if(estacionSiguiente != null){
-            if(Galaxia.obtenerInstancia().getGrafo().adyacente(
-                        estacionPosicion.getID(), estacionSiguiente.getID())){
-                moverA(estacionSiguiente);
-            }else{
-               /*
-                 ADICIONAL: Comprueba si el nodo a mover es adyacente, si no
-                 lo vuelve a insertar en la estacion donde estaba
-                */
-                moverA(estacionPosicion);
-            }
-        }else{
-            /*ADICIONAL: Calcula en getSiguienteEstacion si no se sale del rango 
-              de la matriz, si se sale, retornara null y lo vuelve a insertar en 
-              la estacion donde estaba
-             */
-            moverA(estacionPosicion);
+        EstacionBase estacionDestino = getSiguienteEstacion();
+        if (estacionDestino != null) {
+            moverA(estacionDestino);
         }
-        
     }
 
     /**
@@ -283,7 +308,6 @@ public abstract class Personaje implements Comparable<Personaje> {
     public void accion() {
         if (estacionPosicion.esPuerta()) {
             accionPuerta();
-            //moverA(estacionPosicion);
         } else {
             mover();
             accionEstacion();
@@ -308,12 +332,20 @@ public abstract class Personaje implements Comparable<Personaje> {
     public abstract void accionEstacion();
 
     /**
+     * Método que genera el camino del Personaje
+     *
+     * @see Imperial
+     * @see LightSide
+     */
+    public abstract void generarCamino();
+
+    /**
      * Método para comparar un Personaje con la instancia actual
      *
      * @param o Objeto Midicloriano con el que se desea comparar
      * @return Entero indicando si es menor(número negaativo), igual(0) o
      * mayor(número positivo)
-     * @pre Midicloriano inicializado correctamente
+     * @pre Personaje inicializado correctamente
      * @post Devuelve 1(mayor)
      * @complex O(1)
      */
@@ -322,41 +354,16 @@ public abstract class Personaje implements Comparable<Personaje> {
         return 1;
     }
 
-    public boolean esPersonaje() {
-        return true;
+    /**
+     * Devuelve información sobre el personaje
+     *
+     * @return Devuelve string con información sobre el personaje
+     * @pre Personaje inicializada correctamente
+     * @post Devuelve marca de clase
+     * @complex O(1)
+     */
+    @Override
+    public String toString() {
+        return String.valueOf(marcaClase) /*+ "\n" + ruta.toString()*/;
     }
-    /**
-     * Método abstracto que indica si es objeto de clase LightSide
-     * 
-     * @return boolean
-     */
-    public abstract boolean esLightSide();
-
-    /**
-     * Método abstracto que indica si es objeto de clase Jedi
-     * 
-     * @return boolean
-     */
-    public abstract boolean esJedi();
-
-    /**
-     * Método abstracto que indica si es objeto de clase Contrabandista
-     * 
-     * @return boolean
-     */
-    public abstract boolean esContrabandista();
-
-    /**
-     * Método abstracto que indica si es objeto de clase FamiliaReal
-     * 
-     * @return boolean
-     */
-    public abstract boolean esFamiliaReal();
-
-    /**
-     * Método abstracto que indica si es objeto de clase Imperial
-     * 
-     * @return boolean
-     */
-    public abstract boolean esImperial();
 }

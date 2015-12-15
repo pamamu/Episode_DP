@@ -277,6 +277,7 @@ public class Cerradura {
         if (combinacionCerradura.pertenece(midicloriano)) {
             combinacionCerradura.borrar(midicloriano);
         }
+        
         midiclorianosProbados.insertar(midicloriano);
         return true;
     }

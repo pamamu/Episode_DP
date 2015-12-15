@@ -90,9 +90,10 @@ public class EstacionBase {
     public void accion(int turno){
         
         if(!personajes.isEmpty()){
-            for(int i = 0;i < personajes.size(); i++){
+            int npersonajes = personajes.size();
+            for(int i = 0;i < npersonajes; i++){
                 Personaje actual = sacarPersonaje();
-                if(actual.getTurno() <= turno)
+                if(actual.getTurno() < turno)
                     actual.accion();
                 else
                     insertarPersonaje(actual);
@@ -249,7 +250,7 @@ public class EstacionBase {
             if(personajes.size() > 1)
                 output += personajes.size();
             else
-                output += personajes.peek().getMarca();
+                output += personajes.peek().getMarcaClase();
         } else {
             output += "  ";
         }
@@ -276,7 +277,7 @@ public class EstacionBase {
             if(personajes.size() > 1)
                 output += personajes.size();
             else
-                output += personajes.peek().getMarca();
+                output += personajes.peek().getMarcaClase();
         } else {
             output += " ";
         }

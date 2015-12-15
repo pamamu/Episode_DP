@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package personajes;
 
 /**
@@ -14,39 +13,36 @@ package personajes;
  * Programas
  * </p>
  * <br/>
- * 
+ *
  * @since
- * 		<p color="red">
- *        by: Fernando G. & Pablo Macias<br/>
- *        Revenge of the Sith™ 2015
- * 
- *        </p>
+ * <p color="red">
+ * by: Fernando G. & Pablo Macias<br/>
+ * Revenge of the Sith™ 2015
+ *
+ * </p>
  * @author Fernando.G & Pablo Macias
  * @version 1.0 ALFA
  *
  */
-public class Jedi extends LightSide{
+public class Jedi extends LightSide {
 
 // ATRIBUTOS ###############################################################
-
 // CONSTRUCTORES ###########################################################
-    
-     /**
+    /**
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
-     * @param nombre Nombre del personaje
+     * @param nombre Nombre con el que incicializar al personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
      * @pre -
-     * @post Instacia de Jedi inicializada con marcaClase y
-     * estacionPosicion por parámetros y midiclorianos como nueva ArrayList.
-     * Inserta en la estacionPosicion al personaje.
+     * @post Instacia de Jedi inicializada con marcaClase y estacionPosicion por
+     * parámetros y midiclorianos como nueva ArrayList. Inserta en la
+     * estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Jedi(char marcaClase, String nombre, int estacionPosicion, 
-            int turnoInicio) {
+    public Jedi(char marcaClase, String nombre, int estacionPosicion, int turnoInicio) {
         super(marcaClase, nombre, estacionPosicion, turnoInicio);
     }
 
@@ -55,34 +51,6 @@ public class Jedi extends LightSide{
 // PRIVADOS ################################################################
 
 // PÚBLICOS #################################################################
-    
-    /**
-     * Método que indica si es objeto de clase Jedi
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esJedi(){
-        return true;
-    }
-    
-    /**
-     * Método que indica si es objeto de clase Contrabandista
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esContrabandista(){
-        return false;
-    }
-    
-    /**
-     * Método que indica si es objeto de clase FamiliaReal
-     * 
-     * @return boolean
-     */
-    @Override
-    public boolean esFamiliaReal(){
-        return false;
-    }
+
+
 }

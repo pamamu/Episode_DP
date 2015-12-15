@@ -5,9 +5,13 @@
  */
 package estructura;
 
+import com.sun.org.apache.bcel.internal.generic.FREM;
 import edd.Grafo;
 import etc.GenAleatorios;
 import java.util.ArrayList;
+import personajes.FamiliaReal;
+import personajes.Imperial;
+import personajes.LightSide;
 
 /**
  * <p color="#01DF01">
@@ -44,6 +48,10 @@ public class Galaxia {
      * Número de columnas de la galaxia
      */
     private int dimY;
+    /**
+     * ID de la estacion con Puerta
+     */
+    private int idEstacionPuerta;
     /**
      * Starsgate o puerta de salida de la galaxia
      */
@@ -110,12 +118,6 @@ public class Galaxia {
             return destino;
         }
 
-        /**
-         * Método que devuelve la existencia de una pared como una union entre
-         * un nodo de origen y otro de destino
-         *
-         * @return String con los nodos origen y destino donde hay una pared
-         */
         @Override
         public String toString() {
             return "[" + origen + "," + destino + "]";
@@ -132,11 +134,11 @@ public class Galaxia {
      * @param dimX Dimensión X de la galaxia (número de filas)
      * @param dimY Dimensión Y de la galaxia (número de columnas)
      */
-    private Galaxia(int idEstacionPuerta, EstacionPuerta starsgate, int dimX,
-            int dimY) {
+    private Galaxia(int idEstacionPuerta, EstacionPuerta starsgate, int dimX, int dimY) {
 
         this.dimX = dimX;
         this.dimY = dimY;
+        this.idEstacionPuerta = idEstacionPuerta;
 
         this.starsgate = starsgate;
         this.Estaciones = new EstacionBase[dimX][dimY];
@@ -169,9 +171,7 @@ public class Galaxia {
      * @param dimY Número de columnas de la Galaxia
      * @return Devuelve una instancia de Galaxia.
      */
-    public static Galaxia obtenerInstancia(int idEstacionPuerta,
-            EstacionPuerta starsgate, int dimX, int dimY) {
-
+    public static Galaxia obtenerInstancia(int idEstacionPuerta, EstacionPuerta starsgate, int dimX, int dimY) {
         if (instancia == null) {
             instancia = new Galaxia(idEstacionPuerta, starsgate, dimX, dimY);
         }
@@ -188,43 +188,39 @@ public class Galaxia {
     }
 
     /**
-     * Método que retorna la altura de la galaxia
+     * Método que devuelve el numero de filas de la Galaxia
      *
-     * @return Altura de la galaxia, numero de filas
+     * @return Devuelve número de filas de la Galaxia
      */
-    public int getAltura() {
+    public int getDimX() {
         return dimX;
     }
 
     /**
-     * Método que retorna la anchura de la galaxia
+     * Método que devuelve el número de columnas de la Galaxia
      *
-     * @return Anchura de la galaxia, numero de columnas
+     * @return Devuelve el número de columnas de la galaxia
      */
-    public int getAnchura() {
+    public int getDimY() {
         return dimY;
     }
 
     /**
-     * Método que retorna la dimension de la galaxia
+     * Método que devuelve el grafo de conexiones
      *
-     * @return Dimension de la galaxia, numero de estaciones
+     * @return Devuelve el grafo
      */
-    public int getDimension() {
-        return dimX * dimY;
-    }
-    
-    /**
-     * Método que retorna el grafo correspondiente a las estaciones de la gaxia
-     *
-     * TODO: Habra que cambiarlo por el método oportuno (solo se utiliza para
-     *          saber si 2 nodos son adyacente en la clase Personaje para mover 
-     *          o no)
-     * 
-     * @return ED grafo asociado a las estaciones de la galaxia
-     */
-    public Grafo getGrafo(){
+    public Grafo getGrafo() {
         return grafo;
+    }
+
+    /**
+     * Método que devuelve el ID de la estacion conpuerta
+     *
+     * @return Devuelve ID de Starsgate
+     */
+    public int getIdEstacionPuerta() {
+        return idEstacionPuerta;
     }
 
 // PRIVADOS ################################################################
@@ -271,23 +267,6 @@ public class Galaxia {
 // PÚBLICOS #################################################################
 
     /**
-     * Método que controla el movimiento de los personajes con el turno
-     * global
-     *
-     * @param turno indica el turno que se esta ejecutando
-     *
-     */
-    public void accion(int turno) {
-        //Recorre todas las estaciones
-        for (int i = 0; i < dimX; i++) {
-            for (int j = 0; j < dimY; j++) {
-                //Llama al accion de cada estacion
-                Estaciones[i][j].accion(turno);
-            }
-        }
-    }
-
-    /**
      * Método para construir una Galaxia inicial.
      *
      * @pre Galaxia inicializada con éxito
@@ -297,7 +276,7 @@ public class Galaxia {
      */
     public void construirGalaxia() {
         //CREACION DE NODOS
-        for (int i = 0; i < this.getDimension(); i++) {
+        for (int i = 0; i < dimX * dimY; i++) {
             grafo.nuevoNodo(i);
         }
         //CREACION DE PAREDES
@@ -361,12 +340,28 @@ public class Galaxia {
             if (nodorigen != nododestino) {
                 grafo.nuevoArco(pared.origen, pared.destino, 1);
                 grafo.nuevoArco(pared.destino, pared.origen, 1);
-                //System.out.println(nodorigen + "-" + nododestino);
                 expandirConexion(nodos, nododestino, nodorigen);
             }
         }
     }
 
+    /**
+     * Método que controla el movimiento de los personajes con el turno
+     * global
+     *
+     * @param turno indica el turno que se esta ejecutando
+     *
+     */
+    public void accion(int turno) {
+        //Recorre todas las estaciones
+        for (int i = 0; i < dimX; i++) {
+            for (int j = 0; j < dimY; j++) {
+                //Llama al accion de cada estacion
+                Estaciones[i][j].accion(turno);
+            }
+        }
+    }
+    
     /**
      * Método que convierte un ID de la estación en coordenadas cartesianas
      *
@@ -422,8 +417,8 @@ public class Galaxia {
      * Devuelve informacion sobre todas las estaciones de la galaxia
      *
      * @return Devuelve String con informacion sobre la galaxia en
-     *  cuadriculas(estaciones)
-     * @pre  Galaxia inicializada y cargada correctamente
+     * cuadriculas(estaciones)
+     * @pre Galaxia inicializada y cargada correctamente
      * @post Devuelve string con mapa de la galaxia indicando tipos e ID.
      * @complex O(n^2)
      */
@@ -460,24 +455,24 @@ public class Galaxia {
                     output += "|";
                 }
             }
-            output += "\n";
-            // Linea del id de celda
-            output += "|";
+//            output += "\n";
+//            // Linea del id de celda
+//            output += "|";
             // Linea de espacio | y si tiene puerta
-            for (int e = 0; e < Estaciones[i].length; e++) {
-                if (Estaciones[i][e].getType().equals("GateStation")) {
-                    output += "" + "STARGATE" + "\t";
-                } else {
-                    output += "\t\t";
-                }
-                if (e == Estaciones[i].length - 1) {
-                    output += "|";
-                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
-                    output += " ";
-                } else {
-                    output += "|";
-                }
-            }
+//            for (int e = 0; e < Estaciones[i].length; e++) {
+//                if (Estaciones[i][e].getType().equals("GateStation")) {
+//                    output += "" + "STARGATE" + "\t";
+//                } else {
+//                    output += "\t\t";
+//                }
+//                if (e == Estaciones[i].length - 1) {
+//                    output += "|";
+//                } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
+//                    output += " ";
+//                } else {
+//                    output += "|";
+//                }
+//            }
             output += "\n";
             // Linea del id de celda
             output += "|";
@@ -524,8 +519,8 @@ public class Galaxia {
 
         return output;
     }
-    
-    /**
+
+/**
      * Devuelve informacion sobre todas las estaciones de la galaxia y los 
      * personajes que residen en cada estacion en forma mini
      *
@@ -554,23 +549,13 @@ public class Galaxia {
             salida += "\n";
         }
 
-        for (int j = 0; j < getAnchura(); j++) {
+        for (int j = 0; j < getDimY(); j++) {
             salida += "---";
         }
 
         return salida;
     }
-    
-    /**
-     * Devuelve informacion sobre todas las estaciones de la galaxia en forma de 
-     * MAPA del laberinto
-     *
-     * @return Devuelve String con informacion sobre el grafo de la galaxia en
-     *  cuadriculas(estaciones)
-     * @pre  Galaxia inicializada y cargada correctamente
-     * @post Devuelve string con MAPA DEL GRAFO de la galaxia
-     * @complex O(n^2)
-     */
+
     public String imprimirLaberinto() {
         String out = "";
         for (int i = 0; i < dimY - 1; i++) {
@@ -673,23 +658,23 @@ public class Galaxia {
         return out;
     }
 
-    /**
-     * Método de prueba rapida de la galaxia y sus funciones
-     * 
-     * @param args 
-     */
-    public static void main(String[] args) {
-        Cerradura cerradura = new Cerradura(4);
-        EstacionPuerta estacion = new EstacionPuerta(35, cerradura);
-        Galaxia galaxia = Galaxia.obtenerInstancia(35, estacion, 6, 6);
-        galaxia.construirGalaxia();
-        galaxia.generarLaberinto();
-        //METODOS MOSTRAR DE PABLO
-        //System.out.println(galaxia.imprimir());
-        //System.out.println(galaxia.imprimirLaberinto());
-        
-        //METODOS MOSTRAR DE FERNANDO POR INCOMPATIBILIDADES
-        System.out.println(galaxia.imprimirMini());
-        System.out.println(galaxia.imprimirLaberinto2());
-    }
+//    /**
+//     * Método de prueba rapida de la galaxia y sus funciones
+//     * 
+//     * @param args 
+//     */
+//    public static void main(String[] args) {
+//        Cerradura cerradura = new Cerradura(4);
+//        EstacionPuerta estacion = new EstacionPuerta(35, cerradura);
+//        Galaxia galaxia = Galaxia.obtenerInstancia(35, estacion, 6, 6);
+//        galaxia.construirGalaxia();
+//        galaxia.generarLaberinto();
+//        //METODOS MOSTRAR DE PABLO
+//        //System.out.println(galaxia.imprimir());
+//        //System.out.println(galaxia.imprimirLaberinto());
+//        
+//        //METODOS MOSTRAR DE FERNANDO POR INCOMPATIBILIDADES
+//        System.out.println(galaxia.imprimirMini());
+//        System.out.println(galaxia.imprimirLaberinto2());
+//    }
 }
