@@ -39,6 +39,10 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     private final char marcaClase;
     /**
+     * Nombre del Personaje
+     */
+    private final String nombre;
+    /**
      * ED con midilorianos que porta el personaje
      */
     protected ArrayList<Midicloriano> midiclorianos;
@@ -64,6 +68,7 @@ public abstract class Personaje implements Comparable<Personaje> {
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
+     * @param nombre Nombre del personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
@@ -73,12 +78,19 @@ public abstract class Personaje implements Comparable<Personaje> {
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Personaje(char marcaClase, int estacionPosicion, int turnoInicio) {
+    public Personaje(char marcaClase, String nombre, int estacionPosicion,
+            int turnoInicio) {
+        
         this.marcaClase = marcaClase;
+        this.nombre = nombre;
         this.midiclorianos = new ArrayList<>();
-        this.turno = 0;
+
+        //TURNO DE INICIO SERA EL TURNO GLOBAL
+        this.turno = turnoInicio;
+
         this.turnoInicio = turnoInicio;
-        this.estacionPosicion = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
+        this.estacionPosicion
+                = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
         this.estacionPosicion.insertarPersonaje(this);
 
     }
@@ -145,6 +157,10 @@ public abstract class Personaje implements Comparable<Personaje> {
         this.ruta = ruta;
     }
 
+    public char getMarca() {
+        return marcaClase;
+    }
+
 // PRIVADOS ################################################################
     /**
      * Método que pone en el Personaje una estacion actual (posición)
@@ -173,9 +189,9 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     private EstacionBase getSiguienteEstacion() {
         /*
-        Extrae el siguiente camino(E,N,O,S)  y lo vuelve a insertar en la ED de 
-        caminos para que nunca se quede pueda quedarse sin posibles 
-        orientaciones para el siguiente movimiento.
+         Extrae el siguiente camino(E,N,O,S)  y lo vuelve a insertar en la ED de 
+         caminos para que nunca se quede pueda quedarse sin posibles 
+         orientaciones para el siguiente movimiento.
          */
         Camino camino = ruta.poll();
         ruta.add(camino);
@@ -185,11 +201,16 @@ public abstract class Personaje implements Comparable<Personaje> {
         int fila = coord[0] + camino.getAlto();
         int columna = coord[1] + camino.getAncho();
         //Devuelve estaciondestino
-        return galaxia.getEstacion(fila, columna);
-
+        //CUIDADO FALLO IDENTIFICADO SE SALE DEL RANGO DE ESTACIONES DE LA GALAXIA
+        if(fila >= 0 && fila < galaxia.getAltura() &&
+           columna >= 0 && columna < galaxia.getAnchura())
+            return galaxia.getEstacion(fila, columna);
+        else{
+            return null;
+        }
     }
 
-    // PÚBLICOS #################################################################
+    // PÚBLICOS ############################################################
     /**
      * Devuelve el ultimo midicloriano que tiene el personaje en si ED
      *
@@ -199,7 +220,11 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public Midicloriano sacarMidicloriano() {
-        return midiclorianos.remove(midiclorianos.size() - 1);
+        if (!midiclorianos.isEmpty()) {
+            return midiclorianos.remove(midiclorianos.size() - 1);
+        }
+
+        return null;
     }
 
     /**
@@ -222,7 +247,27 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public void mover() {
-        moverA(getSiguienteEstacion());
+        EstacionBase estacionSiguiente =  getSiguienteEstacion();
+        
+        if(estacionSiguiente != null){
+            if(Galaxia.obtenerInstancia().getGrafo().adyacente(
+                        estacionPosicion.getID(), estacionSiguiente.getID())){
+                moverA(estacionSiguiente);
+            }else{
+               /*
+                 ADICIONAL: Comprueba si el nodo a mover es adyacente, si no
+                 lo vuelve a insertar en la estacion donde estaba
+                */
+                moverA(estacionPosicion);
+            }
+        }else{
+            /*ADICIONAL: Calcula en getSiguienteEstacion si no se sale del rango 
+              de la matriz, si se sale, retornara null y lo vuelve a insertar en 
+              la estacion donde estaba
+             */
+            moverA(estacionPosicion);
+        }
+        
     }
 
     /**
@@ -238,7 +283,7 @@ public abstract class Personaje implements Comparable<Personaje> {
     public void accion() {
         if (estacionPosicion.esPuerta()) {
             accionPuerta();
-            moverA(estacionPosicion);
+            //moverA(estacionPosicion);
         } else {
             mover();
             accionEstacion();
@@ -276,4 +321,42 @@ public abstract class Personaje implements Comparable<Personaje> {
     public int compareTo(Personaje o) {
         return 1;
     }
+
+    public boolean esPersonaje() {
+        return true;
+    }
+    /**
+     * Método abstracto que indica si es objeto de clase LightSide
+     * 
+     * @return boolean
+     */
+    public abstract boolean esLightSide();
+
+    /**
+     * Método abstracto que indica si es objeto de clase Jedi
+     * 
+     * @return boolean
+     */
+    public abstract boolean esJedi();
+
+    /**
+     * Método abstracto que indica si es objeto de clase Contrabandista
+     * 
+     * @return boolean
+     */
+    public abstract boolean esContrabandista();
+
+    /**
+     * Método abstracto que indica si es objeto de clase FamiliaReal
+     * 
+     * @return boolean
+     */
+    public abstract boolean esFamiliaReal();
+
+    /**
+     * Método abstracto que indica si es objeto de clase Imperial
+     * 
+     * @return boolean
+     */
+    public abstract boolean esImperial();
 }

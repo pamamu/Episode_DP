@@ -1,0 +1,9 @@
+--Galaxia
+GALAXIA#6#6#35#4#
+--Personajes de la simulación
+FAMILIAREAL#Leia#L#1#
+JEDI#LukeSkyWalker#S#8#
+IMPERIAL#DarthVader#D#3#
+CONTRABANDISTA#HanSolo#H#1#
+--CONTRABANDISTA#Chewbacca#C#2#
+--JEDI#Obi­Wan Kenobi#O#1#

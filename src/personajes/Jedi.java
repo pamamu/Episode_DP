@@ -35,6 +35,7 @@ public class Jedi extends LightSide{
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
+     * @param nombre Nombre del personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
@@ -44,8 +45,9 @@ public class Jedi extends LightSide{
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Jedi(char marcaClase, int estacionPosicion, int turnoInicio) {
-        super(marcaClase, estacionPosicion, turnoInicio);
+    public Jedi(char marcaClase, String nombre, int estacionPosicion, 
+            int turnoInicio) {
+        super(marcaClase, nombre, estacionPosicion, turnoInicio);
     }
 
 // Getter & Setter #########################################################
@@ -53,6 +55,34 @@ public class Jedi extends LightSide{
 // PRIVADOS ################################################################
 
 // PÚBLICOS #################################################################
-
-
+    
+    /**
+     * Método que indica si es objeto de clase Jedi
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esJedi(){
+        return true;
+    }
+    
+    /**
+     * Método que indica si es objeto de clase Contrabandista
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esContrabandista(){
+        return false;
+    }
+    
+    /**
+     * Método que indica si es objeto de clase FamiliaReal
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esFamiliaReal(){
+        return false;
+    }
 }

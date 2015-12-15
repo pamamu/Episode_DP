@@ -35,6 +35,7 @@ public class Imperial extends Personaje {
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
+     * @param nombre Nombre del personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
@@ -44,8 +45,9 @@ public class Imperial extends Personaje {
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Imperial(char marcaClase, int estacionPosicion, int turnoInicio) {
-        super(marcaClase, estacionPosicion, turnoInicio);
+    public Imperial(char marcaClase, String nombre, int estacionPosicion, 
+            int turnoInicio) {
+        super(marcaClase, nombre, estacionPosicion, turnoInicio);
     }
 
 // Getter & Setter #########################################################
@@ -62,9 +64,13 @@ public class Imperial extends Personaje {
      */
     @Override
     public void accionPuerta() {
+        Midicloriano midicloriano = sacarMidicloriano();
+            if(midicloriano != null)
+                estacionPosicion.insertarMidicloriano(midicloriano);
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
         puerta.cerradura.reiniciar();
         mover();
+        //accionEstacion();
     }
 
     /**
@@ -79,7 +85,60 @@ public class Imperial extends Personaje {
     public void accionEstacion() {
         if (estacionPosicion.getID() % 2 == 0) {
             Midicloriano midicloriano = sacarMidicloriano();
-            estacionPosicion.insertarMidicloriano(midicloriano);
+            if(midicloriano != null)
+                estacionPosicion.insertarMidicloriano(midicloriano);
         }
     }
+
+    /**
+     * Método que indica si es objeto de clase LightSide
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esLightSide() {
+        return false;
+    }
+
+    /**
+     * Método que indica si es objeto de clase Jedi
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esJedi() {
+        return false;
+    }
+
+    /**
+     * Método que indica si es objeto de clase Contrabandista
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esContrabandista() {
+        return false;
+    }
+
+    /**
+     * Método que indica si es objeto de clase FamiliaReal
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esFamiliaReal() {
+        return false;
+    }
+
+    /**
+     * Método que indica si es objeto de clase Imperial
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esImperial() {
+        return true;
+    }
+    
+    
 }

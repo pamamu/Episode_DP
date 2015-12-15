@@ -28,7 +28,7 @@ import estructura.Midicloriano;
  * @version 1.0 ALFA
  *
  */
-public class LightSide extends Personaje {
+public abstract class LightSide extends Personaje {
 
 // ATRIBUTOS ###############################################################
 // CONSTRUCTORES ###########################################################
@@ -36,6 +36,7 @@ public class LightSide extends Personaje {
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
+     * @param nombre Nombre del personaje
      * @param estacionPosicion ID de la estación donde se quiere insertar el
      * personaje
      * @param turnoInicio Turno en el que se empieza a mover al personaje
@@ -45,12 +46,15 @@ public class LightSide extends Personaje {
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public LightSide(char marcaClase, int estacionPosicion, int turnoInicio) {
-        super(marcaClase, estacionPosicion, turnoInicio);
+    public LightSide(char marcaClase, String nombre, int estacionPosicion,
+            int turnoInicio) {
+        super(marcaClase, nombre, estacionPosicion, turnoInicio);
     }
 
 // Getter & Setter #########################################################
+    
 // PRIVADOS ################################################################
+    
 // PÚBLICOS #################################################################
     /**
      * Método que acciona el comportamiento de un personaje en una puerta.
@@ -67,8 +71,11 @@ public class LightSide extends Personaje {
         Midicloriano midicloriano = sacarMidicloriano();
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
         if (midicloriano != null) {
-            puerta.cerradura.probarMidicloriano(sacarMidicloriano());
+            //puerta.cerradura.probarMidicloriano(sacarMidicloriano());
+            puerta.cerradura.probarMidicloriano(midicloriano);
         }
+        //El personaje del lado de la luz no se mueve si llega a puerta
+        estacionPosicion.insertarPersonaje(this);
     }
 
     /**
@@ -90,4 +97,49 @@ public class LightSide extends Personaje {
         }
     }
 
+    /**
+     * Método que indica si es objeto de clase LightSide
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esLightSide() {
+        return true;
+    }
+    
+    /**
+     * Método abstracto que indica si es objeto de clase Jedi
+     * 
+     * @return boolean
+     */
+    @Override
+    public abstract boolean esJedi();
+    
+    /**
+     * Método abstracto que indica si es objeto de clase Contrabandista
+     * 
+     * @return boolean
+     */
+    @Override
+    public abstract boolean esContrabandista();
+    
+    /**
+     * Método abstracto que indica si es objeto de clase FamiliaReal
+     * 
+     * @return boolean
+     */
+    @Override
+    public abstract boolean esFamiliaReal();
+
+    /**
+     * Método abstracto que indica si es objeto de clase Imperial
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean esImperial() {
+        return false;
+    }
+    
+    
 }

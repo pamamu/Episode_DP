@@ -58,7 +58,7 @@ public class EstacionBase {
     public EstacionBase(int ID) {
         this.ID = ID;
         this.personajes = new PriorityQueue<>();
-        midiclorianos = new PriorityQueue<>();
+        this.midiclorianos = new PriorityQueue<>();
     }
 // Getter & Setter #########################################################
 
@@ -75,14 +75,38 @@ public class EstacionBase {
     }
 
 // PRIVADOS ################################################################
-// PUBLICOS #################################################################
+    
+// PUBLICOS ################################################################
+    
+    /**
+     * Método accion implementa la accion llamando al método acción de cada
+     * personaje existente en su estructura de almacenamiento de personajes
+     * 
+     * @param turno Turno actual de la simulacion
+     * @pre EstaciónBase inicializada correctamente.
+     * @post Ejecuta la accion del personaje o vuelve a meterlo en el final
+     * @complex O(n)
+     */
+    public void accion(int turno){
+        
+        if(!personajes.isEmpty()){
+            for(int i = 0;i < personajes.size(); i++){
+                Personaje actual = sacarPersonaje();
+                if(actual.getTurno() <= turno)
+                    actual.accion();
+                else
+                    insertarPersonaje(actual);
+            }
+        }
+    }
+    
     /**
      * Método que inserta un midicloriano en la ED de la estación
      *
      * @param midicloriano Midicloriano a insertar en la estación
      * @pre EstaciónBase inicializada correctamente.
      * @post Inserta un midicloriano (parametrizado) en la ED(ordenada)
-     * @complex O(n)
+     * @complex O(1)
      */
     public void insertarMidicloriano(Midicloriano midicloriano) {
         midiclorianos.add(midicloriano);
@@ -97,7 +121,10 @@ public class EstacionBase {
      * @complex O(1)
      */
     public Midicloriano sacarMidicloriano() {
-        return midiclorianos.poll();
+        if(!midiclorianos.isEmpty())
+            return midiclorianos.poll();
+        
+        return null;
     }
 
     /**
@@ -147,7 +174,7 @@ public class EstacionBase {
      */
     @Override
     public String toString() {
-        String output = "Station Info: \n";
+        String output = "Informacion de estacion: \n";
         output += "ID " + ID + "\n";
         output += "Personajes: \n" + personajes.toString();
         return output;
@@ -201,6 +228,60 @@ public class EstacionBase {
         } else {
             output += "\t";
         }
+
+        return output;
+    }
+    
+    /**
+     * Método que devuelve todos los Personajes en String para una representacion
+     * mini
+     * 
+     * Si hay mas de un personaje muestra el numero de personajes que hay
+     * 
+     * @return String con todos los personajes actuales en la ED
+     * 
+     */
+    public String imprimirPersonajesMini() {
+        String output = " ";
+
+        if (!personajes.isEmpty()) {
+            
+            if(personajes.size() > 1)
+                output += personajes.size();
+            else
+                output += personajes.peek().getMarca();
+        } else {
+            output += "  ";
+        }
+        
+        output += " ";
+
+        return output;
+    }
+    
+    /**
+     * Método similar al imprimirPersonajesMini pero con la caracteristica de 
+     * que solo devuelve la marca de personaje o espacio en blanco
+     * 
+     * Si hay mas de un personaje muestra el numero de personajes que hay
+     * 
+     * @return String con todos los personajes actuales en la ED
+     * 
+     */
+    public String imprimirPersonajesMarca() {
+        String output = "";
+
+        if (!personajes.isEmpty()) {
+            
+            if(personajes.size() > 1)
+                output += personajes.size();
+            else
+                output += personajes.peek().getMarca();
+        } else {
+            output += " ";
+        }
+        
+        output += "";
 
         return output;
     }
