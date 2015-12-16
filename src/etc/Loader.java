@@ -11,6 +11,7 @@ package etc;
 import estructura.Cerradura;
 import estructura.EstacionPuerta;
 import estructura.Galaxia;
+import estructura.Midicloriano;
 import java.io.IOException;
 import java.util.ArrayList;
 import personajes.Contrabandista;
@@ -64,9 +65,6 @@ public class Loader {
      */
     public Loader() throws IOException {
 
-        Logger.obtenerInstancia().escribelog(
-                "Preparando estructuras de datos principales");
-
         //Leer fichero de configuracion
         lector = new Reader();
         //Prepara la lista de personajes
@@ -75,12 +73,15 @@ public class Loader {
         //IMPORTANTE PRIMERO INICIALIZAR LA GALAXIA Y DESPUES LOS PERSONAJES 
         // YA QUE ESTOS DEPENDEN DE LA GALAXIA POR EL PARAMETRO ESTACION DE 
         // ORIGEN
-        Logger.obtenerInstancia().escribelog("Cargando datos de galaxia");
         //Llamada para obtener los datos de la galaxia
         loadDataGalaxy();
-        Logger.obtenerInstancia().escribelog("Cargando datos de personajes");
         //Llamada a rellenar la lista de personajes
         loadDataCharacters();
+        //Llamada para repartir los midiclorianos una vez ya se conocen los caminos
+        Galaxia.obtenerInstancia().repartirMidiclorianos(
+                Galaxia.obtenerInstancia().generarMidiclorianosGalaxia());
+        
+        
 
     }
 
@@ -104,16 +105,26 @@ public class Loader {
      */
     private void loadDataGalaxy() {
 
-        Logger.obtenerInstancia().escribelog("Creando galaxia");
-
         //Estructura de almacenamiento de datos de inicio
         String[] dataGalaxy = lector.getDatosGalaxia();
 
         Cerradura cerradura = new Cerradura(Integer.parseInt(dataGalaxy[4]));
 
+        ArrayList<Midicloriano> combinacion = new ArrayList<>();
+        
+        for(int i=1;i<16;i++){
+            Midicloriano midi = new Midicloriano(i);
+            combinacion.add(midi);
+            System.out.println("Midi Generado " + i);
+        }
+        
+        cerradura.setCombinacionInicial(combinacion);
+        cerradura.generarCombinacion();
+        
         EstacionPuerta puerta = new EstacionPuerta(
                 Integer.parseInt(dataGalaxy[3]), cerradura);
-
+        
+        
         //Crea la galaxia respecto a las especificaciones del archivo de datos
         Galaxia.obtenerInstancia(Integer.parseInt(dataGalaxy[3]), //Num Puerta
                 puerta,
@@ -122,18 +133,11 @@ public class Loader {
 
         Galaxia.obtenerInstancia().construirGalaxia();
         Galaxia.obtenerInstancia().generarLaberinto();
-
-        Logger.obtenerInstancia().escribelog("STAR WARS GALAXY \n"
-                + "\tAnchura: " + dataGalaxy[2]
-                + "\n\tAltura: " + dataGalaxy[1]
-                + "\n\tDimension: "
-                + (Integer.parseInt(dataGalaxy[2])
-                * Integer.parseInt(dataGalaxy[1]))
-                + " Estaciones planetarias\n"
-                + "\tEstacion de salida Tatooine en la posicion "
-                + dataGalaxy[3]);
-
-        Logger.obtenerInstancia().escribelog("Creada con exito");
+        Galaxia.obtenerInstancia().getGrafo().floyd();
+        Galaxia.obtenerInstancia().getGrafo().warshall();
+        
+        Logger.obtenerInstancia().escribeLog(
+                Galaxia.obtenerInstancia().imprimirLaberinto2(), 4);
 
     }
 
@@ -145,8 +149,6 @@ public class Loader {
 
         String[][] datosPersonaje;
 
-        Logger.obtenerInstancia().escribelog("Creando personajes");
-
         //Crea los Jedis
         datosPersonaje = lector.getJedis();
         Jedi jedi;
@@ -154,14 +156,11 @@ public class Loader {
             jedi = new Jedi(datosPersonaje[i][2].charAt(0), datosPersonaje[i][1],
                     0, Integer.parseInt(datosPersonaje[i][3]));
 
-            Logger.obtenerInstancia().escribelog("Personaje tipo "
-                    + datosPersonaje[i][0] + "\n"
-                    + "\tNombre " + datosPersonaje[i][1]
-                    + "\n\tMarca " + datosPersonaje[i][2]
-                    + "\n\tTurno de accion " + datosPersonaje[i][3]);
-
-            Logger.obtenerInstancia().escribelog("Creado con exito");
-
+            jedi.generarCamino();
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+jedi.getMarcaClase()
+                    + ":" + jedi.getRuta().toString(), 4);
+            
             personajes.add(jedi);
         }
 
@@ -172,18 +171,13 @@ public class Loader {
             contrabandista = new Contrabandista(datosPersonaje[i][2].charAt(0),
                     datosPersonaje[i][1],
                     Galaxia.obtenerInstancia().getEstacion(
-                            (Galaxia.obtenerInstancia().getDimX() - 1) * 
-                                    Galaxia.obtenerInstancia().getDimY(), 0).getID(),
+                            (Galaxia.obtenerInstancia().getDimX() - 1), 0).getID(),
                     Integer.parseInt(datosPersonaje[i][3]));
 
-            Logger.obtenerInstancia().escribelog("Personaje tipo "
-                    + datosPersonaje[i][0] + "\n"
-                    + "\tNombre " + datosPersonaje[i][1]
-                    + "\n\tMarca " + datosPersonaje[i][2]
-                    + "\n\tTurno de accion " + datosPersonaje[i][3]);
-
-            Logger.obtenerInstancia().escribelog("Creado con exito");
-
+            contrabandista.generarCamino();
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+contrabandista.getMarcaClase()
+                    + ":" + contrabandista.getRuta().toString(), 4);
             personajes.add(contrabandista);
         }
 
@@ -195,14 +189,11 @@ public class Loader {
                     datosPersonaje[i][1], 0,
                     Integer.parseInt(datosPersonaje[i][3]));
 
-            Logger.obtenerInstancia().escribelog("Personaje tipo "
-                    + datosPersonaje[i][0] + "\n"
-                    + "\tNombre " + datosPersonaje[i][1]
-                    + "\n\tMarca " + datosPersonaje[i][2]
-                    + "\n\tTurno de accion " + datosPersonaje[i][3]);
-
-            Logger.obtenerInstancia().escribelog("Creado con exito");
-
+            real.generarCamino();
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+real.getMarcaClase()
+                    + ":" + real.getRuta().toString(), 4);
+            
             personajes.add(real);
         }
 
@@ -215,16 +206,16 @@ public class Loader {
                     Galaxia.obtenerInstancia().getIdEstacionPuerta(),
                     Integer.parseInt(datosPersonaje[i][3]));
 
-            Logger.obtenerInstancia().escribelog("Personaje tipo "
-                    + datosPersonaje[i][0] + "\n"
-                    + "\tNombre " + datosPersonaje[i][1]
-                    + "\n\tMarca " + datosPersonaje[i][2]
-                    + "\n\tTurno de accion " + datosPersonaje[i][3]);
-
-            Logger.obtenerInstancia().escribelog("Creado con exito");
-
+            imperial.generarCamino();
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+imperial.getMarcaClase()
+                    + ":" + imperial.getRuta().toString(), 4);
+            
+            imperial.setMidiclorianos(Galaxia.obtenerInstancia().generarMidiclorianos());
+            
             personajes.add(imperial);
         }
+        
     }
 
     // PUBLICOS ################################################################

@@ -96,6 +96,7 @@ public class LightSide extends Personaje {
         Midicloriano midicloriano = sacarMidicloriano();
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
         if (midicloriano != null) {
+            System.out.println("Probando MIDICLORIANO "+midicloriano.getID());
             puerta.cerradura.probarMidicloriano(midicloriano);
         }
         moverA(estacionPosicion);

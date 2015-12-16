@@ -7,6 +7,7 @@ package estructura;
 
 import edd.Grafo;
 import etc.GenAleatorios;
+import etc.Logger;
 import java.util.ArrayList;
 
 /**
@@ -383,20 +384,20 @@ public class Galaxia {
     }
 
     public void repartirMidiclorianos(ArrayList<Midicloriano> midiclorianos) {
-        if (pasosPorEstaciones.isEmpty()) {
-            return;
-        }
-        while (!midiclorianos.isEmpty()) {
-            EstacionBase estacion = getEstacion(pasosPorEstaciones.remove(0));
-            for (int i = 0; !midiclorianos.isEmpty() && i < 5; i++) {
-                Midicloriano mid = midiclorianos.remove(0);
-                estacion.insertarMidicloriano(mid);
+        if (!pasosPorEstaciones.isEmpty()) {
+            while (!midiclorianos.isEmpty()) {
+                EstacionBase estacion = getEstacion(pasosPorEstaciones.remove(0));
+                for (int i = 0; !midiclorianos.isEmpty() && i < 5; i++) {
+                    Midicloriano mid = midiclorianos.remove(0);
+                    estacion.insertarMidicloriano(mid);
+                }
             }
         }
     }
 
     /**
-     * Método que controla el movimiento de los personajes con el turno global
+     * Método que controla el movimiento de los personajes con el turno
+     * global
      *
      * @param turno indica el turno que se esta ejecutando
      *
@@ -409,6 +410,30 @@ public class Galaxia {
                 Estaciones[i][j].accion(turno);
             }
         }
+        
+        System.out.println("Combinacion inicio "+
+                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
+                        .cerradura.combinacionInicio.toString());
+        
+        System.out.println("Midis Iniciales "+
+                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
+                        .cerradura.midiclorianosIniciales.toString());
+        
+        System.out.println("Midis  Probados"+
+                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
+                        .cerradura.midiclorianosProbados.toString());
+        
+        System.out.println("Cerradura info"+
+                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
+                        .cerradura.informacionCerradura());
+        
+        Logger.obtenerInstancia().escribeLog("Turno: "+turno, 4);
+        Logger.obtenerInstancia().escribeLog("Galaxia: "+this.getIdEstacionPuerta(), 4);
+        Logger.obtenerInstancia().escribeLog(
+                        "Puerta: "+this.starsgate.cerradura.informacionCerradura(), 4);
+        
+        Logger.obtenerInstancia().escribeLog(this.imprimirLaberinto2(), 4);
+        
     }
 
     /**
@@ -495,7 +520,10 @@ public class Galaxia {
             // Linea del id de celda
             output += "|";
             for (int e = 0; e < Estaciones[i].length; e++) {
-                output += Estaciones[i][e].getType() + "\t";
+                if(Estaciones[i][e].esPuerta())
+                    output += "Tatooine\t";
+                else
+                    output += "\t\t";
                 if (e == Estaciones[i].length - 1) {
                     output += "|";
                 } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
@@ -574,8 +602,8 @@ public class Galaxia {
      * personajes que residen en cada estacion en forma mini
      *
      * @return Devuelve String con informacion sobre la galaxia en
-     * cuadriculas(estaciones) y los personajes existentes en ellas
-     * @pre Galaxia inicializada y cargada correctamente
+     *  cuadriculas(estaciones) y los personajes existentes en ellas
+     * @pre  Galaxia inicializada y cargada correctamente
      * @post Devuelve string con el TABLERO de la galaxia y los personajes
      * @complex O(n^2)
      */
@@ -608,7 +636,7 @@ public class Galaxia {
     public String imprimirLaberinto() {
         String out = "";
         for (int i = 0; i < dimY - 1; i++) {
-            out += "=====";
+            out += "----";
         }
         out += "\n";
         for (int i = 0; i < dimX; i++) {
@@ -630,18 +658,18 @@ public class Galaxia {
                 }
             }
             out += "|\n";
-            System.out.print(out);
-            out = "";
+            //System.out.print(out);
+            //out = "";
             for (int j = 0; j < dimY; j++) {
                 if (grafo.adyacente((i * dimY) + j, ((i + 1) * dimY) + j)) {
                     out += "    ";
                 } else {
-                    out += "====";
+                    out += "----";
                 }
             }
             out += "\n";
-            System.out.print(out);
-            out = "";
+            //System.out.print(out);
+            //out = "";
 
         }
 
@@ -650,10 +678,9 @@ public class Galaxia {
 
     /**
      * VARIACION DEL ANTERIOR POR INCOMPATIBILIDAD AL MOSTRARSE
-     *
-     * Devuelve informacion sobre todas las estaciones de la galaxia y
-     * personajes que residen en cada una de las estaciones en forma de MINI
-     * MAPA DEL GRAFO
+     * 
+     * Devuelve informacion sobre todas las estaciones de la galaxia y personajes
+     * que residen en cada una de las estaciones en forma de MINI MAPA DEL GRAFO
      *
      * @return Devuelve String con informacion sobre la galaxia en
      * cuadriculas(estaciones) con forma de MAPA y los personajes exitentes
@@ -662,9 +689,9 @@ public class Galaxia {
      * @complex O(n^2)
      */
     public String imprimirLaberinto2() {
-        String out = "MAPA LABERINTO MINI\n";
+        String out = "\n";
         for (int i = 0; i < dimY; i++) {
-            out += "---";
+            out += "----";
         }
         out += "\n";
         for (int i = 0; i < dimX; i++) {
@@ -673,35 +700,35 @@ public class Galaxia {
                 if (j == 0) {
                     if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
                         //out += "  a  ";
-                        out += "  " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
+                        out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
                     } else {
-                        out += " " + Estaciones[i][j].imprimirPersonajesMarca() + "  |";
+                        out += " "+Estaciones[i][j].imprimirPersonajesMarca()+" |";
                     }
 
                 } else if (j == dimY - 1) {
                     //out += "  b  ";
-                    out += " " + Estaciones[i][j].imprimirPersonajesMini() + " ";
+                    out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
                 } else if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
                     //out += "  c  ";
-                    out += "  " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
+                    out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
                 } else {
                     //out += "  g |";
-                    out += "  " + Estaciones[i][j].imprimirPersonajesMarca() + " |";
+                    out += " "+Estaciones[i][j].imprimirPersonajesMarca()+" |";
                 }
             }
             out += "|\n";
-            System.out.print(out);
-            out = "";
+            //System.out.print(out);
+            //out = "";
             for (int j = 0; j < dimY; j++) {
                 if (grafo.adyacente((i * dimY) + j, ((i + 1) * dimY) + j)) {
-                    out += "     ";
+                    out += "    ";
                 } else {
-                    out += "---";
+                    out += "----";
                 }
             }
             out += "\n";
-            System.out.print(out);
-            out = "";
+            //System.out.print(out);
+            //out = "";
 
         }
 

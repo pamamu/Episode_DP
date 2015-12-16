@@ -76,7 +76,7 @@ public class Imperial extends Personaje {
     public void accionPuerta() {
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
         puerta.cerradura.reiniciar();
-        setRuta(rutaInicial);
+        setRuta((LinkedList<Camino>)rutaInicial.clone());
         mover();
     }
 

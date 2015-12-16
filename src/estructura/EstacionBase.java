@@ -5,6 +5,7 @@
  */
 package estructura;
 
+import etc.Logger;
 import java.util.PriorityQueue;
 import personajes.Personaje;
 
@@ -93,7 +94,8 @@ public class EstacionBase {
             int npersonajes = personajes.size();
             for(int i = 0;i < npersonajes; i++){
                 Personaje actual = sacarPersonaje();
-                if(actual.getTurno() < turno)
+                
+                if(actual.getTurno() == turno)
                     actual.accion();
                 else
                     insertarPersonaje(actual);

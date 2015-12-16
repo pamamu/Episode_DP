@@ -9,6 +9,7 @@ import estructura.EstacionBase;
 import estructura.Galaxia;
 import estructura.Midicloriano;
 import etc.Camino;
+import etc.Logger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -82,7 +83,7 @@ public abstract class Personaje implements Comparable<Personaje> {
         this.marcaClase = marcaClase;
         this.nombre = nombre;
         this.midiclorianos = new ArrayList<>();
-        this.turno = 0;
+        this.turno = turnoInicio;
         this.turnoInicio = turnoInicio;
         this.ruta = new LinkedList<Camino>();
         this.estacionPosicion = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
@@ -289,9 +290,12 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public void mover() {
+        
         EstacionBase estacionDestino = getSiguienteEstacion();
         if (estacionDestino != null) {
             moverA(estacionDestino);
+        }else{
+            moverA(estacionPosicion);
         }
     }
 
@@ -306,6 +310,11 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public void accion() {
+        
+        Logger.obtenerInstancia().escribeLog(this.getClass().toString() + ":"
+                    + this.getMarcaClase()+":"+this.getEstacionPosicion().getID()+":"
+                    + this.getTurno()+":"+ this.midiclorianos, 4);
+        
         if (estacionPosicion.esPuerta()) {
             accionPuerta();
         } else {

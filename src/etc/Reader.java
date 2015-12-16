@@ -65,8 +65,8 @@ public class Reader {
                                             //la entrada
         String ruta = "./files/datos.txt";  //Ruta del fichero de entrada
 
-        Logger.obtenerInstancia().escribelog("Leyendo fichero de configuracion "
-                + "inicial");
+//        Logger.obtenerInstancia().escribelog("Leyendo fichero de configuracion "
+//                + "inicial");
         
         try {
             //Apertura del fichero
@@ -85,8 +85,8 @@ public class Reader {
         } catch (Exception e) {
             System.err.println("El archivo parece que no se encuentra en " 
                     + ruta);
-            Logger.obtenerInstancia().escribeLog("Fallo al abrir el archivo de "
-                    + "configuracion inicial\n" + e.getMessage(), 3);
+//            Logger.obtenerInstancia().escribeLog("Fallo al abrir el archivo de "
+//                    + "configuracion inicial\n" + e.getMessage(), 3);
         }
 
     }
@@ -141,8 +141,8 @@ public class Reader {
                 codigo = null;
         }
         
-        Logger.obtenerInstancia().escribelog("Obteniendo datos de personajes "
-                + "tipo " + codigo);
+//        Logger.obtenerInstancia().escribelog("Obteniendo datos de personajes "
+//                + "tipo " + codigo);
         
         //Escaner sobre el string de entrada de datos
         Scanner line = new Scanner(datos);
@@ -205,7 +205,7 @@ public class Reader {
         //Bandera de salida del bucle al encontrar la linea de datos
         boolean hayDatos = false;
         
-        Logger.obtenerInstancia().escribelog("Obteniendo datos de la galaxia");
+//        Logger.obtenerInstancia().escribelog("Obteniendo datos de la galaxia");
         
         //Bucle sobre las lineas de informacion de los datos obtenidos del fichero
         while (line.hasNextLine() && !hayDatos) {
