@@ -225,6 +225,10 @@ public class Galaxia {
     public int getIdEstacionPuerta() {
         return idEstacionPuerta;
     }
+    
+    public EstacionBase getEstacionLiberty(){
+        return LibertyStation;
+    }
 
     /**
      * Método que introduce ED con ruta desde la estacion de inicio hasta
@@ -411,18 +415,6 @@ public class Galaxia {
             }
         }
         
-        System.out.println("Combinacion inicio "+
-                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
-                        .cerradura.combinacionInicio.toString());
-        
-        System.out.println("Midis Iniciales "+
-                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
-                        .cerradura.midiclorianosIniciales.toString());
-        
-        System.out.println("Midis  Probados"+
-                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
-                        .cerradura.midiclorianosProbados.toString());
-        
         System.out.println("Cerradura info"+
                 ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
                         .cerradura.informacionCerradura());
@@ -434,6 +426,19 @@ public class Galaxia {
         
         Logger.obtenerInstancia().escribeLog(this.imprimirLaberinto2(), 4);
         
+    }
+    
+    public void fin(){
+        String output = "";
+        output += " _______________"+"\n";
+        output += "| ESTACION LIB  |"+"\n";
+        output += "|               |"+"\n";
+        output += "|"+LibertyStation.imprimirPersonajes()+"\t|"+"\n";
+        output += "|               |"+"\n";
+        output += " _______________";
+        
+        System.out.println("FIN DE LA SIMULACION");
+        System.out.println(output);
     }
 
     /**

@@ -97,6 +97,11 @@ public class Imperial extends Personaje {
             }
         }
     }
+    
+    @Override
+    public void fin(){
+        
+    }
 
     /**
      * Método para generar un camino utilizando el recorrido por caminos mínimos

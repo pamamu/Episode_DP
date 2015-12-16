@@ -1,4 +1,5 @@
 
+import estructura.EstacionPuerta;
 import estructura.Galaxia;
 import etc.Loader;
 import etc.Logger;
@@ -25,14 +26,23 @@ public class Main {
         System.out.println(galaxia.imprimirLaberinto2());
         
         //Simulacion de turnos
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             
-            galaxia.accion(i+1);
+            if(((EstacionPuerta)galaxia.getEstacion(galaxia.getIdEstacionPuerta()))
+                    .cerradura.Abierta()){
+                
+                galaxia.fin();
+                
+                break;
+            }else{
+                
+                galaxia.accion(i+1);
+                
+                System.out.println("TURNO " + (i+1));
             
-            System.out.println("TURNO " + (i+1));
-            
-            System.out.println(galaxia.imprimirLaberinto2());
-            System.out.println(galaxia.imprimir());
+                System.out.println(galaxia.imprimirLaberinto2());
+                System.out.println(galaxia.imprimir());
+            }
             
             try {
                 Thread.sleep(10);

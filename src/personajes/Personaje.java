@@ -311,6 +311,10 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     public void accion() {
         
+        System.out.println(this.getClass().toString() + ":"
+            + this.getMarcaClase()+":"+this.getEstacionPosicion().getID()+":"
+            + this.getTurno()+":"+this.midiclorianos);
+        
         Logger.obtenerInstancia().escribeLog(this.getClass().toString() + ":"
                     + this.getMarcaClase()+":"+this.getEstacionPosicion().getID()+":"
                     + this.getTurno()+":"+ this.midiclorianos, 4);
@@ -332,6 +336,7 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     public abstract void accionPuerta();
 
+    public abstract void fin();
     /**
      * Método que acciona el comportamiento de un personaje en una estacion
      *

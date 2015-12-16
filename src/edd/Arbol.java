@@ -134,11 +134,37 @@ public class Arbol<tipodato extends Comparable<tipodato>> {
 	 * @return verdadero si el dato se encuentra en el �rbol, falso en caso
 	 *         contrario
 	 */
+//	public boolean pertenece(tipodato dato) {
+//		Arbol<tipodato> aux = null;
+//		boolean encontrado = false;
+//		if (!vacio()) {
+//			if (this.datoRaiz.equals(dato))
+//				encontrado = true;
+//			else {
+//				if (dato.compareTo(this.datoRaiz) < 0) // dato < datoRaiz
+//					aux = getHijoIzq();
+//				else // dato > datoRaiz
+//					aux = getHijoDer();
+//				if (aux != null)
+//					encontrado = aux.pertenece(dato);
+//			}
+//		}
+//		return encontrado;
+//	}
+        
+        /**
+	 * Comprueba si un dato se encuentra almacenado en el �rbol
+	 *
+	 * @param dato
+	 *            El dato a buscar
+	 * @return verdadero si el dato se encuentra en el �rbol, falso en caso
+	 *         contrario
+	 */
 	public boolean pertenece(tipodato dato) {
 		Arbol<tipodato> aux = null;
 		boolean encontrado = false;
 		if (!vacio()) {
-			if (this.datoRaiz.equals(dato))
+			if (this.datoRaiz.compareTo(dato) == 0)
 				encontrado = true;
 			else {
 				if (dato.compareTo(this.datoRaiz) < 0) // dato < datoRaiz

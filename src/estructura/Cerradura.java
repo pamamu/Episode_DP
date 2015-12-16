@@ -270,10 +270,15 @@ public class Cerradura {
      * un elemento más si no había sido probado anteriormente
      * @complex O(n)
      */
-    public boolean probarMidicloriano(Midicloriano midicloriano) {
+    public boolean probarMidicloriano(Midicloriano midicloriano) throws InterruptedException {
         if (midiclorianosProbados.pertenece(midicloriano)) {
+            Thread.sleep(100);  //DEJAMOS TIEMPO PARA QUE EL BUFFER DE ESCRITURA QUEDE LIBRE
+            System.err.println("ALARMA MIDICLORIANO " + midicloriano.getID()
+                + " YA HA SIDO PROBADO");
+            Thread.sleep(2000); //PAUSAMOS PARA QUE SE MUESTRE LA ALARMA
             return false;
         }
+
         if (combinacionCerradura.pertenece(midicloriano)) {
             combinacionCerradura.borrar(midicloriano);
         }
@@ -305,7 +310,7 @@ public class Cerradura {
      */
     public void comprobarEstado() {
         if (profundidad(combinacionCerradura) < alturaDesbloqueo
-                && nodosInternos(combinacionCerradura) >= nodosExternos(combinacionCerradura)) {
+            && nodosInternos(combinacionCerradura) >= nodosExternos(combinacionCerradura)) {
             estado = true;
         }
     }

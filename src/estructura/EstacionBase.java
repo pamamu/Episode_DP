@@ -93,13 +93,22 @@ public class EstacionBase {
         if(!personajes.isEmpty()){
             int npersonajes = personajes.size();
             for(int i = 0;i < npersonajes; i++){
+                if(this.esPuerta() && ((EstacionPuerta)this).cerradura.Abierta()){
+                    break;
+                }
                 Personaje actual = sacarPersonaje();
-                
+
                 if(actual.getTurno() == turno)
                     actual.accion();
                 else
                     insertarPersonaje(actual);
             }
+        }
+    }
+    
+    public void fin(){
+        while(!personajes.isEmpty()){
+            this.sacarPersonaje().fin();
         }
     }
     

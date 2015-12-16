@@ -11,6 +11,8 @@ import estructura.Galaxia;
 import estructura.Midicloriano;
 import etc.Camino;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * <p color="#01DF01">
@@ -96,10 +98,22 @@ public class LightSide extends Personaje {
         Midicloriano midicloriano = sacarMidicloriano();
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
         if (midicloriano != null) {
-            System.out.println("Probando MIDICLORIANO "+midicloriano.getID());
-            puerta.cerradura.probarMidicloriano(midicloriano);
+            try {
+                puerta.cerradura.probarMidicloriano(midicloriano);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(LightSide.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         moverA(estacionPosicion);
+        
+        if(puerta.cerradura.Abierta()){
+            puerta.fin();
+        }
+    }
+    
+    @Override
+    public void fin(){
+        moverA(Galaxia.obtenerInstancia().getEstacionLiberty());
     }
 
     /**

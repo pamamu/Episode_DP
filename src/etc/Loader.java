@@ -80,6 +80,7 @@ public class Loader {
         //Llamada para repartir los midiclorianos una vez ya se conocen los caminos
         Galaxia.obtenerInstancia().repartirMidiclorianos(
                 Galaxia.obtenerInstancia().generarMidiclorianosGalaxia());
+        
 
     }
 
@@ -107,22 +108,25 @@ public class Loader {
         String[] dataGalaxy = lector.getDatosGalaxia();
 
         Cerradura cerradura = new Cerradura(Integer.parseInt(dataGalaxy[4]));
+        // Creación de la lista de identificadores impares
+        // {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29}
 
+        int numMidis = 15;
+        int deepCombination = 4;
 
-        
-        int numeroMidiclorianos = 15;
         ArrayList<Midicloriano> combinacion = new ArrayList<>();
-        
-        for (int i = 0, j = 1; i < numeroMidiclorianos; i++) {
-            Midicloriano midi = new Midicloriano(j);
-            combinacion.add(midi);
-            System.out.println("Midi Generado " + j);
+        int j = 1;
+        for (int i = 0; i < numMidis; i++) {
+            Midicloriano m = new Midicloriano(j);
+            combinacion.add(m);
             j += 2;
         }
         
         cerradura.setCombinacionInicial(combinacion);
         cerradura.generarCombinacion();
-
+        
+        cerradura.setEstado(false);
+        
         EstacionPuerta puerta = new EstacionPuerta(
                 Integer.parseInt(dataGalaxy[3]), cerradura);
 
@@ -158,10 +162,10 @@ public class Loader {
                     0, Integer.parseInt(datosPersonaje[i][3]));
 
             jedi.generarCamino();
-
-            Logger.obtenerInstancia().escribeLog("ruta:" + jedi.getMarcaClase()
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+jedi.getMarcaClase()
                     + ":" + jedi.getRuta().toString(), 4);
-
+            
             personajes.add(jedi);
         }
 
@@ -176,8 +180,8 @@ public class Loader {
                     Integer.parseInt(datosPersonaje[i][3]));
 
             contrabandista.generarCamino();
-
-            Logger.obtenerInstancia().escribeLog("ruta:" + contrabandista.getMarcaClase()
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+contrabandista.getMarcaClase()
                     + ":" + contrabandista.getRuta().toString(), 4);
             personajes.add(contrabandista);
         }
@@ -191,10 +195,10 @@ public class Loader {
                     Integer.parseInt(datosPersonaje[i][3]));
 
             real.generarCamino();
-
-            Logger.obtenerInstancia().escribeLog("ruta:" + real.getMarcaClase()
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+real.getMarcaClase()
                     + ":" + real.getRuta().toString(), 4);
-
+            
             personajes.add(real);
         }
 
@@ -208,15 +212,15 @@ public class Loader {
                     Integer.parseInt(datosPersonaje[i][3]));
 
             imperial.generarCamino();
-
-            Logger.obtenerInstancia().escribeLog("ruta:" + imperial.getMarcaClase()
+            
+            Logger.obtenerInstancia().escribeLog("ruta:"+imperial.getMarcaClase()
                     + ":" + imperial.getRuta().toString(), 4);
-
+            
             imperial.setMidiclorianos(Galaxia.obtenerInstancia().generarMidiclorianos());
-
+            
             personajes.add(imperial);
         }
-
+        
     }
 
     // PUBLICOS ################################################################
