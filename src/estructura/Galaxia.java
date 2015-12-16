@@ -5,13 +5,9 @@
  */
 package estructura;
 
-import com.sun.org.apache.bcel.internal.generic.FREM;
 import edd.Grafo;
 import etc.GenAleatorios;
 import java.util.ArrayList;
-import personajes.FamiliaReal;
-import personajes.Imperial;
-import personajes.LightSide;
 
 /**
  * <p color="#01DF01">
@@ -72,6 +68,11 @@ public class Galaxia {
      * Estructura de datos que almacena las paredes
      */
     private ArrayList<Pared> paredes;
+    /**
+     * Array de enteros que indica cuantas veces se ha pasado por una
+     * determinada estación
+     */
+    private ArrayList<Integer> pasosPorEstaciones;
 
     /**
      * Clase donde se especifica e implementa el objeto Pared Usado en la
@@ -157,6 +158,7 @@ public class Galaxia {
         }
         paredes = new ArrayList<>();
         grafo = new Grafo();
+        pasosPorEstaciones = new ArrayList<>();
 
     }
 
@@ -223,6 +225,21 @@ public class Galaxia {
         return idEstacionPuerta;
     }
 
+    /**
+     * Método que introduce ED con ruta desde la estacion de inicio hasta
+     * estación de fin.
+     *
+     * @param pasosPorEstaciones ED con ruta desde la estacion de inicio hasta
+     * la estacion de fin o salida.
+     * @pre Galaxia inicializada con éxito
+     * @post pasosPorEstaciones toma el valor del parámetro de entrada.
+     * @complex O(1)
+     *
+     */
+    public void setPasosPorEstaciones(ArrayList<Integer> pasosPorEstaciones) {
+        this.pasosPorEstaciones = (ArrayList<Integer>) pasosPorEstaciones.clone();
+    }
+
 // PRIVADOS ################################################################
     /**
      * Método para construir las paredes iniciales - Conectar todas las
@@ -264,24 +281,6 @@ public class Galaxia {
             }
         }
     }
-// PÚBLICOS #################################################################
-
-    /**
-     * Método para construir una Galaxia inicial.
-     *
-     * @pre Galaxia inicializada con éxito
-     * @post Se crean todos los nodos (ID de estaciones) y se llama a
-     * construirParedesIni()
-     * @complex O(n)
-     */
-    public void construirGalaxia() {
-        //CREACION DE NODOS
-        for (int i = 0; i < dimX * dimY; i++) {
-            grafo.nuevoNodo(i);
-        }
-        //CREACION DE PAREDES
-        construirParedesIni();
-    }
 
     /**
      * Expande un ID a todos los IDs con valor = varinicial
@@ -302,6 +301,24 @@ public class Galaxia {
                 }
             }
         }
+    }
+
+// PÚBLICOS #################################################################
+    /**
+     * Método para construir una Galaxia inicial.
+     *
+     * @pre Galaxia inicializada con éxito
+     * @post Se crean todos los nodos (ID de estaciones) y se llama a
+     * construirParedesIni()
+     * @complex O(n)
+     */
+    public void construirGalaxia() {
+        //CREACION DE NODOS
+        for (int i = 0; i < dimX * dimY; i++) {
+            grafo.nuevoNodo(i);
+        }
+        //CREACION DE PAREDES
+        construirParedesIni();
     }
 
     /**
@@ -344,10 +361,42 @@ public class Galaxia {
             }
         }
     }
+    
+    public ArrayList<Midicloriano> generarMidiclorianos(){
+        ArrayList<Midicloriano> midiclorianos = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            midiclorianos.add(new Midicloriano(i));
+        }
+        return midiclorianos;
+    }
+    
+    public ArrayList<Midicloriano> generarMidiclorianosGalaxia() {
+        ArrayList<Midicloriano> midiclorianos = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            Midicloriano mid = new Midicloriano(i);
+            midiclorianos.add(mid);
+            if (i % 2 != 0) {
+                midiclorianos.add(mid);
+            }
+        }
+        return midiclorianos;
+    }
+
+    public void repartirMidiclorianos(ArrayList<Midicloriano> midiclorianos) {
+        if (pasosPorEstaciones.isEmpty()) {
+            return;
+        }
+        while (!midiclorianos.isEmpty()) {
+            EstacionBase estacion = getEstacion(pasosPorEstaciones.remove(0));
+            for (int i = 0; !midiclorianos.isEmpty() && i < 5; i++) {
+                Midicloriano mid = midiclorianos.remove(0);
+                estacion.insertarMidicloriano(mid);
+            }
+        }
+    }
 
     /**
-     * Método que controla el movimiento de los personajes con el turno
-     * global
+     * Método que controla el movimiento de los personajes con el turno global
      *
      * @param turno indica el turno que se esta ejecutando
      *
@@ -361,7 +410,7 @@ public class Galaxia {
             }
         }
     }
-    
+
     /**
      * Método que convierte un ID de la estación en coordenadas cartesianas
      *
@@ -520,13 +569,13 @@ public class Galaxia {
         return output;
     }
 
-/**
-     * Devuelve informacion sobre todas las estaciones de la galaxia y los 
+    /**
+     * Devuelve informacion sobre todas las estaciones de la galaxia y los
      * personajes que residen en cada estacion en forma mini
      *
      * @return Devuelve String con informacion sobre la galaxia en
-     *  cuadriculas(estaciones) y los personajes existentes en ellas
-     * @pre  Galaxia inicializada y cargada correctamente
+     * cuadriculas(estaciones) y los personajes existentes en ellas
+     * @pre Galaxia inicializada y cargada correctamente
      * @post Devuelve string con el TABLERO de la galaxia y los personajes
      * @complex O(n^2)
      */
@@ -598,16 +647,17 @@ public class Galaxia {
 
         return out;
     }
-    
+
     /**
      * VARIACION DEL ANTERIOR POR INCOMPATIBILIDAD AL MOSTRARSE
-     * 
-     * Devuelve informacion sobre todas las estaciones de la galaxia y personajes
-     * que residen en cada una de las estaciones en forma de MINI MAPA DEL GRAFO
+     *
+     * Devuelve informacion sobre todas las estaciones de la galaxia y
+     * personajes que residen en cada una de las estaciones en forma de MINI
+     * MAPA DEL GRAFO
      *
      * @return Devuelve String con informacion sobre la galaxia en
-     *  cuadriculas(estaciones) con forma de MAPA y los personajes exitentes
-     * @pre  Galaxia inicializada y cargada correctamente
+     * cuadriculas(estaciones) con forma de MAPA y los personajes exitentes
+     * @pre Galaxia inicializada y cargada correctamente
      * @post Devuelve string con mapa de la galaxia
      * @complex O(n^2)
      */
@@ -623,20 +673,20 @@ public class Galaxia {
                 if (j == 0) {
                     if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
                         //out += "  a  ";
-                        out += "  "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
+                        out += "  " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
                     } else {
-                        out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  |";
+                        out += " " + Estaciones[i][j].imprimirPersonajesMarca() + "  |";
                     }
 
                 } else if (j == dimY - 1) {
                     //out += "  b  ";
-                    out += " "+Estaciones[i][j].imprimirPersonajesMini()+" ";
+                    out += " " + Estaciones[i][j].imprimirPersonajesMini() + " ";
                 } else if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
                     //out += "  c  ";
-                    out += "  "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
+                    out += "  " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
                 } else {
                     //out += "  g |";
-                    out += "  "+Estaciones[i][j].imprimirPersonajesMarca()+ " |";
+                    out += "  " + Estaciones[i][j].imprimirPersonajesMarca() + " |";
                 }
             }
             out += "|\n";
@@ -658,23 +708,4 @@ public class Galaxia {
         return out;
     }
 
-//    /**
-//     * Método de prueba rapida de la galaxia y sus funciones
-//     * 
-//     * @param args 
-//     */
-//    public static void main(String[] args) {
-//        Cerradura cerradura = new Cerradura(4);
-//        EstacionPuerta estacion = new EstacionPuerta(35, cerradura);
-//        Galaxia galaxia = Galaxia.obtenerInstancia(35, estacion, 6, 6);
-//        galaxia.construirGalaxia();
-//        galaxia.generarLaberinto();
-//        //METODOS MOSTRAR DE PABLO
-//        //System.out.println(galaxia.imprimir());
-//        //System.out.println(galaxia.imprimirLaberinto());
-//        
-//        //METODOS MOSTRAR DE FERNANDO POR INCOMPATIBILIDADES
-//        System.out.println(galaxia.imprimirMini());
-//        System.out.println(galaxia.imprimirLaberinto2());
-//    }
 }

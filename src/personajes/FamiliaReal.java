@@ -106,9 +106,12 @@ public class FamiliaReal extends LightSide {
 
 // PÚBLICOS #################################################################
     /**
+     * Método para generar un camino del personaje
      *
-     * @pre -
-     * @post -
+     * @pre Personaje y galaxia inicializada con éxito
+     * @post Se genera un camino utilizando generarCaminoBT, se introduce en el
+     * personaje con setRuta y se introduce el camino en el parámetro de Galaxia
+     * pasosPorEstacion.
      * @complex O()
      */
     @Override
@@ -117,7 +120,10 @@ public class FamiliaReal extends LightSide {
         ArrayList<Integer> solucion = new ArrayList<>();
         int tamaniogalaxia = galaxia.getDimX() * galaxia.getDimY();
         generarCaminoBT(galaxia.getGrafo(), solucion, 0, estacionPosicion.getID(), galaxia.getIdEstacionPuerta(), tamaniogalaxia);
-        setRuta(solucion);
+        setRuta((ArrayList<Integer>) solucion.clone());
+        solucion.add(0, estacionPosicion.getID());
+        solucion.remove(solucion.size()-1);
+        galaxia.setPasosPorEstaciones(solucion);
     }
 
 }

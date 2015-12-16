@@ -142,7 +142,7 @@ public class Main {
         Imperial imperial = new Imperial('I', "Personaje", galaxia.getIdEstacionPuerta(), 1);
         Jedi jedi = new Jedi('J', "Obiwan", 0, 1);
         Contrabandista cont = new Contrabandista('C', "Han Solo", 30, 3);
-        FamiliaReal fr = new FamiliaReal('F', "Leia", 5, 5);
+        FamiliaReal fr = new FamiliaReal('F', "Leia", 0, 5);
         
         galaxia.construirGalaxia();
         galaxia.generarLaberinto();
@@ -150,16 +150,13 @@ public class Main {
         galaxia.getGrafo().warshall();
         
         imperial.generarCamino();
+        imperial.setMidiclorianos(galaxia.generarMidiclorianos());
         jedi.generarCamino();
         cont.generarCamino();
         fr.generarCamino();
+        galaxia.repartirMidiclorianos(galaxia.generarMidiclorianosGalaxia());
         
-        imperial.recogerMidicloriano(new Midicloriano(15));
-        imperial.recogerMidicloriano(new Midicloriano(15));
-        imperial.recogerMidicloriano(new Midicloriano(15));
-        imperial.recogerMidicloriano(new Midicloriano(15));
-        imperial.recogerMidicloriano(new Midicloriano(15));
-        imperial.recogerMidicloriano(new Midicloriano(15));
+        
         
         for (int i = 0; i < 50; i++) {
         galaxia.accion(i);
