@@ -52,6 +52,10 @@ public class Contrabandista extends LightSide{
 // PRIVADOS ################################################################
 
 // PÚBLICOS #################################################################
+        @Override
+    public String getTipo() {
+        return "contrabandista";
+    }
 
 
 }

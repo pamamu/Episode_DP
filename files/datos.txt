@@ -17,7 +17,7 @@
 --CONTRABANDISTA#HanSolo#H#1#
 
 --Galaxia
-GALAXIA#10#10#99#5#
+GALAXIA#6#6#35#5#
 --Personajes de la simulación
 FAMILIAREAL#Leia#L#1#
 JEDI#LukeSkyWalker#S#2#

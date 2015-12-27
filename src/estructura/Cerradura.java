@@ -6,6 +6,7 @@
 package estructura;
 
 import edd.Arbol;
+import etc.Logger;
 import java.util.ArrayList;
 
 /**
@@ -330,6 +331,17 @@ public class Cerradura {
         output += "\n\tMidiclorianos Internos: " + nodosInternos(combinacionCerradura);
         output += "\n\tMidiclorianos Externos: " + nodosExternos(combinacionCerradura);
         return output;
+    }
+    
+    public void toLog() {
+        String info = "";
+        info += "(puerta:";//Parentesis inicio
+        info += (this.estado)?"abierta:":"cerrada:";
+        info += "";
+        info += "";
+        info += ")";//Parentesis fin
+
+        Logger.obtenerInstancia().escribeLog(info, 4);
     }
    
 

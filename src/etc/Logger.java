@@ -140,7 +140,7 @@ public class Logger {
                 msgTipo = "INFO: ";
         }
         
-        buffer += "\n" + msgTipo + mensaje;
+        buffer += msgTipo + mensaje;
         
         //Forzado de escritura tras un error critico
         if(tipo == 3)

@@ -80,7 +80,6 @@ public class Loader {
         //Llamada para repartir los midiclorianos una vez ya se conocen los caminos
         Galaxia.obtenerInstancia().repartirMidiclorianos(
                 Galaxia.obtenerInstancia().generarMidiclorianosGalaxia());
-        
 
     }
 
@@ -121,25 +120,26 @@ public class Loader {
             combinacion.add(m);
             j += 2;
         }
-        
+
         cerradura.setCombinacionInicial(combinacion);
         cerradura.generarCombinacion();
-        
+
         cerradura.setEstado(false);
-        
+
         EstacionPuerta puerta = new EstacionPuerta(
                 Integer.parseInt(dataGalaxy[3]), cerradura);
 
         //Crea la galaxia respecto a las especificaciones del archivo de datos
-        Galaxia.obtenerInstancia(Integer.parseInt(dataGalaxy[3]), //Num Puerta
+        Galaxia galaxia;
+        galaxia = Galaxia.obtenerInstancia(Integer.parseInt(dataGalaxy[3]), //Num Puerta
                 puerta,
                 Integer.parseInt(dataGalaxy[2]), //Ancho
                 Integer.parseInt(dataGalaxy[1]));//Alto
 
-        Galaxia.obtenerInstancia().construirGalaxia();
-        Galaxia.obtenerInstancia().generarLaberinto();
-        Galaxia.obtenerInstancia().getGrafo().floyd();
-        Galaxia.obtenerInstancia().getGrafo().warshall();
+        galaxia.construirGalaxia();
+        galaxia.generarLaberinto();
+        galaxia.getGrafo().floyd();
+        galaxia.getGrafo().warshall();
 
         Logger.obtenerInstancia().escribeLog(
                 Galaxia.obtenerInstancia().imprimirLaberinto2(), 4);
@@ -153,6 +153,9 @@ public class Loader {
     private void loadDataCharacters() {
 
         String[][] datosPersonaje;
+        Galaxia galaxia = Galaxia.obtenerInstancia();
+        Logger logger = Logger.obtenerInstancia();
+        String msg;
 
         //Crea los Jedis
         datosPersonaje = lector.getJedis();
@@ -162,10 +165,8 @@ public class Loader {
                     0, Integer.parseInt(datosPersonaje[i][3]));
 
             jedi.generarCamino();
-            
-            Logger.obtenerInstancia().escribeLog("ruta:"+jedi.getMarcaClase()
-                    + ":" + jedi.getRuta().toString(), 4);
-            
+            jedi.toLogini();
+
             personajes.add(jedi);
         }
 
@@ -175,14 +176,12 @@ public class Loader {
         for (int i = 0; i < datosPersonaje.length; i++) {
             contrabandista = new Contrabandista(datosPersonaje[i][2].charAt(0),
                     datosPersonaje[i][1],
-                    Galaxia.obtenerInstancia().getEstacion(
-                            (Galaxia.obtenerInstancia().getDimX() - 1), 0).getID(),
+                    galaxia.getEstacion(
+                            (galaxia.getDimX() - 1), 0).getID(),
                     Integer.parseInt(datosPersonaje[i][3]));
 
             contrabandista.generarCamino();
-            
-            Logger.obtenerInstancia().escribeLog("ruta:"+contrabandista.getMarcaClase()
-                    + ":" + contrabandista.getRuta().toString(), 4);
+            contrabandista.toLogini();
             personajes.add(contrabandista);
         }
 
@@ -195,10 +194,7 @@ public class Loader {
                     Integer.parseInt(datosPersonaje[i][3]));
 
             real.generarCamino();
-            
-            Logger.obtenerInstancia().escribeLog("ruta:"+real.getMarcaClase()
-                    + ":" + real.getRuta().toString(), 4);
-            
+            real.toLogini();
             personajes.add(real);
         }
 
@@ -208,16 +204,14 @@ public class Loader {
         for (int i = 0; i < datosPersonaje.length; i++) {
             imperial = new Imperial(datosPersonaje[i][2].charAt(0),
                     datosPersonaje[i][1],
-                    Galaxia.obtenerInstancia().getIdEstacionPuerta(),
+                    galaxia.getIdEstacionPuerta(),
                     Integer.parseInt(datosPersonaje[i][3]));
 
             imperial.generarCamino();
-            
-            Logger.obtenerInstancia().escribeLog("ruta:"+imperial.getMarcaClase()
-                    + ":" + imperial.getRuta().toString(), 4);
-            
-            imperial.setMidiclorianos(Galaxia.obtenerInstancia().generarMidiclorianos());
-            
+            imperial.toLogini();
+
+            imperial.setMidiclorianos(galaxia.generarMidiclorianos());
+
             personajes.add(imperial);
         }
         

@@ -290,11 +290,11 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public void mover() {
-        
+
         EstacionBase estacionDestino = getSiguienteEstacion();
         if (estacionDestino != null) {
             moverA(estacionDestino);
-        }else{
+        } else {
             moverA(estacionPosicion);
         }
     }
@@ -310,15 +310,6 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @complex O(1)
      */
     public void accion() {
-        
-        System.out.println(this.getClass().toString() + ":"
-            + this.getMarcaClase()+":"+this.getEstacionPosicion().getID()+":"
-            + this.getTurno()+":"+this.midiclorianos);
-        
-        Logger.obtenerInstancia().escribeLog(this.getClass().toString() + ":"
-                    + this.getMarcaClase()+":"+this.getEstacionPosicion().getID()+":"
-                    + this.getTurno()+":"+ this.midiclorianos, 4);
-        
         if (estacionPosicion.esPuerta()) {
             accionPuerta();
         } else {
@@ -337,6 +328,7 @@ public abstract class Personaje implements Comparable<Personaje> {
     public abstract void accionPuerta();
 
     public abstract void fin();
+
     /**
      * Método que acciona el comportamiento de un personaje en una estacion
      *
@@ -352,6 +344,8 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @see LightSide
      */
     public abstract void generarCamino();
+
+    public abstract String getTipo();
 
     /**
      * Método para comparar un Personaje con la instancia actual
@@ -379,5 +373,47 @@ public abstract class Personaje implements Comparable<Personaje> {
     @Override
     public String toString() {
         return String.valueOf(marcaClase) /*+ "\n" + ruta.toString()*/;
+    }
+    
+    public String rutaToString(){
+        String sruta = "";
+        int longruta = ruta.size();
+        Camino camino;
+        for (int i = 0; i < longruta; i++) {
+            camino = ruta.poll();
+            sruta+=" "+camino.toString();
+            ruta.add(camino);
+        }
+        return sruta;
+    }
+    
+    public String midicloriansToString(){
+        String smidiclorianos = "";
+        for (int i = 0; i < midiclorianos.size(); i++) {
+            smidiclorianos += " " + midiclorianos.get(i).getID();
+        }
+        return smidiclorianos;
+    }
+
+    public void toLogini(){
+        String info = "";
+        info += "(ruta:";//Sec inicio
+        info += String.valueOf(marcaClase) + ":"; //Marca del personaje
+        info += rutaToString();//Ruta del Personaje
+        info += ")";//Parentesis fin
+
+        Logger.obtenerInstancia().escribeLog(info, 4);
+    }
+    public void toLog() {
+        String info = "";
+        info += "(";//Parentesis inicio
+        info += getTipo() + ":";//Tipo personaje
+        info += String.valueOf(marcaClase) + ":"; //Marca del personaje
+        info += String.valueOf(estacionPosicion.getID())+":";//Id de estacionposicion
+        info += String.valueOf(turno)+":";//Turno
+        info += midicloriansToString();
+        info += ")";//Parentesis fin
+
+        Logger.obtenerInstancia().escribeLog(info, 4);
     }
 }

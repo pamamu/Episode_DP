@@ -169,4 +169,11 @@ public class Imperial extends Personaje {
         rutaInicial = getRuta();
     }
 
+    @Override
+    public String getTipo() {
+        return "imperial";
+    }
+    
+    
+
 }

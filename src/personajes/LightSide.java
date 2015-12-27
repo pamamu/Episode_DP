@@ -105,14 +105,14 @@ public class LightSide extends Personaje {
             }
         }
         moverA(estacionPosicion);
-        
-        if(puerta.cerradura.Abierta()){
+
+        if (puerta.cerradura.Abierta()) {
             puerta.fin();
         }
     }
-    
+
     @Override
-    public void fin(){
+    public void fin() {
         moverA(Galaxia.obtenerInstancia().getEstacionLiberty());
     }
 
@@ -235,6 +235,11 @@ public class LightSide extends Personaje {
         generarCaminoBT(galaxia.getGrafo(), solucion, estacionPosicion.getID(), galaxia.getIdEstacionPuerta(), Camino.NORTE);
         solucion.remove(0);
         setRuta(solucion);
+    }
+
+    @Override
+    public String getTipo() {
+        return "lighside";
     }
 
 }

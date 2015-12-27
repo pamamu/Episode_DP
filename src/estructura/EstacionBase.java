@@ -6,6 +6,7 @@
 package estructura;
 
 import etc.Logger;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import personajes.Personaje;
 
@@ -76,42 +77,42 @@ public class EstacionBase {
     }
 
 // PRIVADOS ################################################################
-    
 // PUBLICOS ################################################################
-    
     /**
      * Método accion implementa la accion llamando al método acción de cada
      * personaje existente en su estructura de almacenamiento de personajes
-     * 
+     *
      * @param turno Turno actual de la simulacion
      * @pre EstaciónBase inicializada correctamente.
      * @post Ejecuta la accion del personaje o vuelve a meterlo en el final
      * @complex O(n)
      */
-    public void accion(int turno){
-        
-        if(!personajes.isEmpty()){
+    public void accion(int turno) {
+
+        if (!personajes.isEmpty()) {
             int npersonajes = personajes.size();
-            for(int i = 0;i < npersonajes; i++){
-                if(this.esPuerta() && ((EstacionPuerta)this).cerradura.Abierta()){
+            for (int i = 0; i < npersonajes; i++) {
+                if (this.esPuerta() && ((EstacionPuerta) this).cerradura.Abierta()) {
                     break;
                 }
                 Personaje actual = sacarPersonaje();
 
-                if(actual.getTurno() == turno)
+                if (actual.getTurno() == turno) {
                     actual.accion();
-                else
+                } else {
                     insertarPersonaje(actual);
+                }
+
             }
         }
     }
-    
-    public void fin(){
-        while(!personajes.isEmpty()){
+
+    public void fin() {
+        while (!personajes.isEmpty()) {
             this.sacarPersonaje().fin();
         }
     }
-    
+
     /**
      * Método que inserta un midicloriano en la ED de la estación
      *
@@ -133,9 +134,10 @@ public class EstacionBase {
      * @complex O(1)
      */
     public Midicloriano sacarMidicloriano() {
-        if(!midiclorianos.isEmpty())
+        if (!midiclorianos.isEmpty()) {
             return midiclorianos.poll();
-        
+        }
+
         return null;
     }
 
@@ -226,7 +228,7 @@ public class EstacionBase {
 
     /**
      * Método que devuelve todos los Personajes en String
-     * 
+     *
      * @return String con todos los personajes actuales en la ED
      */
     public String imprimirPersonajes() {
@@ -243,59 +245,80 @@ public class EstacionBase {
 
         return output;
     }
-    
+
     /**
-     * Método que devuelve todos los Personajes en String para una representacion
-     * mini
-     * 
+     * Método que devuelve todos los Personajes en String para una
+     * representacion mini
+     *
      * Si hay mas de un personaje muestra el numero de personajes que hay
-     * 
+     *
      * @return String con todos los personajes actuales en la ED
-     * 
+     *
      */
     public String imprimirPersonajesMini() {
         String output = " ";
 
         if (!personajes.isEmpty()) {
-            
-            if(personajes.size() > 1)
+
+            if (personajes.size() > 1) {
                 output += personajes.size();
-            else
+            } else {
                 output += personajes.peek().getMarcaClase();
+            }
         } else {
             output += "  ";
         }
-        
+
         output += " ";
 
         return output;
     }
-    
+
     /**
-     * Método similar al imprimirPersonajesMini pero con la caracteristica de 
+     * Método similar al imprimirPersonajesMini pero con la caracteristica de
      * que solo devuelve la marca de personaje o espacio en blanco
-     * 
+     *
      * Si hay mas de un personaje muestra el numero de personajes que hay
-     * 
+     *
      * @return String con todos los personajes actuales en la ED
-     * 
+     *
      */
     public String imprimirPersonajesMarca() {
         String output = "";
 
         if (!personajes.isEmpty()) {
-            
-            if(personajes.size() > 1)
+
+            if (personajes.size() > 1) {
                 output += personajes.size();
-            else
+            } else {
                 output += personajes.peek().getMarcaClase();
+            }
         } else {
             output += " ";
         }
-        
+
         output += "";
 
         return output;
+    }
+
+    public String midiclorianosToString() {
+        String smidiclorianos = "";
+        ArrayList<Midicloriano> midis = new ArrayList<>(midiclorianos);
+        for (int i = 0; i < midis.size(); i++) {
+            smidiclorianos += " " + midis.get(i).getID();
+        }
+        return smidiclorianos;
+    }
+
+    public void toLog() {
+        String info = "";
+        info += "(estacion:";//Parentesis inicio
+        info += String.valueOf(ID) + ":";//Tipo personaje
+        info += midiclorianosToString();
+        info += ")";//Parentesis fin
+
+        Logger.obtenerInstancia().escribeLog(info, 4);
     }
 
 }

@@ -125,5 +125,10 @@ public class FamiliaReal extends LightSide {
         solucion.remove(solucion.size()-1);
         galaxia.setPasosPorEstaciones(solucion);
     }
+    
+        @Override
+    public String getTipo() {
+        return "familiareal";
+    }
 
 }

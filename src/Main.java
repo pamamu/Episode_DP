@@ -4,6 +4,7 @@ import estructura.Galaxia;
 import etc.Loader;
 import etc.Logger;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Main pruebas de funcionalidad sobre el proyecto
@@ -22,6 +23,7 @@ public class Main {
         Logger log = Logger.obtenerInstancia();
         Loader cargador = new Loader();
         Galaxia galaxia = Galaxia.obtenerInstancia();
+        galaxia.setPersonajes(cargador.getPersonajes());
         
         System.out.println(galaxia.imprimirLaberinto2());
         
@@ -36,12 +38,9 @@ public class Main {
                 break;
             }else{
                 
-                galaxia.accion(i+1);
-                
-                System.out.println("TURNO " + (i+1));
-            
-                System.out.println(galaxia.imprimirLaberinto2());
-                System.out.println(galaxia.imprimir());
+                galaxia.accion(i);
+                galaxia.toLog(i);
+
             }
             
             try {

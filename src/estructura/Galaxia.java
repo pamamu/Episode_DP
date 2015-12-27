@@ -9,6 +9,8 @@ import edd.Grafo;
 import etc.GenAleatorios;
 import etc.Logger;
 import java.util.ArrayList;
+import java.util.Arrays;
+import personajes.Personaje;
 
 /**
  * <p color="#01DF01">
@@ -61,6 +63,10 @@ public class Galaxia {
      * Estaciones que forman una galaxia
      */
     private EstacionBase[][] Estaciones;
+    /**
+     * Personajes de la Galaxia
+     */
+    private ArrayList<Personaje> personajes;
     /**
      * Estructura de datos que almacena las conexiones entre las galaxias
      */
@@ -160,6 +166,7 @@ public class Galaxia {
         paredes = new ArrayList<>();
         grafo = new Grafo();
         pasosPorEstaciones = new ArrayList<>();
+        personajes = new ArrayList<>();
 
     }
 
@@ -225,8 +232,8 @@ public class Galaxia {
     public int getIdEstacionPuerta() {
         return idEstacionPuerta;
     }
-    
-    public EstacionBase getEstacionLiberty(){
+
+    public EstacionBase getEstacionLiberty() {
         return LibertyStation;
     }
 
@@ -243,6 +250,11 @@ public class Galaxia {
      */
     public void setPasosPorEstaciones(ArrayList<Integer> pasosPorEstaciones) {
         this.pasosPorEstaciones = (ArrayList<Integer>) pasosPorEstaciones.clone();
+    }
+
+    public void setPersonajes(ArrayList<Object> personajes) {
+        Personaje[] array = personajes.toArray(new Personaje[personajes.size()]);
+        this.personajes = new ArrayList<>(Arrays.asList(array));
     }
 
 // PRIVADOS ################################################################
@@ -366,15 +378,15 @@ public class Galaxia {
             }
         }
     }
-    
-    public ArrayList<Midicloriano> generarMidiclorianos(){
+
+    public ArrayList<Midicloriano> generarMidiclorianos() {
         ArrayList<Midicloriano> midiclorianos = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             midiclorianos.add(new Midicloriano(i));
         }
         return midiclorianos;
     }
-    
+
     public ArrayList<Midicloriano> generarMidiclorianosGalaxia() {
         ArrayList<Midicloriano> midiclorianos = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
@@ -400,8 +412,7 @@ public class Galaxia {
     }
 
     /**
-     * Método que controla el movimiento de los personajes con el turno
-     * global
+     * Método que controla el movimiento de los personajes con el turno global
      *
      * @param turno indica el turno que se esta ejecutando
      *
@@ -414,29 +425,18 @@ public class Galaxia {
                 Estaciones[i][j].accion(turno);
             }
         }
-        
-        System.out.println("Cerradura info"+
-                ((EstacionPuerta)this.getEstacion(this.getIdEstacionPuerta()))
-                        .cerradura.informacionCerradura());
-        
-        Logger.obtenerInstancia().escribeLog("Turno: "+turno, 4);
-        Logger.obtenerInstancia().escribeLog("Galaxia: "+this.getIdEstacionPuerta(), 4);
-        Logger.obtenerInstancia().escribeLog(
-                        "Puerta: "+this.starsgate.cerradura.informacionCerradura(), 4);
-        
-        Logger.obtenerInstancia().escribeLog(this.imprimirLaberinto2(), 4);
-        
+
     }
-    
-    public void fin(){
+
+    public void fin() {
         String output = "";
-        output += " _______________"+"\n";
-        output += "| ESTACION LIB  |"+"\n";
-        output += "|               |"+"\n";
-        output += "|"+LibertyStation.imprimirPersonajes()+"\t|"+"\n";
-        output += "|               |"+"\n";
+        output += " _______________" + "\n";
+        output += "| ESTACION LIB  |" + "\n";
+        output += "|               |" + "\n";
+        output += "|" + LibertyStation.imprimirPersonajes() + "\t|" + "\n";
+        output += "|               |" + "\n";
         output += " _______________";
-        
+
         System.out.println("FIN DE LA SIMULACION");
         System.out.println(output);
     }
@@ -525,10 +525,11 @@ public class Galaxia {
             // Linea del id de celda
             output += "|";
             for (int e = 0; e < Estaciones[i].length; e++) {
-                if(Estaciones[i][e].esPuerta())
+                if (Estaciones[i][e].esPuerta()) {
                     output += "Tatooine\t";
-                else
+                } else {
                     output += "\t\t";
+                }
                 if (e == Estaciones[i].length - 1) {
                     output += "|";
                 } else if (grafo.adyacente((i * dimY) + e, (i * dimY) + e + 1)) {
@@ -607,8 +608,8 @@ public class Galaxia {
      * personajes que residen en cada estacion en forma mini
      *
      * @return Devuelve String con informacion sobre la galaxia en
-     *  cuadriculas(estaciones) y los personajes existentes en ellas
-     * @pre  Galaxia inicializada y cargada correctamente
+     * cuadriculas(estaciones) y los personajes existentes en ellas
+     * @pre Galaxia inicializada y cargada correctamente
      * @post Devuelve string con el TABLERO de la galaxia y los personajes
      * @complex O(n^2)
      */
@@ -683,9 +684,10 @@ public class Galaxia {
 
     /**
      * VARIACION DEL ANTERIOR POR INCOMPATIBILIDAD AL MOSTRARSE
-     * 
-     * Devuelve informacion sobre todas las estaciones de la galaxia y personajes
-     * que residen en cada una de las estaciones en forma de MINI MAPA DEL GRAFO
+     *
+     * Devuelve informacion sobre todas las estaciones de la galaxia y
+     * personajes que residen en cada una de las estaciones en forma de MINI
+     * MAPA DEL GRAFO
      *
      * @return Devuelve String con informacion sobre la galaxia en
      * cuadriculas(estaciones) con forma de MAPA y los personajes exitentes
@@ -694,7 +696,7 @@ public class Galaxia {
      * @complex O(n^2)
      */
     public String imprimirLaberinto2() {
-        String out = "\n";
+        String out = "";
         for (int i = 0; i < dimY; i++) {
             out += "----";
         }
@@ -705,20 +707,20 @@ public class Galaxia {
                 if (j == 0) {
                     if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
                         //out += "  a  ";
-                        out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
+                        out += " " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
                     } else {
-                        out += " "+Estaciones[i][j].imprimirPersonajesMarca()+" |";
+                        out += " " + Estaciones[i][j].imprimirPersonajesMarca() + " |";
                     }
 
                 } else if (j == dimY - 1) {
                     //out += "  b  ";
-                    out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
+                    out += " " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
                 } else if (grafo.adyacente((i * dimY) + j, (i * dimY) + j + 1)) {
                     //out += "  c  ";
-                    out += " "+Estaciones[i][j].imprimirPersonajesMarca()+"  ";
+                    out += " " + Estaciones[i][j].imprimirPersonajesMarca() + "  ";
                 } else {
                     //out += "  g |";
-                    out += " "+Estaciones[i][j].imprimirPersonajesMarca()+" |";
+                    out += " " + Estaciones[i][j].imprimirPersonajesMarca() + " |";
                 }
             }
             out += "|\n";
@@ -731,7 +733,9 @@ public class Galaxia {
                     out += "----";
                 }
             }
-            out += "\n";
+            if (i != dimX - 1) {
+                out += "\n";
+            }
             //System.out.print(out);
             //out = "";
 
@@ -740,4 +744,25 @@ public class Galaxia {
         return out;
     }
 
+    public void toLog(int turno) {
+
+        Logger logger = Logger.obtenerInstancia();
+
+        logger.escribeLog("(turno:" + turno + ")", 4);
+        logger.escribeLog("(galaxia:" + this.getIdEstacionPuerta() + ")", 4);
+        this.starsgate.cerradura.toLog();
+        Logger.obtenerInstancia().escribeLog(this.imprimirLaberinto2(), 4);
+        for (int i = 0; i < dimX; i++) {
+            for (int j = 0; j < dimY; j++) {
+                EstacionBase estacion = Estaciones[i][j];
+                if (!estacion.midiclorianos.isEmpty()) {
+                    estacion.toLog();
+                }
+            }
+        }
+        for (int i = 0; i < personajes.size(); i++) {
+            Personaje get = personajes.get(i);
+            get.toLog();
+        }
+    }
 }
