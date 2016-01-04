@@ -1,0 +1,280 @@
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|_    |_    |
+|_ _|_  | |_|
+|  _     _| |
+|_ _|_|  _  |
+|_ _ _ _ _|_|
+(ruta:L: E E S S E S S E E S)
+(ruta:S: E E S O O E S O E N E S E S O O O S E O N E E S N E S S O O O E E E E O N E E S)
+(ruta:H: E E E E O N E E S)
+(ruta:D: N O O N E N N E N S O S S O N O N N O O E E S S E S S S O O O E E E N E E S)
+(turno:0)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|2 _  |_ _  |
+|_    |_    |
+|_ _|_  | |_|
+|  _     _| |
+|_ _|_|  _  |
+|H _ _ _ _|D|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 3 4 5 5 6)
+(estacion:2: 7 7 8 9 9)
+(estacion:8: 10 11 11 12 13)
+(estacion:14: 13 14 15 15 16)
+(estacion:15: 17 17 18 19 19)
+(estacion:21: 20 21 21 22 23)
+(estacion:27: 23 24 25 25 26)
+(estacion:28: 27 27 28 29 29)
+(familiareal:L:0:1:)
+(jedi:S:0:2:)
+(contrabanadista:H:30:1:)
+(imperial:D:35:1: 29 27 25 23 21 19 17 15 13 11 9 7 5 3 1)
+(turno:1)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|S L  |_ _  |
+|_    |_    |
+|_ _|_  | |_|
+|  _     _| |
+|_ _|_|  _ D|
+|_ H _ _ _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 4 5 5 6)
+(estacion:2: 7 7 8 9 9)
+(estacion:8: 10 11 11 12 13)
+(estacion:14: 13 14 15 15 16)
+(estacion:15: 17 17 18 19 19)
+(estacion:21: 20 21 21 22 23)
+(estacion:27: 23 24 25 25 26)
+(estacion:28: 27 27 28 29 29)
+(jedi:S:0:2:)
+(familiareal:L:1:1: 3)
+(imperial:D:29:1: 29 27 25 23 21 19 17 15 13 11 9 7 5 3 1)
+(contrabanadista:H:31:1:)
+(turno:2)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ S L|_ _  |
+|_    |_    |
+|_ _|_  | |_|
+|  _     _| |
+|_ _|_|  D  |
+|_ _ H _ _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 7 8 9 9)
+(estacion:8: 10 11 11 12 13)
+(estacion:14: 13 14 15 15 16)
+(estacion:15: 17 17 18 19 19)
+(estacion:21: 20 21 21 22 23)
+(estacion:27: 23 24 25 25 26)
+(estacion:28: 27 27 28 29 29 29)
+(jedi:S:1:2: 4)
+(familiareal:L:2:2: 7 3)
+(imperial:D:28:2: 27 25 23 21 19 17 15 13 11 9 7 5 3 1)
+(contrabanadista:H:32:2:)
+(turno:3)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _ S|_ _  |
+|_   L|_    |
+|_ _|_  | |_|
+|  _     _| |
+|_ _|_|D _  |
+|_ _ _ H _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 11 12 13)
+(estacion:14: 13 14 15 15 16)
+(estacion:15: 17 17 18 19 19)
+(estacion:21: 20 21 21 22 23)
+(estacion:27: 23 24 25 25 26)
+(estacion:28: 27 27 28 29 29 29)
+(jedi:S:2:3: 7 4)
+(familiareal:L:8:3: 10 7 3)
+(imperial:D:27:3: 27 25 23 21 19 17 15 13 11 9 7 5 3 1)
+(contrabanadista:H:33:3:)
+(turno:4)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|_   S|_    |
+|_ _|L  | |_|
+|  _   D _| |
+|_ _|_|  _  |
+|_ _ _ _ H|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 17 18 19 19)
+(estacion:21: 20 21 21 22 23)
+(estacion:27: 23 24 25 25 26)
+(estacion:28: 27 27 28 29 29 29)
+(jedi:S:8:4: 11 7 4)
+(familiareal:L:14:4: 13 10 7 3)
+(imperial:D:21:4: 27 25 23 21 19 17 15 13 11 9 7 5 3 1)
+(contrabanadista:H:34:4:)
+(turno:5)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|_ S  |_    |
+|_ _|_ L| |_|
+|  _     D| |
+|_ _|_|  _  |
+|_ _ _ H _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 18 19 19)
+(estacion:21: 20 21 21 22 23)
+(estacion:22: 27)
+(estacion:27: 23 24 25 25 26)
+(estacion:28: 27 27 28 29 29 29)
+(jedi:S:7:5: 11 7 4)
+(familiareal:L:15:5: 17 13 10 7 3)
+(imperial:D:22:5: 25 23 21 19 17 15 13 11 9 7 5 3 1)
+(contrabanadista:H:33:5:)
+(turno:6)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|S    |_    |
+|_ _|_  |D|_|
+|  _   L _| |
+|_ _|_|H _  |
+|_ _ _ _ _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 18 19 19)
+(estacion:16: 25)
+(estacion:21: 21 21 22 23)
+(estacion:22: 27)
+(estacion:27: 24 25 25 26)
+(estacion:28: 27 27 28 29 29 29)
+(jedi:S:6:6: 11 7 4)
+(imperial:D:16:6: 23 21 19 17 15 13 11 9 7 5 3 1)
+(familiareal:L:21:6: 20 17 13 10 7 3)
+(contrabanadista:H:27:6: 23)
+(turno:7)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|_ S  |_ D  |
+|_ _|_  | |_|
+|  _     _| |
+|_ _|_|L H  |
+|_ _ _ _ _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:10: 23)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 18 19 19)
+(estacion:16: 25)
+(estacion:21: 21 21 22 23)
+(estacion:22: 27)
+(estacion:27: 25 25 26)
+(estacion:28: 27 28 29 29 29)
+(jedi:S:7:7: 11 7 4)
+(imperial:D:10:7: 21 19 17 15 13 11 9 7 5 3 1)
+(familiareal:L:27:7: 24 20 17 13 10 7 3)
+(contrabanadista:H:28:7: 27 23)
+(turno:8)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|_    |_   D|
+|_ S|_  | |_|
+|  _     _| |
+|_ _|_|  L H|
+|_ _ _ _ _|_|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:10: 23)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 18 19 19)
+(estacion:16: 25)
+(estacion:21: 21 21 22 23)
+(estacion:22: 27)
+(estacion:27: 25 25 26)
+(estacion:28: 28 29 29 29)
+(imperial:D:11:8: 21 19 17 15 13 11 9 7 5 3 1)
+(jedi:S:13:8: 11 7 4)
+(familiareal:L:28:8: 27 24 20 17 13 10 7 3)
+(contrabanadista:H:29:8: 27 23)
+(turno:9)
+(galaxia:35)
+(puerta:cerrada:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29:)
+ _ _ _ _ _ _
+|_ _  |_ _ D|
+|_    |_    |
+|S _|_  | |_|
+|  _     _| |
+|_ _|_|  _ L|
+|_ _ _ _ _|H|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:10: 23)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 18 19 19)
+(estacion:16: 25)
+(estacion:21: 21 21 22 23)
+(estacion:22: 27)
+(estacion:27: 25 25 26)
+(estacion:28: 28 29 29 29)
+(imperial:D:5:9: 21 19 17 15 13 11 9 7 5 3 1)
+(jedi:S:12:9: 11 7 4)
+(familiareal:L:29:9: 27 24 20 17 13 10 7 3)
+(contrabanadista:H:35:9: 27 23)
+(turno:10)
+(galaxia:35)
+(puerta:abierta:5: 1 3 5 7 9 11 13 15 17 19 21 23 25 29: 27)
+ _ _ _ _ _ _
+|_ _  |_ _  |
+|_    |_   D|
+|_ S|_  | |_|
+|  _     _| |
+|_ _|_|  _  |
+|_ _ _ _ _|L|
+(estacion:0: 0 1 1 2 3)
+(estacion:1: 5 5 6)
+(estacion:2: 8 9 9)
+(estacion:8: 11 12 13)
+(estacion:10: 23)
+(estacion:14: 14 15 15 16)
+(estacion:15: 17 18 19 19)
+(estacion:16: 25)
+(estacion:21: 21 21 22 23)
+(estacion:22: 27)
+(estacion:27: 25 25 26)
+(estacion:28: 28 29 29 29)
+(imperial:D:11:10: 21 19 17 15 13 11 9 7 5 3 1)
+(jedi:S:13:10: 11 7 4)
+(familiareal:L:35:10: 27 24 20 17 13 10 7 3)
+(personajesganadores)
+(ganador:contrabanadista:H:1111:10: 23)
