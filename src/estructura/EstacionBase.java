@@ -7,6 +7,7 @@ package estructura;
 
 import etc.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.PriorityQueue;
 import personajes.Personaje;
 
@@ -35,16 +36,16 @@ public class EstacionBase {
     /**
      * Identificador de la Estación
      */
-    private int ID;
+    private final int ID;
 
     /**
      * EDD con personajes en cada estación - Ordenados históricamente
      */
-    private PriorityQueue<Personaje> personajes;
+    protected PriorityQueue<Personaje> personajes;
     /**
      * EDD con midiclorianos de cada estacion
      */
-    PriorityQueue<Midicloriano> midiclorianos;
+    private ArrayList<Midicloriano> midiclorianos;
 
 // CONSTRUCTORES ###########################################################
     /**
@@ -54,13 +55,13 @@ public class EstacionBase {
      * @param ID ID con el que inicializar la estación
      * @pre -
      * @post Instancia de EstacionBase creada con ID pasado por parámetros y
-     * personajes como una nueva PriorityQueue por defecto.
+     * personajes como una nueva ArrayList por defecto.
      * @complex O(1)
      */
     public EstacionBase(int ID) {
         this.ID = ID;
         this.personajes = new PriorityQueue<>();
-        this.midiclorianos = new PriorityQueue<>();
+        this.midiclorianos = new ArrayList<>();
     }
 // Getter & Setter #########################################################
 
@@ -75,6 +76,20 @@ public class EstacionBase {
     public int getID() {
         return ID;
     }
+
+    /**
+     * Método que devuelve los midiclorianos de la Estacion
+     * @return EDD con midiclorianos de la estación
+     * @pre EstacionBase inicializada con éxito
+     * @post -
+     * @complex O(1)
+
+     */
+    public ArrayList<Midicloriano> getMidiclorianos() {
+        return midiclorianos;
+    }
+    
+    
 
 // PRIVADOS ################################################################
 // PUBLICOS ################################################################
@@ -107,12 +122,6 @@ public class EstacionBase {
         }
     }
 
-    public void fin() {
-        while (!personajes.isEmpty()) {
-            this.sacarPersonaje().fin();
-        }
-    }
-
     /**
      * Método que inserta un midicloriano en la ED de la estación
      *
@@ -123,6 +132,7 @@ public class EstacionBase {
      */
     public void insertarMidicloriano(Midicloriano midicloriano) {
         midiclorianos.add(midicloriano);
+        Collections.sort(midiclorianos);
     }
 
     /**
@@ -135,7 +145,7 @@ public class EstacionBase {
      */
     public Midicloriano sacarMidicloriano() {
         if (!midiclorianos.isEmpty()) {
-            return midiclorianos.poll();
+            return midiclorianos.remove(0);
         }
 
         return null;
@@ -179,108 +189,13 @@ public class EstacionBase {
     }
 
     /**
-     * Devuelve información sobre la Estación
-     *
-     * @return Devuelve string con información sobre la estación
-     * @pre EstacionBase inicializada correctamente
-     * @post Devuelve el ID y toda la información de la estación.
-     * @complex O(1)
-     */
-    @Override
-    public String toString() {
-        String output = "Informacion de estacion: \n";
-        output += "ID " + ID + "\n";
-        output += "Personajes: \n" + personajes.toString();
-        return output;
-    }
-
-    /**
-     * Método que devuelve que tipo es
-     *
-     * @return Devuelve el string "BaseStation"
-     * @pre EstaciónBase inicializada correctamente.
-     * @post Devuelve el string "BaseStation"
-     * @complex O(1)
-     */
-    public String getType() {
-        return "BaseStation";
-    }
-
-    /**
-     * Método que devuelve todos los Midiclorianos en String
-     *
-     * @return String con todos los midiclorianos actuales en la ED
-     */
-    public String imprimirMidiclorianos() {
-        String output = "";
-
-        if (!midiclorianos.isEmpty()) {
-            output += midiclorianos.toString();
-            if (midiclorianos.size() < 2) {
-                output += "\t\t";
-            }
-        } else {
-            output += "\t";
-        }
-
-        return output;
-    }
-
-    /**
-     * Método que devuelve todos los Personajes en String
-     *
-     * @return String con todos los personajes actuales en la ED
-     */
-    public String imprimirPersonajes() {
-        String output = "";
-
-        if (!personajes.isEmpty()) {
-            output += personajes.toString();
-            if (personajes.size() < 2) {
-                output += "\t";
-            }
-        } else {
-            output += "\t";
-        }
-
-        return output;
-    }
-
-    /**
-     * Método que devuelve todos los Personajes en String para una
-     * representacion mini
-     *
-     * Si hay mas de un personaje muestra el numero de personajes que hay
-     *
-     * @return String con todos los personajes actuales en la ED
-     *
-     */
-    public String imprimirPersonajesMini() {
-        String output = " ";
-
-        if (!personajes.isEmpty()) {
-
-            if (personajes.size() > 1) {
-                output += personajes.size();
-            } else {
-                output += personajes.peek().getMarcaClase();
-            }
-        } else {
-            output += "  ";
-        }
-
-        output += " ";
-
-        return output;
-    }
-
-    /**
      * Método similar al imprimirPersonajesMini pero con la caracteristica de
      * que solo devuelve la marca de personaje o espacio en blanco
      *
-     * Si hay mas de un personaje muestra el numero de personajes que hay
-     *
      * @return String con todos los personajes actuales en la ED
+     * @pre Estación inicializad con éxito
+     * @post Si hay mas de un personaje muestra el numero de personajes que hay
+     * @complex O(1)
      *
      */
     public String imprimirPersonajesMarca() {
@@ -302,6 +217,15 @@ public class EstacionBase {
         return output;
     }
 
+    /**
+     * Método para convertir midiclorianos de la estación en un cadena
+     *
+     * @return Devuelve cadena con información de todos los midiclorianos que
+     * contiene en ella.
+     * @pre EstacionBase inicializada con éxito
+     * @post Recorre todos los midiclorianos y los va almacenando en una cadena
+     * @complex O(n)
+     */
     public String midiclorianosToString() {
         String smidiclorianos = "";
         ArrayList<Midicloriano> midis = new ArrayList<>(midiclorianos);
@@ -311,6 +235,14 @@ public class EstacionBase {
         return smidiclorianos;
     }
 
+    /**
+     * Método que escribe en el log información sobre la EstacionBase
+     *
+     * @pre EstacionBase inicializada con éxito
+     * @post Escribe en el log información sobre el ID y los midiclorianos que
+     * contien la estación
+     * @complex O(n)
+     */
     public void toLog() {
         String info = "";
         info += "(estacion:";//Parentesis inicio
@@ -319,6 +251,23 @@ public class EstacionBase {
         info += ")";//Parentesis fin
 
         Logger.obtenerInstancia().escribeLog(info, 4);
+    }
+
+    /**
+     * Método que escribe en el log información sobre los personajes que existen en la estación
+     *
+     * @pre EstacionBase inicializada con éxito
+     * @post Llama a toLog de todos los personajes que existen en esa estación
+     * @complex O(n)
+     */
+    public void toLogPersonajes() {
+        if (!personajes.isEmpty()) {
+            for (int i = 0; i < personajes.size(); i++) {
+                Personaje personaje = personajes.poll();
+                personaje.toLog();
+                personajes.add(personaje);
+            }
+        }
     }
 
 }

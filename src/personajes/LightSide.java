@@ -54,6 +54,7 @@ public class LightSide extends Personaje {
      */
     public LightSide(char marcaClase, String nombre, int estacionPosicion, int turnoInicio) {
         super(marcaClase, nombre, estacionPosicion, turnoInicio);
+        ganador = false;
     }
 
 // Getter & Setter #########################################################
@@ -95,9 +96,10 @@ public class LightSide extends Personaje {
      */
     @Override
     public void accionPuerta() {
-        Midicloriano midicloriano = sacarMidicloriano();
+
         EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
-        if (midicloriano != null) {
+        if (!midiclorianos.isEmpty()) {
+            Midicloriano midicloriano = midiclorianos.remove(midiclorianos.size() - 1);
             try {
                 puerta.cerradura.probarMidicloriano(midicloriano);
             } catch (InterruptedException ex) {
@@ -109,11 +111,6 @@ public class LightSide extends Personaje {
         if (puerta.cerradura.Abierta()) {
             puerta.fin();
         }
-    }
-
-    @Override
-    public void fin() {
-        moverA(Galaxia.obtenerInstancia().getEstacionLiberty());
     }
 
     /**
@@ -181,8 +178,8 @@ public class LightSide extends Personaje {
      * @pre Galaxia y grafo inicializado con con éxito
      * @post SI la estacionOrigen es distinta a la estacionDestino se comprueban
      * los 4 caminos posibles dependiendo de la orientación (siempre gira a la
-     * derecha cuando hay posibilidad)
-     * @complex O()
+     * derecha cuando hay posibilidad). Método recursivo.
+     * @complex O(n^2)
      */
     private void generarCaminoBT(Grafo grafo, ArrayList<Integer> solucion, int estacionOrigen, int estacionDestino, Camino orientacion) {
         if (estacionOrigen != estacionDestino) {
@@ -227,19 +224,38 @@ public class LightSide extends Personaje {
         }
     }
 
+    /**
+     * Método que genera el camino del LightSide
+     *
+     * @pre LightSide inicializado correctamente
+     * @post La ruta del personaje es igual a la ruta calculada con generar
+     * caminoBT. La primera llamada al módulo se realiza con la orientación sur
+     * suponiendo que el personaje está mirando hacia abajo. Se inserta la
+     * estacionPosicion donde se encuentra, antes de la llamada recursiva; y
+     * despues de la llamada se elimina ya para borrar la estación origen.
+     * @complex O(n^2)
+     */
     @Override
     public void generarCamino() {
         Galaxia galaxia = Galaxia.obtenerInstancia();
         ArrayList<Integer> solucion = new ArrayList<>();
         solucion.add(estacionPosicion.getID());
-        generarCaminoBT(galaxia.getGrafo(), solucion, estacionPosicion.getID(), galaxia.getIdEstacionPuerta(), Camino.NORTE);
+        generarCaminoBT(galaxia.getGrafo(), solucion, estacionPosicion.getID(), galaxia.getIdEstacionPuerta(), Camino.SUR);
         solucion.remove(0);
         setRuta(solucion);
     }
 
+    /**
+     * Método que devuelve el tipo del personaje
+     *
+     * @return String con tipo del personaje
+     * @pre LightSide inicializado correctamente
+     * @post Devuelve "lightside"
+     * @complex O(1)
+     */
     @Override
     public String getTipo() {
-        return "lighside";
+        return "lightside";
     }
 
 }

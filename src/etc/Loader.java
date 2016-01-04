@@ -61,12 +61,14 @@ public class Loader {
      * El contructor principal del loader se encarga de todo el proceso de
      * inicializado de los objetos y estructuras
      *
-     * @throws IOException
+     * @param archivo Nombre del archivo que se desea leer. Se debe encontrar en
+     * ./files/
+     * @throws IOException Lanza IOException
      */
-    public Loader() throws IOException {
+    public Loader(String archivo) throws IOException {
 
         //Leer fichero de configuracion
-        lector = new Reader();
+        lector = new Reader(archivo);
         //Prepara la lista de personajes
         personajes = new ArrayList<>();
 
@@ -77,24 +79,14 @@ public class Loader {
         loadDataGalaxy();
         //Llamada a rellenar la lista de personajes
         loadDataCharacters();
+        Galaxia galaxia = Galaxia.obtenerInstancia();
         //Llamada para repartir los midiclorianos una vez ya se conocen los caminos
-        Galaxia.obtenerInstancia().repartirMidiclorianos(
-                Galaxia.obtenerInstancia().generarMidiclorianosGalaxia());
+        galaxia.repartirMidiclorianos(galaxia.generarMidiclorianosGalaxia());
+        galaxia.setPersonajes(personajes);
 
     }
 
     // GETTER & SETTER #########################################################
-    /**
-     * Devuelve la lista de personajes
-     *
-     * Puede usarse para obtener datos de las instancias
-     *
-     * @return Lista de Object (Son objetos de tipo Personaje, van meclados)
-     */
-    public ArrayList<Object> getPersonajes() {
-        return personajes;
-    }
-
     // PRIVADOS ################################################################
     /**
      * Carga los datos de la galaxia con la informacion proporcionada por el
@@ -106,28 +98,8 @@ public class Loader {
         //Estructura de almacenamiento de datos de inicio
         String[] dataGalaxy = lector.getDatosGalaxia();
 
-        Cerradura cerradura = new Cerradura(Integer.parseInt(dataGalaxy[4]));
-        // Creación de la lista de identificadores impares
-        // {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29}
-
-        int numMidis = 15;
-        int deepCombination = 4;
-
-        ArrayList<Midicloriano> combinacion = new ArrayList<>();
-        int j = 1;
-        for (int i = 0; i < numMidis; i++) {
-            Midicloriano m = new Midicloriano(j);
-            combinacion.add(m);
-            j += 2;
-        }
-
-        cerradura.setCombinacionInicial(combinacion);
-        cerradura.generarCombinacion();
-
-        cerradura.setEstado(false);
-
         EstacionPuerta puerta = new EstacionPuerta(
-                Integer.parseInt(dataGalaxy[3]), cerradura);
+                Integer.parseInt(dataGalaxy[3]));
 
         //Crea la galaxia respecto a las especificaciones del archivo de datos
         Galaxia galaxia;
@@ -136,13 +108,26 @@ public class Loader {
                 Integer.parseInt(dataGalaxy[2]), //Ancho
                 Integer.parseInt(dataGalaxy[1]));//Alto
 
+//-----------------------------------------
+        Cerradura cerradura = new Cerradura(Integer.parseInt(dataGalaxy[4]));
+        // Creación de la lista de identificadores impares
+        // {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29}
+
+        ArrayList<Midicloriano> combinacion = galaxia.generarMidiclorianosCerradura();
+
+        cerradura.setCombinacionInicial(combinacion);
+        cerradura.generarCombinacion();
+        cerradura.setEstado(false);
+
+        galaxia.getStarsgate().setCerradura(cerradura);
+//--------------------------------------------------
         galaxia.construirGalaxia();
         galaxia.generarLaberinto();
         galaxia.getGrafo().floyd();
         galaxia.getGrafo().warshall();
 
         Logger.obtenerInstancia().escribeLog(
-                Galaxia.obtenerInstancia().imprimirLaberinto2(), 4);
+                Galaxia.obtenerInstancia().imprimirGalaxia(), 4);
 
     }
 
@@ -210,11 +195,11 @@ public class Loader {
             imperial.generarCamino();
             imperial.toLogini();
 
-            imperial.setMidiclorianos(galaxia.generarMidiclorianos());
+            imperial.setMidiclorianos(galaxia.generarMidiclorianosCerradura());
 
             personajes.add(imperial);
         }
-        
+
     }
 
     // PUBLICOS ################################################################

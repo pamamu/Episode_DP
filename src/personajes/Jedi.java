@@ -47,14 +47,19 @@ public class Jedi extends LightSide {
     }
 
 // Getter & Setter #########################################################
-
 // PRIVADOS ################################################################
-
 // PÚBLICOS #################################################################
-        @Override
+    /**
+     * Método que devuelve el tipo del personaje
+     *
+     * @return String con tipo del personaje
+     * @pre Jedi inicializado correctamente
+     * @post Devuelve "jedi"
+     * @complex O(1)
+     */
+    @Override
     public String getTipo() {
         return "jedi";
     }
-
 
 }

@@ -70,7 +70,6 @@ public class Midicloriano implements Comparable<Midicloriano> {
      */
     @Override
     public String toString() {
-
         return String.valueOf(ID);
     }
 
@@ -81,7 +80,7 @@ public class Midicloriano implements Comparable<Midicloriano> {
      * @return Entero indicando si es menor(número negaativo), igual(0) o
      * mayor(número positivo)
      * @pre Midicloriano inicializado correctamente
-     * @post - 
+     * @post -
      * @complex O(1)
      */
     @Override

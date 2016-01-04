@@ -68,7 +68,7 @@ public class Cerradura {
      * combinacionInicio con nueva ArrayList de Midiclorianos,
      * combinacionMidiclorianos con nuevo Arbol de Midiclorianos y
      * midiclorianosProbados con nuevo Arbol de Midiclorianos.
-     * @complex O()
+     * @complex O(1)
      */
     public Cerradura(int alturaDesbloqueo) {
         this.midiclorianosIniciales = new ArrayList<>();
@@ -111,6 +111,9 @@ public class Cerradura {
      *
      * @param midiclorianosIniciales ArrayList con midiclorianos que se desean
      * combinar para la cerradura.
+     * @pre Cerradura inicializada con éxito.
+     * @post midiclorianos iniciales con valor del parámetro
+     * @complex O(1)
      */
     public void setCombinacionInicial(ArrayList<Midicloriano> midiclorianosIniciales) {
         this.midiclorianosIniciales = midiclorianosIniciales;
@@ -118,12 +121,32 @@ public class Cerradura {
 // PRIVADOS ################################################################
 
     /**
+     * Método para mostrar el contenido de un arbol de midiclorianos a través de
+     * uina cadena
+     *
+     * @param arbol Arbol que se quiere mostrar
+     * @return Devuelve cadena con el contenido del arbol
+     * @pre arbol inicializado con éxito
+     * @post Devuelve cadena con el contenido de los nodos en recorrido inOrden.
+     * Método recursivo.
+     * @complex O(n)
+     */
+    private String mostrarArbol(Arbol<Midicloriano> arbol) {
+        String out = "";
+        out += (arbol.getHijoIzq() != null) ? mostrarArbol(arbol.getHijoIzq()) : "";
+        out += (arbol.getRaiz() != null) ? " " + arbol.getRaiz().toString() : " ";
+        out += (arbol.getHijoDer() != null) ? mostrarArbol(arbol.getHijoDer()) : "";
+        return out;
+    }
+
+    /**
      * Método para calcular la profundidad de un arbol de Midiclorianos
      *
      * @param arbol Arbol sobre el que se quiere calcular la profundidad
      * @return Devuelve la profundidad del arbol por parámetro
-     * @pre -
-     * @post -
+     * @pre arbol inicializado con éxito
+     * @post Calcula la pronfudidad de cada uno de los hijos del nodo y devuelve
+     * la mayor de las dos. Método recursivo
      * @complex O(n)
      */
     private int profundidad(Arbol<Midicloriano> arbol) {
@@ -140,8 +163,10 @@ public class Cerradura {
      *
      * @param arbol Arbol sobre el que se desea calcular los nodos internos
      * @return Devuelve los nodos internos del arbol por párametro
-     * @pre -
-     * @post -
+     * @pre arbol inicializado con éxito
+     * @post Calcula la cantidad de nodos internos sumando los nodos internos en
+     * el hijo izquierdo más los del derecho más, en el caso de que la raiz
+     * fuera nodo interno, uno. Método recursivo.
      * @complex O(n)
      */
     private int nodosInternos(Arbol<Midicloriano> arbol) {
@@ -159,8 +184,10 @@ public class Cerradura {
      *
      * @param arbol Arbol sobre el que se desea calcular los nodos externos
      * @return Devuelve los nodos externos del arbol por parámetro
-     * @pre -
-     * @post -
+     * @pre arbol inicializado con éxito
+     * @post Calcula nos nodos externos sumando los nodos externos del hijo
+     * izquierdo más los del hijo derecho más, en el caso de que la raiz fuese
+     * nodo externo, uno.
      * @complex O(n)
      */
     private int nodosExternos(Arbol<Midicloriano> arbol) {
@@ -180,8 +207,9 @@ public class Cerradura {
      * Método para vaciar un arbol de Midiclorianos
      *
      * @param arbol Arbol sobre el que se desea vaciar su contenido
-     * @pre -
-     * @post -
+     * @pre arbol inicializado con éxito
+     * @post Vacia el arbol asignado un nuevo arbol al parámetro y llamando al
+     * recolector de basura.
      * @complex O(1)
      */
     private void vaciarArbol(Arbol<Midicloriano> arbol) {
@@ -227,10 +255,12 @@ public class Cerradura {
 
     /**
      * Método para configurar la cerradura con una combinación
-     * 
-     * @param midiclorianos Estructura de midiclorianos que se quieren insertar en la cerradura
+     *
+     * @param midiclorianos Estructura de midiclorianos que se quieren insertar
+     * en la cerradura
      * @pre Cerradura inicializada correctamente
-     * @post Combinación cerradura con datos de midiclorianos (párametro entrada)
+     * @post Combinación cerradura con datos de midiclorianos (párametro
+     * entrada)
      * @complex O(n)
      */
     public void configurarCerradura(ArrayList<Midicloriano> midiclorianos) {
@@ -273,17 +303,13 @@ public class Cerradura {
      */
     public boolean probarMidicloriano(Midicloriano midicloriano) throws InterruptedException {
         if (midiclorianosProbados.pertenece(midicloriano)) {
-            Thread.sleep(100);  //DEJAMOS TIEMPO PARA QUE EL BUFFER DE ESCRITURA QUEDE LIBRE
-            System.err.println("ALARMA MIDICLORIANO " + midicloriano.getID()
-                + " YA HA SIDO PROBADO");
-            Thread.sleep(2000); //PAUSAMOS PARA QUE SE MUESTRE LA ALARMA
             return false;
         }
 
         if (combinacionCerradura.pertenece(midicloriano)) {
             combinacionCerradura.borrar(midicloriano);
         }
-        
+
         midiclorianosProbados.insertar(midicloriano);
         return true;
     }
@@ -311,38 +337,29 @@ public class Cerradura {
      */
     public void comprobarEstado() {
         if (profundidad(combinacionCerradura) < alturaDesbloqueo
-            && nodosInternos(combinacionCerradura) >= nodosExternos(combinacionCerradura)) {
+                && nodosInternos(combinacionCerradura) >= nodosExternos(combinacionCerradura)) {
             estado = true;
         }
     }
 
     /**
-     * Método que devuelve información de la cerradura
+     * Método que escribe en el log información sobre la cerradura
      *
-     * @return Devuelve String con toda la información de la cerradura
-     * @pre Cerradura inicializada correctamente
-     * @post -
+     * @pre Cerradura inicializado con éxito
+     * @post Escribe en el log el estado de la puerta, los midiclorianos de la
+     * combinación de la cerradura y los midiclorianos probados
      * @complex O(n)
      */
-    public String informacionCerradura() {
-        String output = "";
-        output += "Estado de la puerta: " + ((estado) ? "ABIERTA" : "CERRADA");
-        output += "\n\tAltura Cerradura: " + profundidad(combinacionCerradura);
-        output += "\n\tMidiclorianos Internos: " + nodosInternos(combinacionCerradura);
-        output += "\n\tMidiclorianos Externos: " + nodosExternos(combinacionCerradura);
-        return output;
-    }
-    
     public void toLog() {
         String info = "";
         info += "(puerta:";//Parentesis inicio
-        info += (this.estado)?"abierta:":"cerrada:";
-        info += "";
-        info += "";
+        info += (this.estado) ? "abierta:" : "cerrada:";
+        info += mostrarArbol(combinacionCerradura);
+        info += ":";
+        info += mostrarArbol(midiclorianosProbados);
         info += ")";//Parentesis fin
 
         Logger.obtenerInstancia().escribeLog(info, 4);
     }
-   
 
 }

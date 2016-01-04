@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package personajes;
 
 /**
@@ -14,23 +13,22 @@ package personajes;
  * Programas
  * </p>
  * <br/>
- * 
+ *
  * @since
- * 		<p color="red">
- *        by: Fernando G. & Pablo Macias<br/>
- *        Revenge of the Sith™ 2015
- * 
- *        </p>
+ * <p color="red">
+ * by: Fernando G. & Pablo Macias<br/>
+ * Revenge of the Sith™ 2015
+ *
+ * </p>
  * @author Fernando.G & Pablo Macias
  * @version 1.0 ALFA
  *
  */
-public class Contrabandista extends LightSide{
+public class Contrabandista extends LightSide {
 
 // ATRIBUTOS ###############################################################
-
 // CONSTRUCTORES ###########################################################
- /**
+    /**
      * Constructor parametrizado de la clase Personaje
      *
      * @param marcaClase Marca de clase con la que inicializar el Personaje
@@ -44,18 +42,24 @@ public class Contrabandista extends LightSide{
      * Inserta en la estacionPosicion al personaje.
      * @complex O(1)
      */
-    public Contrabandista(char marcaClase, String nombre ,int estacionPosicion, int turnoInicio) {
+    public Contrabandista(char marcaClase, String nombre, int estacionPosicion, int turnoInicio) {
         super(marcaClase, nombre, estacionPosicion, turnoInicio);
     }
 // Getter & Setter #########################################################
 
 // PRIVADOS ################################################################
-
 // PÚBLICOS #################################################################
-        @Override
+    /**
+     * Método que devuelve el tipo del personaje
+     *
+     * @return String con tipo del personaje
+     * @pre Contrabandista inicializado correctamente
+     * @post Devuelve "contrabandista"
+     * @complex O(1)
+     */
+    @Override
     public String getTipo() {
         return "contrabandista";
     }
-
 
 }

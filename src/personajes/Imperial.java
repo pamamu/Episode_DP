@@ -62,47 +62,6 @@ public class Imperial extends Personaje {
 
 // Getter & Setter #########################################################
 // PRIVADOS ################################################################
-// PÚBLICOS #################################################################
-    /**
-     * Método para acción del personaje Imperial en una puerta.
-     *
-     * @pre Imperial inicializado con éxito
-     * @post Se guarda la estacionPosicion como EstacionPuerta, se reinicia la
-     * puerta de la estación con puerta y se ejecuta el movimiento del
-     * personaje. Antes del movimiento se reinicia la ruta.
-     * @complex O(n)
-     */
-    @Override
-    public void accionPuerta() {
-        EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
-        puerta.cerradura.reiniciar();
-        setRuta((LinkedList<Camino>)rutaInicial.clone());
-        mover();
-    }
-
-    /**
-     * Método para acción del personaje Imperial en una estación normal.
-     *
-     * @pre Imperial inicializado con éxito
-     * @post Si la estacionPosicion tiene identificador par, se inserta ultimo
-     * midicloriano del personaje Imperial.
-     * @complex O(1)
-     */
-    @Override
-    public void accionEstacion() {
-        if (estacionPosicion.getID() % 2 == 0) {
-            Midicloriano midicloriano = sacarMidicloriano();
-            if (midicloriano != null) {
-                estacionPosicion.insertarMidicloriano(midicloriano);
-            }
-        }
-    }
-    
-    @Override
-    public void fin(){
-        
-    }
-
     /**
      * Método para generar un camino utilizando el recorrido por caminos mínimos
      *
@@ -126,6 +85,55 @@ public class Imperial extends Personaje {
             return;
         }
         generarCaminoBT(grafo, solucion, estacionsiguiente, estacionDestino);
+    }
+// PÚBLICOS #################################################################
+
+    /**
+     * Método para acción del personaje Imperial en una puerta.
+     *
+     * @pre Imperial inicializado con éxito
+     * @post Se guarda la estacionPosicion como EstacionPuerta, se reinicia la
+     * puerta de la estación con puerta y se ejecuta el movimiento del
+     * personaje. Antes del movimiento se reinicia la ruta.
+     * @complex O(n)
+     */
+    @Override
+    public void accionPuerta() {
+        EstacionPuerta puerta = (EstacionPuerta) estacionPosicion;
+        puerta.cerradura.reiniciar();
+        setRuta((LinkedList<Camino>) rutaInicial.clone());
+        mover();
+    }
+
+    /**
+     * Método para acción del personaje Imperial en una estación normal.
+     *
+     * @pre Imperial inicializado con éxito
+     * @post Si la estacionPosicion tiene identificador par, se inserta ultimo
+     * midicloriano del personaje Imperial.
+     * @complex O(1)
+     */
+    @Override
+    public void accionEstacion() {
+        if (estacionPosicion.getID() % 2 == 0) {
+            if (!midiclorianos.isEmpty()) {
+                Midicloriano midicloriano = midiclorianos.remove(0);
+                estacionPosicion.insertarMidicloriano(midicloriano);
+            }
+        }
+    }
+
+    /**
+     * Método que devuelve si es Imperial
+     * @return TRUE
+     * @pre Imperial inicializado correctamente
+     * @post - 
+     * @complex O(1)
+     */
+    @Override
+    public boolean esImperial() {
+        return true;
+
     }
 
     /**
@@ -157,7 +165,7 @@ public class Imperial extends Personaje {
         generarCaminoBT(galaxia.getGrafo(), solucion, estacioninicio, estaciondestino);
         //Desde estacion NE a estacion SO
         estacioninicio = estaciondestino;
-        estaciondestino = galaxia.getDimY() * (galaxia.getDimY() - 1);
+        estaciondestino = galaxia.getDimY() * (galaxia.getDimX() - 1);
         generarCaminoBT(galaxia.getGrafo(), solucion, estacioninicio, estaciondestino);
         //Desde estacion SO a estacion SE
         estacioninicio = estaciondestino;
@@ -169,11 +177,32 @@ public class Imperial extends Personaje {
         rutaInicial = getRuta();
     }
 
+    /**
+     * Método que inserta un conjunto de Midiclorianos en el Personaje
+     *
+     * @param midiclorianos Midiclorianos a poner en el personaje
+     * @pre Personaje inicializado correctamente
+     * @post ED de Personaje con midiclorianos = ED por parámetros
+     * @complex O(1)
+     */
+    public void setMidiclorianos(ArrayList<Midicloriano> midiclorianos) {
+        for (int i = 0; i < midiclorianos.size(); i++) {
+            Midicloriano get = midiclorianos.get(i);
+            this.midiclorianos.add(0, get);
+        }
+    }
+
+        /**
+     * Método que devuelve el tipo del personaje
+     *
+     * @return String con tipo del personaje
+     * @pre Imperial inicializado correctamente
+     * @post Devuelve "imperial"
+     * @complex O(1)
+     */
     @Override
     public String getTipo() {
         return "imperial";
     }
-    
-    
 
 }

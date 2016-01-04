@@ -163,7 +163,7 @@ public class Logger {
     private void forzarVolcado(){
         
         //Abre archivo
-        instancia.init("./files/starwars-dp.log");
+        instancia.init("./files/registro.log");
         
         try {
             //Inserta en el buffer de memoria al final del ultimo mensaje
@@ -195,7 +195,7 @@ public class Logger {
      */
     public boolean close(){
         
-        instancia.init("./files/starwars-dp.log");
+        instancia.init("./files/registro.log");
         
         try{
             archivo.write(buffer);      //escritura del archivo con el contenido 

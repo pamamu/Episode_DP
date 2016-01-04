@@ -5,6 +5,8 @@
  */
 package estructura;
 
+import personajes.Personaje;
+
 /**
  * <p color="#01DF01">
  * Este codigo es parte del proyecto StarsWars - DP desarrollado en la
@@ -37,19 +39,45 @@ public class EstacionPuerta extends EstacionBase {
      * Constructor parametrizado de la clase EstacionPuerta
      *
      * @param ID ID con el que inicializar la Estacion
-     * @param cerradura Cerradura con la inicializar la estación
      * @pre -
      * @post Estacion inicializada con parámetros dados. Llamada a clase padre
      * ESTACIONBASE
      * @complex O(1)
      */
-    public EstacionPuerta(int ID, Cerradura cerradura) {
+    public EstacionPuerta(int ID) {
         super(ID);
-        this.cerradura = cerradura;
+        this.cerradura = null;
     }
 // Getter & Setter #########################################################
+
+    /**
+     * Método para insertar una cerradura en la Estación
+     * @param cerradura Cerradura a insertar en la estación
+     * @pre EstacionPuerta inicializada con éxito
+     * @post EstaciónPuerta con cerradura = cerradura parámetro
+     * @complex O(1)
+     */
+    public void setCerradura(Cerradura cerradura) {
+        this.cerradura = cerradura;
+    }
+
 // PRIVADOS ################################################################
 // PÚBLICOS ################################################################
+    /**
+     * Método finaliza la estación
+     *
+     * @pre EstacionPuerta inicializada correctamente
+     * @post Saca a todos los personajes de las estación y se llama al método
+     * fin de cada uno de ellos
+     * @complex O(n)
+     */
+    public void fin() {
+        Personaje personaje;
+        while (!personajes.isEmpty()) {
+            personaje = this.sacarPersonaje();
+            personaje.fin();
+        }
+    }
 
     /**
      * Método que devuelve si una estacion es de tipo puerta o no
@@ -64,37 +92,4 @@ public class EstacionPuerta extends EstacionBase {
     public boolean esPuerta() {
         return true;
     }
-
-    /**
-     * Devuelve información sobre la Estación
-     *
-     * @return Devuelve string con información sobre la estación
-     * @pre
-     * @post Devuelve el ID y toda la información de la estación.
-     * @complex O(1)
-     */
-    @Override
-    public String toString() {
-        String output = "EstacionPuerta Info: \n";
-        output += super.toString();
-        if (this.cerradura != null) {
-            cerradura.toString();
-        }
-
-        return output;
-    }
-
-    /**
-     * Devuelve de que tipo es la EstacionPuerta
-     *
-     * @return Devuelve el string "GateStation"
-     * @pre
-     * @post Devuelve el string "GateStation"
-     * @complex O(1)
-     */
-    @Override
-    public String getType() {
-        return "GateStation";
-    }
-
 }

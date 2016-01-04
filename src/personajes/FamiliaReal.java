@@ -7,11 +7,8 @@ package personajes;
 
 import edd.Grafo;
 import estructura.Galaxia;
-import etc.Camino;
-import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <p color="#01DF01">
@@ -112,7 +109,7 @@ public class FamiliaReal extends LightSide {
      * @post Se genera un camino utilizando generarCaminoBT, se introduce en el
      * personaje con setRuta y se introduce el camino en el parámetro de Galaxia
      * pasosPorEstacion.
-     * @complex O()
+     * @complex O(n^2)
      */
     @Override
     public void generarCamino() {
@@ -122,11 +119,19 @@ public class FamiliaReal extends LightSide {
         generarCaminoBT(galaxia.getGrafo(), solucion, 0, estacionPosicion.getID(), galaxia.getIdEstacionPuerta(), tamaniogalaxia);
         setRuta((ArrayList<Integer>) solucion.clone());
         solucion.add(0, estacionPosicion.getID());
-        solucion.remove(solucion.size()-1);
+        solucion.remove(solucion.size() - 1);
         galaxia.setPasosPorEstaciones(solucion);
     }
-    
-        @Override
+
+    /**
+     * Método que devuelve el tipo del personaje
+     *
+     * @return String con tipo del personaje
+     * @pre FamiliaReal inicializado correctamente
+     * @post Devuelve "FamiliaReal"
+     * @complex O(1)
+     */
+    @Override
     public String getTipo() {
         return "familiareal";
     }

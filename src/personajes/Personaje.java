@@ -44,6 +44,10 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     private final String nombre;
     /**
+     * Bandera que indica si el personaje es ganador (TRUE) o no (FALSE)
+     */
+    protected boolean ganador=false;
+    /**
      * ED con midilorianos que porta el personaje
      */
     protected ArrayList<Midicloriano> midiclorianos;
@@ -51,10 +55,6 @@ public abstract class Personaje implements Comparable<Personaje> {
      * ED con la ruta del personaje
      */
     private LinkedList<Camino> ruta;
-    /**
-     * Turno en el que empieza el personaje
-     */
-    private final int turnoInicio;
     /**
      * Turno actual del personaje
      */
@@ -84,8 +84,7 @@ public abstract class Personaje implements Comparable<Personaje> {
         this.nombre = nombre;
         this.midiclorianos = new ArrayList<>();
         this.turno = turnoInicio;
-        this.turnoInicio = turnoInicio;
-        this.ruta = new LinkedList<Camino>();
+        this.ruta = new LinkedList<>();
         this.estacionPosicion = Galaxia.obtenerInstancia().getEstacion(estacionPosicion);
         this.estacionPosicion.insertarPersonaje(this);
 
@@ -102,19 +101,6 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     public int getTurno() {
         return turno;
-    }
-
-    /**
-     * Método que devuelve el turno de inicio del Personaje
-     *
-     * @return Devuelve el turno de inicio del Personaje - Turno en el que se
-     * empieza a mover
-     * @pre Personaje inicializado correctamente
-     * @post -
-     * @complex O(1)
-     */
-    public int getTurnoInicio() {
-        return turnoInicio;
     }
 
     /**
@@ -141,17 +127,10 @@ public abstract class Personaje implements Comparable<Personaje> {
         return marcaClase;
     }
 
-    /**
-     * Método que inserta un conjunto de Midiclorianos en el Personaje
-     *
-     * @param midiclorianos Midiclorianos a poner en el personaje
-     * @pre Personaje inicializado correctamente
-     * @post ED de Personaje con midiclorianos = ED por parámetros
-     * @complex O(1)
-     */
-    public void setMidiclorianos(ArrayList<Midicloriano> midiclorianos) {
-        this.midiclorianos = midiclorianos;
+    public boolean isGanador() {
+        return ganador;
     }
+    
 
     /**
      * Método que devuelve la ruta del Personaje
@@ -255,20 +234,6 @@ public abstract class Personaje implements Comparable<Personaje> {
     }
 
     // PÚBLICOS #################################################################
-    /**
-     * Devuelve el ultimo midicloriano que tiene el personaje en si ED
-     *
-     * @return Ultimo midicloriano de ED del personaje
-     * @pre Personaje inicializado correctamente
-     * @post ED de midiclorianos con un elemento menos (último)
-     * @complex O(1)
-     */
-    public Midicloriano sacarMidicloriano() {
-        if (midiclorianos.isEmpty()) {
-            return null;
-        }
-        return midiclorianos.remove(midiclorianos.size() - 1);
-    }
 
     /**
      * Inserta en la ED el midicloriano por parámetros
@@ -319,6 +284,17 @@ public abstract class Personaje implements Comparable<Personaje> {
         turno++;
     }
 
+    public boolean esImperial() {
+        return false;
+    }
+
+    public void fin() {
+        if (!esImperial()) {
+            ganador = true;
+            moverA(Galaxia.obtenerInstancia().getEstacionLiberty());
+        }
+    }
+
     /**
      * Método que acciona el comportamiento de un personaje en una puerta
      *
@@ -326,8 +302,6 @@ public abstract class Personaje implements Comparable<Personaje> {
      * @see LightSide
      */
     public abstract void accionPuerta();
-
-    public abstract void fin();
 
     /**
      * Método que acciona el comportamiento de un personaje en una estacion
@@ -374,20 +348,20 @@ public abstract class Personaje implements Comparable<Personaje> {
     public String toString() {
         return String.valueOf(marcaClase) /*+ "\n" + ruta.toString()*/;
     }
-    
-    public String rutaToString(){
+
+    public String rutaToString() {
         String sruta = "";
         int longruta = ruta.size();
         Camino camino;
         for (int i = 0; i < longruta; i++) {
             camino = ruta.poll();
-            sruta+=" "+camino.toString();
+            sruta += " " + camino.toString();
             ruta.add(camino);
         }
         return sruta;
     }
-    
-    public String midicloriansToString(){
+
+    public String midicloriansToString() {
         String smidiclorianos = "";
         for (int i = 0; i < midiclorianos.size(); i++) {
             smidiclorianos += " " + midiclorianos.get(i).getID();
@@ -395,7 +369,7 @@ public abstract class Personaje implements Comparable<Personaje> {
         return smidiclorianos;
     }
 
-    public void toLogini(){
+    public void toLogini() {
         String info = "";
         info += "(ruta:";//Sec inicio
         info += String.valueOf(marcaClase) + ":"; //Marca del personaje
@@ -404,13 +378,15 @@ public abstract class Personaje implements Comparable<Personaje> {
 
         Logger.obtenerInstancia().escribeLog(info, 4);
     }
+
     public void toLog() {
         String info = "";
         info += "(";//Parentesis inicio
+        info += (ganador) ? "ganador:" : "";
         info += getTipo() + ":";//Tipo personaje
         info += String.valueOf(marcaClase) + ":"; //Marca del personaje
-        info += String.valueOf(estacionPosicion.getID())+":";//Id de estacionposicion
-        info += String.valueOf(turno)+":";//Turno
+        info += String.valueOf(estacionPosicion.getID()) + ":";//Id de estacionposicion
+        info += String.valueOf(turno) + ":";//Turno
         info += midicloriansToString();
         info += ")";//Parentesis fin
 
