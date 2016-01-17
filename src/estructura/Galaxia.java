@@ -48,6 +48,10 @@ public class Galaxia {
      */
     private final int dimY;
     /**
+     * Variable que indica el número de turno de la Galaxia
+     */
+    private int turno;
+    /**
      * ID de la estacion con Puerta
      */
     private final int idEstacionPuerta;
@@ -132,6 +136,7 @@ public class Galaxia {
 
         this.dimX = dimX;
         this.dimY = dimY;
+        this.turno = 0;
         this.idEstacionPuerta = idEstacionPuerta;
 
         this.starsgate = starsgate;
@@ -264,6 +269,14 @@ public class Galaxia {
     }
 
     /**
+     *  TODO
+     * @return
+     */
+    public ArrayList<Personaje> getPersonajes(){
+        return personajes;
+    }
+    
+    /**
      * Método que introduce ED con ruta desde la estacion de inicio hasta
      * estación de fin.
      *
@@ -309,9 +322,6 @@ public class Galaxia {
         int destino;
         for (int estacion = 0; estacion < dimX * dimY; estacion++) {
             //ESTACIÓN NORTE
-            if (estacion == 58) {
-                System.err.println("");
-            }
             if (estacion >= dimY) {
                 destino = estacion - dimY;
                 paredes.add(new Pared(estacion, destino));
@@ -411,6 +421,8 @@ public class Galaxia {
                 expandirConexion(nodos, nododestino, nodorigen);
             }
         }
+        grafo.floyd();
+        grafo.warshall();
     }
 
     /**
@@ -551,6 +563,14 @@ public class Galaxia {
      */
     public EstacionBase getEstacion(int fila, int columna) {
         return Estaciones[fila][columna];
+    }
+
+    public void simular() {
+        if (turno < 50 && !starsgate.cerradura.Abierta()) {
+            accion(turno);
+            toLog(turno);
+            turno++;
+        }
     }
 
     /**

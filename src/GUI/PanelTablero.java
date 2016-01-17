@@ -1,6 +1,8 @@
 package GUI;
 
-
+import edd.Grafo;
+import estructura.EstacionBase;
+import estructura.Galaxia;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -20,14 +22,18 @@ import javax.swing.JTable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import personajes.Personaje;
 
 public class PanelTablero extends JPanel {
 
     //Dimensiones del tablero
-    final static short dimX = 6;
-    final static short dimY = 6;
+    final static short dimX = (short) Galaxia.obtenerInstancia().getDimX();
+    final static short dimY = (short) Galaxia.obtenerInstancia().getDimX();
     //Componentes de parte superior del panel: tabla de personajes
+    private Galaxia galaxia = Galaxia.obtenerInstancia();
     private JTable tabla;
     private JScrollPane scroll;
     //Componentes centrales: tablero
@@ -46,13 +52,7 @@ public class PanelTablero extends JPanel {
     {22, 28}, {23, 29}, {24, 25}, {26, 27}, {27, 28}, {25, 31}, {26, 32}, {28, 34},
     {30, 31}, {33, 34}, {34, 35}};
 
-    private Integer[] salasPersonajes = {10, 30, 0, 6, 17};
-    private char[] marcas = {'L', 'S', 'H', 'D', 'C'};
-    private Object[][] datosPersonajes = {{"FamiliaReal", 'L', "Leia", 1},
-    {"Jedi", 'S', "SkyWalker", 1},
-    {"Contrabandista", 'H', "HanSolo", 3},
-    {"Imperial", 'D', "DarthVader", 3},
-    {"Contrabandista", 'C', "Chewbacca", 2}};
+    private Object[][] personajes;
     private String[] filasTabla = {"Tipo", "Marca", "Nombre", "Turno"};
 
     public PanelTablero() {
@@ -63,7 +63,17 @@ public class PanelTablero extends JPanel {
     }
 
     public void iniciarListaRobots() {
-        tabla = new JTable(datosPersonajes, filasTabla);
+        ArrayList<Personaje> personajes = galaxia.getPersonajes();
+        Object[][] informacion = new Object[personajes.size()][5];
+        for (int i = 0; i < personajes.size(); i++) {
+            Personaje get = personajes.get(i);
+            informacion[i][0] = get.getTipo();
+            informacion[i][1] = get.getMarcaClase();
+            informacion[i][2] = get.getNombre();
+            informacion[i][3] = get.getTurno();
+        }
+        this.personajes = this.personajes;
+        tabla = new JTable(informacion, filasTabla);
         scroll = new JScrollPane(tabla);
     }
 
@@ -121,16 +131,23 @@ public class PanelTablero extends JPanel {
 
     public void addAccionesBotones() {
         // TODO: A�adir acciones sobre los botones (bGenerar = tirarParedes) (bSimular=InsertarPersonajes)
+                
         bGenerar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tirarParedes();
+                bGenerar.setEnabled(false);
                 bSimular.setEnabled(true);
             }
         });
         bSimular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                galaxia.simular();
+                if(galaxia.getStarsgate().cerradura.Abierta()){
+                    javax.swing.JOptionPane.showMessageDialog(null, "Puerta Abierta");
+                    bSimular.setEnabled(false);
+                }
                 insertarRobots();
             }
         });
@@ -138,8 +155,19 @@ public class PanelTablero extends JPanel {
     }
 
     public void tirarParedes() {
-        for (int i = 0; i < listaParedesTirar.length; i++) {
-            tablero.tirarPared(listaParedesTirar[i][0], listaParedesTirar[i][1]);
+        Grafo grafo = galaxia.getGrafo();
+        for (int i = 0; i < galaxia.getDimX(); i++) {
+            for (int j = 0; j < galaxia.getDimY(); j++) {
+                Set<Integer> s = new HashSet();
+                int ID = galaxia.coordenadastoID(i, j);
+                grafo.adyacentes(ID, s);
+                ArrayList<Integer> adyacentes = new ArrayList<>(s);
+                for (int k = 0; k < adyacentes.size(); k++) {
+                    Integer get = adyacentes.get(k);
+                    tablero.tirarPared(ID, get);
+                }
+
+            }
         }
         tablero.pintarParedes();
 
@@ -147,10 +175,21 @@ public class PanelTablero extends JPanel {
     }
 
     public void insertarRobots() {
-        for (int i = 0; i < marcas.length; i++) {
-            tablero.insertarPersonajeEstacion(marcas[i], salasPersonajes[i]);
+        for (int i = 0; i < dimX * dimY; i++) {
+            tablero.insertarPersonajeEstacion(' ', i);
         }
-        //Probando a mostrar el n�mero de personajes en la celda 15
-        tablero.insertarNumPersonajesEstacion(3, 15);
+
+        for (int i = 0; i < galaxia.getDimX() * galaxia.getDimY(); i++) {
+            EstacionBase estacion = galaxia.getEstacion(i);
+            Object[] personajes = estacion.getPersonajes();
+            if (personajes.length > 0) {
+                if (personajes.length > 1) {
+                    tablero.insertarNumPersonajesEstacion(personajes.length, i);
+                } else {
+                    Personaje pers = (Personaje) personajes[0];
+                    tablero.insertarPersonajeEstacion(pers.getMarcaClase(), i);
+                }
+            }
+        }
     }
 }

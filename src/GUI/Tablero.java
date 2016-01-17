@@ -1,6 +1,5 @@
 package GUI;
 
-
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -50,14 +49,15 @@ public class Tablero extends JPanel {
                 estaciones.get(salaX).tirarPared(Orientacion.O);
                 estaciones.get(salaY).tirarPared(Orientacion.E);
                 break;
-            case PanelTablero.dimX:
-                estaciones.get(salaX).tirarPared(Orientacion.S);
-                estaciones.get(salaY).tirarPared(Orientacion.N);
-                break;
-            case -(PanelTablero.dimX):
-                estaciones.get(salaX).tirarPared(Orientacion.N);
-                estaciones.get(salaY).tirarPared(Orientacion.S);
-                break;
+            default:
+                if (diferencia == PanelTablero.dimX) {
+                    estaciones.get(salaX).tirarPared(Orientacion.S);
+                    estaciones.get(salaY).tirarPared(Orientacion.N);
+                }
+                if (diferencia == PanelTablero.dimX) {
+                    estaciones.get(salaX).tirarPared(Orientacion.N);
+                    estaciones.get(salaY).tirarPared(Orientacion.S);
+                }
         }
     }
 

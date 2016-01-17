@@ -65,10 +65,10 @@ public class Loader {
      * ./files/
      * @throws IOException Lanza IOException
      */
-    public Loader(String archivo) throws IOException {
+    public Loader() throws IOException {
 
         //Leer fichero de configuracion
-        lector = new Reader(archivo);
+        lector = new Reader("inicio.txt");
         //Prepara la lista de personajes
         personajes = new ArrayList<>();
 
@@ -123,8 +123,6 @@ public class Loader {
 //--------------------------------------------------
         galaxia.construirGalaxia();
         galaxia.generarLaberinto();
-        galaxia.getGrafo().floyd();
-        galaxia.getGrafo().warshall();
 
         Logger.obtenerInstancia().escribeLog(
                 Galaxia.obtenerInstancia().imprimirGalaxia(), 4);

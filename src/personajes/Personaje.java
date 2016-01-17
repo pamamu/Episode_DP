@@ -104,6 +104,15 @@ public abstract class Personaje implements Comparable<Personaje> {
     }
 
     /**
+     * TODO
+     * @return
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    
+    /**
      * Método que devuelve la estacion donde se encuentra el personaje
      *
      * @return Devuelve la estacion donde actualmente está el personaje

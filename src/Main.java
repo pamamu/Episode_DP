@@ -1,4 +1,5 @@
 
+import GUI.DPInitGUI;
 import estructura.Galaxia;
 import etc.Loader;
 import etc.Logger;
@@ -21,16 +22,15 @@ public class Main {
         System.err.println(args.length);
 
         Logger log = Logger.obtenerInstancia();
-        Loader cargador = new Loader(args[0]);
+        Loader cargador = new Loader();
         
         Galaxia galaxia = Galaxia.obtenerInstancia();
-
+        
+        DPInitGUI ventana = new DPInitGUI();
         //Simulacion de turnos
-        for (int i = 0; i < 50 && !galaxia.getStarsgate().cerradura.Abierta(); i++) {
-
-            galaxia.accion(i);
-            galaxia.toLog(i);
-        }
+//        for (int i = 0; i < 50; i++) {
+//            galaxia.simular();
+//        }
         log.close();
     }
 

@@ -76,6 +76,14 @@ public class EstacionBase {
     public int getID() {
         return ID;
     }
+    
+    /**
+     *TODO
+     * @return
+     */
+    public Object[] getPersonajes(){
+        return this.personajes.toArray();
+    }
 
     /**
      * Método que devuelve los midiclorianos de la Estacion
