@@ -12,6 +12,7 @@ import estructura.Cerradura;
 import estructura.EstacionPuerta;
 import estructura.Galaxia;
 import estructura.Midicloriano;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import personajes.Contrabandista;
@@ -65,7 +66,7 @@ public class Loader {
      * ./files/
      * @throws IOException Lanza IOException
      */
-    public Loader() throws IOException {
+    public Loader() throws IOException, FileNotFoundException, NullPointerException {
 
         //Leer fichero de configuracion
         lector = new Reader("inicio.txt");
@@ -93,7 +94,7 @@ public class Loader {
      * fichero de configuración
      *
      */
-    private void loadDataGalaxy() {
+    private void loadDataGalaxy() throws NullPointerException{
 
         //Estructura de almacenamiento de datos de inicio
         String[] dataGalaxy = lector.getDatosGalaxia();

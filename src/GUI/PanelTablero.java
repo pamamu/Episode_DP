@@ -146,6 +146,7 @@ public class PanelTablero extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 galaxia.simular();
+                
                 if(galaxia.getStarsgate().cerradura.Abierta()){
                     javax.swing.JOptionPane.showMessageDialog(null, "Puerta Abierta");
                     bSimular.setEnabled(false);

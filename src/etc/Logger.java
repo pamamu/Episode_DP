@@ -186,6 +186,15 @@ public class Logger {
     }
     
     /**
+     * Método que devuelve el buffer del Log
+     * 
+     * @return Atributo buffer del log
+     */
+    public String getBuffer(){
+        return this.buffer;
+    }
+    
+    /**
      * Escribe en el fichero de log y cierra el buffer
      * @return 
      *  <pre>

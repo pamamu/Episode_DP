@@ -67,7 +67,6 @@ public class Reader {
 
 //        Logger.obtenerInstancia().escribelog("Leyendo fichero de configuracion "
 //                + "inicial");
-        try {
             //Apertura del fichero
             File f = new File(ruta);
             //Escaner de entrada del buffer del fichero
@@ -82,12 +81,7 @@ public class Reader {
                     this.datos += preProcesado + "\n";  //Agrega la informacion 
                 }
             }
-        } catch (Exception e) {
-            System.err.println("El archivo parece que no se encuentra en "
-                    + ruta);
-//            Logger.obtenerInstancia().escribeLog("Fallo al abrir el archivo de "
-//                    + "configuracion inicial\n" + e.getMessage(), 3);
-        }
+
 
     }
 
