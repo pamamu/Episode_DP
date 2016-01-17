@@ -1,5 +1,6 @@
 package GUI;
 
+import estructura.Galaxia;
 import etc.Loader;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
@@ -31,7 +32,7 @@ public class DPInitGUI extends JFrame {
     //Componentes para cada pesta�a del JTabbedPane
     private PanelFichero inicio = new PanelFichero();
     private PanelFichero log = new PanelFichero();
-    private PanelTablero panelTablero = new PanelTablero();
+    private PanelTablero panelTablero;
     // Componentes para la barra de Men�s
     private JMenuBar menus = new JMenuBar();
     private JMenu archivo = new JMenu("Archivo");
@@ -46,7 +47,6 @@ public class DPInitGUI extends JFrame {
         super("Episode DP");
 
         pestañas.add("Fichero Inicio", inicio);
-        pestañas.add("Galaxia", panelTablero);
         pestañas.add("Fichero Log", log);
 
         initMenus();
@@ -172,6 +172,10 @@ public class DPInitGUI extends JFrame {
                 guardarinicio.write(textinicio);
                 guardarinicio.close();
                 Loader l = new Loader();
+                Galaxia galaxia = Galaxia.obtenerInstancia();
+                panelTablero = new PanelTablero(galaxia.getDimX(), galaxia.getDimY());
+                pestañas.add("Galaxia", panelTablero);
+                generarGalaxia.setEnabled(false);
             } catch (IOException ex) {
 
             }

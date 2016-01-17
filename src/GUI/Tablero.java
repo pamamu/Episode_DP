@@ -23,9 +23,9 @@ public class Tablero extends JPanel {
     private GridLayout layout;
     private List<Estacion> estaciones = new ArrayList<Estacion>();
 
-    public Tablero(short dimX, short dimY) {
-        this.dimX = dimX;
-        this.dimY = dimY;
+    public Tablero(int dimX, int dimY) {
+        this.dimX = (short) dimX;
+        this.dimY = (short) dimY;
         this.numSalas = this.dimX * this.dimY;
         layout = new GridLayout(dimX, dimY);
         this.setLayout(layout);
@@ -50,11 +50,11 @@ public class Tablero extends JPanel {
                 estaciones.get(salaY).tirarPared(Orientacion.E);
                 break;
             default:
-                if (diferencia == PanelTablero.dimX) {
+                if (diferencia == dimX) {
                     estaciones.get(salaX).tirarPared(Orientacion.S);
                     estaciones.get(salaY).tirarPared(Orientacion.N);
                 }
-                if (diferencia == PanelTablero.dimX) {
+                if (diferencia == -dimX) {
                     estaciones.get(salaX).tirarPared(Orientacion.N);
                     estaciones.get(salaY).tirarPared(Orientacion.S);
                 }

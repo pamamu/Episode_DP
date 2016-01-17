@@ -30,8 +30,8 @@ import personajes.Personaje;
 public class PanelTablero extends JPanel {
 
     //Dimensiones del tablero
-    final static short dimX = (short) Galaxia.obtenerInstancia().getDimX();
-    final static short dimY = (short) Galaxia.obtenerInstancia().getDimX();
+    private int dimX;
+    private int dimY;
     //Componentes de parte superior del panel: tabla de personajes
     private Galaxia galaxia = Galaxia.obtenerInstancia();
     private JTable tabla;
@@ -55,7 +55,9 @@ public class PanelTablero extends JPanel {
     private Object[][] personajes;
     private String[] filasTabla = {"Tipo", "Marca", "Nombre", "Turno"};
 
-    public PanelTablero() {
+    public PanelTablero(int dimX, int dimY) {
+        this.dimX = dimX;
+        this.dimY = dimY;
         iniciarListaRobots();
         iniciarTablero();
         iniciarPanelInferior();

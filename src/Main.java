@@ -22,9 +22,9 @@ public class Main {
         System.err.println(args.length);
 
         Logger log = Logger.obtenerInstancia();
-        Loader cargador = new Loader();
+//        Loader cargador = new Loader();
         
-        Galaxia galaxia = Galaxia.obtenerInstancia();
+        //Galaxia galaxia = Galaxia.obtenerInstancia();
         
         DPInitGUI ventana = new DPInitGUI();
         //Simulacion de turnos
