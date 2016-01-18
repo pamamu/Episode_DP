@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,9 @@
  */
 package personajes;
 
+import estructura.Cerradura;
+import estructura.EstacionPuerta;
+import estructura.Galaxia;
 import estructura.Midicloriano;
 import java.util.ArrayList;
 import org.junit.After;
@@ -34,15 +37,42 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class ImperialTest {
+    
+    private static Imperial instance;
     
     public ImperialTest() {
     }
     
+    /**
+     * Creacion de la galaxia para poder probar un personaje
+     * Se necesita crear una galaxia para crear un personaje
+     */
     @BeforeClass
     public static void setUpClass() {
+        EstacionPuerta puerta = new EstacionPuerta(24);
+        
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
+        
+        Cerradura cerradura = new Cerradura(4);
+
+        ArrayList<Midicloriano> combinacion = galaxia.generarMidiclorianosCerradura();
+
+        cerradura.setCombinacionInicial(combinacion);
+        cerradura.generarCombinacion();
+        cerradura.setEstado(false);
+
+        galaxia.getStarsgate().setCerradura(cerradura);
+
+        galaxia.construirGalaxia();
+        galaxia.generarLaberinto();
+        galaxia.getGrafo().floyd();
+        galaxia.getGrafo().warshall();
+        
+        instance = new Imperial('I', "ImperialPrueba", Galaxia.obtenerInstancia().getStarsgate().getID(), 0);
     }
     
     @AfterClass
@@ -59,40 +89,44 @@ public class ImperialTest {
 
     /**
      * Test of accionPuerta method, of class Imperial.
+     * 
+     * Este test no se puede llevar a cabo ya que depende de otras clases
+     * se prueba con las pruebas de integracion de varios modulos
      */
     @Test
     public void testAccionPuerta() {
         System.out.println("accionPuerta");
-        Imperial instance = null;
-        instance.accionPuerta();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+//        System.out.println(Galaxia.obtenerInstancia().imprimirGalaxia());
+//        instance.accionPuerta();
+//        System.out.println(Galaxia.obtenerInstancia().imprimirGalaxia());
     }
 
     /**
      * Test of accionEstacion method, of class Imperial.
+     * 
+     * Este test no se puede llevar a cabo ya que depende de otras clases
+     * se prueba con las pruebas de integracion de varios modulos
      */
     @Test
     public void testAccionEstacion() {
         System.out.println("accionEstacion");
-        Imperial instance = null;
-        instance.accionEstacion();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
      * Test of esImperial method, of class Imperial.
+     * 
+     * Prueba de funcionamiento esImperial
      */
     @Test
     public void testEsImperial() {
         System.out.println("esImperial");
-        Imperial instance = null;
-        boolean expResult = false;
+        
+        boolean expResult = true;
         boolean result = instance.esImperial();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
+        
     }
 
     /**
@@ -101,37 +135,52 @@ public class ImperialTest {
     @Test
     public void testGenerarCamino() {
         System.out.println("generarCamino");
-        Imperial instance = null;
+        
+        String expected = " O N N N N E O S O S O S O N N N S S S E S O E N N E N E S S S E";
+        
         instance.generarCamino();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        System.out.println(instance.rutaToString());
+        
+        assertEquals(expected, instance.rutaToString());
     }
 
     /**
      * Test of setMidiclorianos method, of class Imperial.
+     * 
+     * Prueba la insercion de una lista de midiclorianos
      */
     @Test
     public void testSetMidiclorianos() {
         System.out.println("setMidiclorianos");
-        ArrayList<Midicloriano> midiclorianos = null;
-        Imperial instance = null;
+        ArrayList<Midicloriano> midiclorianos = new ArrayList<>();
+        Midicloriano midi = new Midicloriano(-2);
+        for (int i = 0; i < 10; i++) {
+            midi = new Midicloriano(i-1);
+            midiclorianos.add(midi);
+        }
+        
+        String expected = " 8 7 6 5 4 3 2 1 0 -1";
+        
         instance.setMidiclorianos(midiclorianos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(expected, instance.midicloriansToString());
+        
     }
 
     /**
      * Test of getTipo method, of class Imperial.
+     * 
+     * Prueba para comprobar que la clase Imperial funciona (constructor)
+     * y metodo getTipo.
      */
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        Imperial instance = null;
-        String expResult = "";
+        
+        String expResult = "imperial";
         String result = instance.getTipo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

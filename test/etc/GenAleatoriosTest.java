@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class GenAleatoriosTest {
     
@@ -61,12 +61,17 @@ public class GenAleatoriosTest {
     @Test
     public void testGenerarNumero() {
         System.out.println("generarNumero");
-        int limiteRango = 0;
+        
+        int limiteRango = 1;
         int expResult = 0;
         int result = GenAleatorios.generarNumero(limiteRango);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        limiteRango = 11;
+        result = GenAleatorios.generarNumero(limiteRango);
+        
+        if(result < 0 || result > 10)
+            fail();
     }
 
     /**
@@ -75,11 +80,16 @@ public class GenAleatoriosTest {
     @Test
     public void testGetNumGenerados() {
         System.out.println("getNumGenerados");
-        int expResult = 0;
+        
+        GenAleatorios.generarNumero(2);
+        
         int result = GenAleatorios.getNumGenerados();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        if(result == 1 || result == 3){
+            //OK
+        }else{
+            fail("No se han generado ni 1 ni 3 numeros");
+        }
     }
-    
+
 }

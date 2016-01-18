@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,10 @@
  */
 package personajes;
 
+import estructura.Cerradura;
+import estructura.EstacionPuerta;
+import estructura.Galaxia;
+import estructura.Midicloriano;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,15 +37,38 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class LightSideTest {
+    
+    private static LightSide instance;
     
     public LightSideTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        EstacionPuerta puerta = new EstacionPuerta(24);
+        
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
+        
+        Cerradura cerradura = new Cerradura(4);
+
+        ArrayList<Midicloriano> combinacion = galaxia.generarMidiclorianosCerradura();
+
+        cerradura.setCombinacionInicial(combinacion);
+        cerradura.generarCombinacion();
+        cerradura.setEstado(false);
+
+        galaxia.getStarsgate().setCerradura(cerradura);
+
+        galaxia.construirGalaxia();
+        galaxia.generarLaberinto();
+        galaxia.getGrafo().floyd();
+        galaxia.getGrafo().warshall();
+        
+        instance = new LightSide('L', "LisgthSidePrueba", 0,0);
     }
     
     @AfterClass
@@ -62,15 +89,28 @@ public class LightSideTest {
     @Test
     public void testEstacionvisitada() {
         System.out.println("estacionvisitada");
-        ArrayList<Integer> solucion = null;
-        int estacionActual = 0;
-        int estacionComprobar = 0;
-        LightSide instance = null;
+        ArrayList<Integer> solucion = new ArrayList<>();
+        //Simulamos una solucion de ruta por ejemplo: 0, 1, 2, 3, 4, 5
+        for (int i = 0; i < 6; i++) {
+            solucion.add(i);
+        }
+        
+        //Estacion aun no visitada
+        int estacionActual = 3;
+        int estacionComprobar = 4;
+        
         boolean expResult = false;
         boolean result = instance.estacionvisitada(solucion, estacionActual, estacionComprobar);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //Estacion ya visitada
+        estacionActual = 3;
+        estacionComprobar = 2;
+        
+        expResult = true;
+        result = instance.estacionvisitada(solucion, estacionActual, estacionComprobar);
+        assertEquals(expResult, result);
+        
     }
 
     /**
@@ -103,10 +143,14 @@ public class LightSideTest {
     @Test
     public void testGenerarCamino() {
         System.out.println("generarCamino");
-        LightSide instance = null;
+        
         instance.generarCamino();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        System.out.println(instance.rutaToString());
+        
+        System.out.println(Galaxia.obtenerInstancia().imprimirGalaxia());
+        
+        assertEquals(instance.rutaToString(), " S S S E S O E E O N N E S N N E S S S E");
     }
 
     /**
@@ -115,12 +159,10 @@ public class LightSideTest {
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        LightSide instance = null;
-        String expResult = "";
+        
+        String expResult = "lightside";
         String result = instance.getTipo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class CaminoTest {
     
@@ -56,44 +56,30 @@ public class CaminoTest {
     }
 
     /**
-     * Test of values method, of class Camino.
-     */
-    @Test
-    public void testValues() {
-        System.out.println("values");
-        Camino[] expResult = null;
-        Camino[] result = Camino.values();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of valueOf method, of class Camino.
-     */
-    @Test
-    public void testValueOf() {
-        System.out.println("valueOf");
-        String name = "";
-        Camino expResult = null;
-        Camino result = Camino.valueOf(name);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getAncho method, of class Camino.
      */
     @Test
     public void testGetAncho() {
         System.out.println("getAncho");
-        Camino instance = null;
+        
+        Camino instance = Camino.NORTE;
         int expResult = 0;
         int result = instance.getAncho();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        instance = Camino.SUR;
+        result = instance.getAncho();
+        assertEquals(expResult, result);
+        
+        instance = Camino.OESTE;
+        expResult = -1;
+        result = instance.getAncho();
+        assertEquals(expResult, result);
+        
+        instance = Camino.ESTE;
+        expResult = 1;
+        result = instance.getAncho();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -102,12 +88,26 @@ public class CaminoTest {
     @Test
     public void testGetAlto() {
         System.out.println("getAlto");
-        Camino instance = null;
-        int expResult = 0;
+        
+        Camino instance = Camino.NORTE;
+        int expResult = -1;
         int result = instance.getAlto();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        instance = Camino.SUR;
+        expResult = 1;
+        result = instance.getAlto();
+        assertEquals(expResult, result);
+        
+        
+        instance = Camino.OESTE;
+        expResult = 0;
+        result = instance.getAlto();
+        assertEquals(expResult, result);
+        
+        instance = Camino.ESTE;
+        result = instance.getAlto();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -116,12 +116,26 @@ public class CaminoTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Camino instance = null;
-        String expResult = "";
+        Camino instance = Camino.NORTE;
+        String expResult = "N";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        
+        instance = Camino.SUR;
+        expResult = "S";
+        result = instance.toString();
+        assertEquals(expResult, result);
+        
+        instance = Camino.OESTE;
+        expResult = "O";
+        result = instance.toString();
+        assertEquals(expResult, result);
+        
+        instance = Camino.ESTE;
+        expResult = "E";
+        result = instance.toString();
+        assertEquals(expResult, result);
     }
     
 }

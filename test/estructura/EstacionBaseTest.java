@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +30,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import personajes.Jedi;
 import personajes.Personaje;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class EstacionBaseTest {
     
@@ -43,6 +44,10 @@ public class EstacionBaseTest {
     
     @BeforeClass
     public static void setUpClass() {
+        EstacionPuerta puerta = new EstacionPuerta(24);
+        
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
     }
     
     @AfterClass
@@ -63,12 +68,11 @@ public class EstacionBaseTest {
     @Test
     public void testGetID() {
         System.out.println("getID");
-        EstacionBase instance = null;
-        int expResult = 0;
+        EstacionBase instance = new EstacionBase(3);
+        int expResult = 3;
         int result = instance.getID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -77,12 +81,16 @@ public class EstacionBaseTest {
     @Test
     public void testGetPersonajes() {
         System.out.println("getPersonajes");
-        EstacionBase instance = null;
-        Object[] expResult = null;
+        EstacionBase instance = new EstacionBase(4);
+        
+        Personaje personaje = new Jedi('A', "PRUEBA", 4, 1);
+        
+        instance.insertarPersonaje(personaje);
+        
+        Object[] expResult = {(Object)personaje};
         Object[] result = instance.getPersonajes();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -91,12 +99,18 @@ public class EstacionBaseTest {
     @Test
     public void testGetMidiclorianos() {
         System.out.println("getMidiclorianos");
-        EstacionBase instance = null;
-        ArrayList<Midicloriano> expResult = null;
+        EstacionBase instance = new EstacionBase(3);
+        
+        Midicloriano midi = new Midicloriano(2);
+        ArrayList<Midicloriano> midis = new ArrayList();
+        
+        midis.add(midi);
+        instance.insertarMidicloriano(midi);
+        
+        ArrayList<Midicloriano> expResult = midis;
         ArrayList<Midicloriano> result = instance.getMidiclorianos();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -106,10 +120,8 @@ public class EstacionBaseTest {
     public void testAccion() {
         System.out.println("accion");
         int turno = 0;
-        EstacionBase instance = null;
+        EstacionBase instance = new EstacionBase(5);
         instance.accion(turno);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -117,12 +129,18 @@ public class EstacionBaseTest {
      */
     @Test
     public void testInsertarMidicloriano() {
-        System.out.println("insertarMidicloriano");
-        Midicloriano midicloriano = null;
-        EstacionBase instance = null;
-        instance.insertarMidicloriano(midicloriano);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("insertarMidiclorianos");
+        EstacionBase instance = new EstacionBase(3);
+        
+        Midicloriano midi = new Midicloriano(6);
+        ArrayList<Midicloriano> midis = new ArrayList();
+        
+        midis.add(midi);
+        instance.insertarMidicloriano(midi);
+        
+        ArrayList<Midicloriano> expResult = midis;
+        ArrayList<Midicloriano> result = instance.getMidiclorianos();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -131,12 +149,17 @@ public class EstacionBaseTest {
     @Test
     public void testSacarMidicloriano() {
         System.out.println("sacarMidicloriano");
-        EstacionBase instance = null;
-        Midicloriano expResult = null;
+        
+        EstacionBase instance = new EstacionBase(3);
+        
+        Midicloriano midi = new Midicloriano(7);
+        
+        Midicloriano expResult = midi;
+        
+        instance.insertarMidicloriano(midi);
         Midicloriano result = instance.sacarMidicloriano();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -145,11 +168,11 @@ public class EstacionBaseTest {
     @Test
     public void testInsertarPersonaje() {
         System.out.println("insertarPersonaje");
-        Personaje personaje = null;
-        EstacionBase instance = null;
+        EstacionBase instance = new EstacionBase(4);
+        
+        Personaje personaje = new Jedi('A', "PRUEBA", 4, 1);
+
         instance.insertarPersonaje(personaje);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -158,12 +181,15 @@ public class EstacionBaseTest {
     @Test
     public void testSacarPersonaje() {
         System.out.println("sacarPersonaje");
-        EstacionBase instance = null;
-        Personaje expResult = null;
+        
+        EstacionBase instance = new EstacionBase(4);
+        
+        Personaje personaje = new Jedi('A', "PRUEBA", 4, 1);
+
+        instance.insertarPersonaje(personaje);
+        Personaje expResult = personaje;
         Personaje result = instance.sacarPersonaje();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -172,12 +198,10 @@ public class EstacionBaseTest {
     @Test
     public void testEsPuerta() {
         System.out.println("esPuerta");
-        EstacionBase instance = null;
+        EstacionBase instance = new EstacionBase(24);
         boolean expResult = false;
         boolean result = instance.esPuerta();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result); 
     }
 
     /**
@@ -186,12 +210,15 @@ public class EstacionBaseTest {
     @Test
     public void testImprimirPersonajesMarca() {
         System.out.println("imprimirPersonajesMarca");
-        EstacionBase instance = null;
-        String expResult = "";
+        EstacionBase instance = new EstacionBase(4);
+        
+        Personaje personaje = new Jedi('A', "PRUEBA", 4, 1);
+        
+        instance.insertarPersonaje(personaje);
+        
+        String expResult = "A";
         String result = instance.imprimirPersonajesMarca();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -200,12 +227,15 @@ public class EstacionBaseTest {
     @Test
     public void testMidiclorianosToString() {
         System.out.println("midiclorianosToString");
-        EstacionBase instance = null;
-        String expResult = "";
+        EstacionBase instance = new EstacionBase(4);
+        
+        Midicloriano midi = new Midicloriano(6);
+        
+        instance.insertarMidicloriano(midi);
+        
+        String expResult = " 6";
         String result = instance.midiclorianosToString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -214,10 +244,8 @@ public class EstacionBaseTest {
     @Test
     public void testToLog() {
         System.out.println("toLog");
-        EstacionBase instance = null;
+        EstacionBase instance = new EstacionBase(8);
         instance.toLog();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -226,10 +254,8 @@ public class EstacionBaseTest {
     @Test
     public void testToLogPersonajes() {
         System.out.println("toLogPersonajes");
-        EstacionBase instance = null;
+        EstacionBase instance = new EstacionBase(9);
         instance.toLogPersonajes();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

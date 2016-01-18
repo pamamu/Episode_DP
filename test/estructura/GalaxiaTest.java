@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import personajes.Jedi;
 import personajes.Personaje;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class GalaxiaTest {
     
@@ -44,6 +45,27 @@ public class GalaxiaTest {
     
     @BeforeClass
     public static void setUpClass() {
+         EstacionPuerta puerta = new EstacionPuerta(24);
+        
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
+        
+        Cerradura cerradura = new Cerradura(4);
+
+        ArrayList<Midicloriano> combinacion = galaxia.generarMidiclorianosCerradura();
+
+        cerradura.setCombinacionInicial(combinacion);
+        cerradura.generarCombinacion();
+        cerradura.setEstado(false);
+
+        galaxia.getStarsgate().setCerradura(cerradura);
+
+        galaxia.construirGalaxia();
+        galaxia.generarLaberinto();
+        galaxia.getGrafo().floyd();
+        galaxia.getGrafo().warshall();
+        
+        System.out.println(galaxia.imprimirGalaxia());
     }
     
     @AfterClass
@@ -64,15 +86,10 @@ public class GalaxiaTest {
     @Test
     public void testObtenerInstancia_4args() {
         System.out.println("obtenerInstancia");
-        int idEstacionPuerta = 0;
-        EstacionPuerta starsgate = null;
-        int dimX = 0;
-        int dimY = 0;
-        Galaxia expResult = null;
-        Galaxia result = Galaxia.obtenerInstancia(idEstacionPuerta, starsgate, dimX, dimY);
+        EstacionPuerta puerta = new EstacionPuerta(5);
+        Galaxia expResult = Galaxia.obtenerInstancia(5, puerta, 8, 8);
+        Galaxia result = Galaxia.obtenerInstancia();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -81,11 +98,9 @@ public class GalaxiaTest {
     @Test
     public void testObtenerInstancia_0args() {
         System.out.println("obtenerInstancia");
-        Galaxia expResult = null;
+        Galaxia expResult = Galaxia.obtenerInstancia();
         Galaxia result = Galaxia.obtenerInstancia();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -94,12 +109,11 @@ public class GalaxiaTest {
     @Test
     public void testGetDimX() {
         System.out.println("getDimX");
-        Galaxia instance = null;
-        int expResult = 0;
-        int result = instance.getDimX();
+        
+        int expResult = 5;
+        int result = Galaxia.obtenerInstancia().getDimX();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -108,12 +122,11 @@ public class GalaxiaTest {
     @Test
     public void testGetDimY() {
         System.out.println("getDimY");
-        Galaxia instance = null;
-        int expResult = 0;
-        int result = instance.getDimY();
+        
+        int expResult = 5;
+        int result = Galaxia.obtenerInstancia().getDimY();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -122,12 +135,26 @@ public class GalaxiaTest {
     @Test
     public void testGetGrafo() {
         System.out.println("getGrafo");
-        Galaxia instance = null;
-        Grafo expResult = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        Grafo expResult = Galaxia.obtenerInstancia().getGrafo();
         Grafo result = instance.getGrafo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getTurno method, of class Galaxia.
+     */
+    @Test
+    public void testGetTurno() {
+        System.out.println("getTurno");
+        Galaxia instance = Galaxia.obtenerInstancia();        
+        
+        int expResult = 0;
+        if(instance.getTurno() != 0)
+             expResult = 1;
+        
+        int result = instance.getTurno();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -136,12 +163,10 @@ public class GalaxiaTest {
     @Test
     public void testGetIdEstacionPuerta() {
         System.out.println("getIdEstacionPuerta");
-        Galaxia instance = null;
-        int expResult = 0;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        int expResult = 24;
         int result = instance.getIdEstacionPuerta();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -150,12 +175,10 @@ public class GalaxiaTest {
     @Test
     public void testGetEstacionLiberty() {
         System.out.println("getEstacionLiberty");
-        Galaxia instance = null;
-        EstacionBase expResult = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        EstacionBase expResult = Galaxia.obtenerInstancia().getEstacionLiberty();
         EstacionBase result = instance.getEstacionLiberty();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -164,12 +187,11 @@ public class GalaxiaTest {
     @Test
     public void testGetStarsgate() {
         System.out.println("getStarsgate");
-        Galaxia instance = null;
-        EstacionPuerta expResult = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        EstacionPuerta expResult = (EstacionPuerta)Galaxia.obtenerInstancia().getEstacion(
+                instance.getIdEstacionPuerta());
         EstacionPuerta result = instance.getStarsgate();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -178,25 +200,14 @@ public class GalaxiaTest {
     @Test
     public void testGetPersonajes() {
         System.out.println("getPersonajes");
-        Galaxia instance = null;
-        ArrayList<Personaje> expResult = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        ArrayList<Personaje> expResult = new ArrayList<>();
+        if(!instance.getPersonajes().isEmpty()){
+            Jedi personaje = new Jedi('P', "PersonajeJediPrueba", 8, 4);
+            expResult.add(personaje);
+        }
         ArrayList<Personaje> result = instance.getPersonajes();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setPasosPorEstaciones method, of class Galaxia.
-     */
-    @Test
-    public void testSetPasosPorEstaciones() {
-        System.out.println("setPasosPorEstaciones");
-        ArrayList<Integer> pasosPorEstaciones = null;
-        Galaxia instance = null;
-        instance.setPasosPorEstaciones(pasosPorEstaciones);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -205,11 +216,13 @@ public class GalaxiaTest {
     @Test
     public void testSetPersonajes() {
         System.out.println("setPersonajes");
-        ArrayList<Object> personajes = null;
-        Galaxia instance = null;
+        ArrayList<Object> personajes = new ArrayList<>();
+        Jedi personaje = new Jedi('P', "PersonajeJediPrueba", 8, 4);
+        
+        personajes.add(personaje);
+        
+        Galaxia instance = Galaxia.obtenerInstancia();
         instance.setPersonajes(personajes);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -218,10 +231,8 @@ public class GalaxiaTest {
     @Test
     public void testConstruirGalaxia() {
         System.out.println("construirGalaxia");
-        Galaxia instance = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
         instance.construirGalaxia();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -230,10 +241,8 @@ public class GalaxiaTest {
     @Test
     public void testGenerarLaberinto() {
         System.out.println("generarLaberinto");
-        Galaxia instance = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
         instance.generarLaberinto();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -242,12 +251,10 @@ public class GalaxiaTest {
     @Test
     public void testGenerarMidiclorianosCerradura() {
         System.out.println("generarMidiclorianosCerradura");
-        Galaxia instance = null;
-        ArrayList<Midicloriano> expResult = null;
-        ArrayList<Midicloriano> result = instance.generarMidiclorianosCerradura();
+        Galaxia instance = Galaxia.obtenerInstancia();
+        String expResult = "[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29]";
+        String result = instance.generarMidiclorianosCerradura().toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -256,12 +263,10 @@ public class GalaxiaTest {
     @Test
     public void testGenerarMidiclorianosGalaxia() {
         System.out.println("generarMidiclorianosGalaxia");
-        Galaxia instance = null;
-        ArrayList<Midicloriano> expResult = null;
-        ArrayList<Midicloriano> result = instance.generarMidiclorianosGalaxia();
+        Galaxia instance = Galaxia.obtenerInstancia();
+        String expResult = "[0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16, 17, 17, 18, 19, 19, 20, 21, 21, 22, 23, 23, 24, 25, 25, 26, 27, 27, 28, 29, 29]";
+        String result = instance.generarMidiclorianosGalaxia().toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -270,11 +275,9 @@ public class GalaxiaTest {
     @Test
     public void testRepartirMidiclorianos() {
         System.out.println("repartirMidiclorianos");
-        ArrayList<Midicloriano> midiclorianos = null;
-        Galaxia instance = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        ArrayList<Midicloriano> midiclorianos = instance.generarMidiclorianosGalaxia();
         instance.repartirMidiclorianos(midiclorianos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -283,11 +286,9 @@ public class GalaxiaTest {
     @Test
     public void testAccion() {
         System.out.println("accion");
-        int turno = 0;
-        Galaxia instance = null;
+        int turno = 1;
+        Galaxia instance = Galaxia.obtenerInstancia();
         instance.accion(turno);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -297,12 +298,10 @@ public class GalaxiaTest {
     public void testIDtoCoordenadas() {
         System.out.println("IDtoCoordenadas");
         int ID = 0;
-        Galaxia instance = null;
-        int[] expResult = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        int[] expResult = {0,0};
         int[] result = instance.IDtoCoordenadas(ID);
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -311,14 +310,12 @@ public class GalaxiaTest {
     @Test
     public void testCoordenadastoID() {
         System.out.println("coordenadastoID");
-        int fila = 0;
-        int columna = 0;
-        Galaxia instance = null;
-        int expResult = 0;
+        int fila = 4;
+        int columna = 3;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        int expResult = 23;
         int result = instance.coordenadastoID(fila, columna);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -327,13 +324,11 @@ public class GalaxiaTest {
     @Test
     public void testGetEstacion_int() {
         System.out.println("getEstacion");
-        int ID = 0;
-        Galaxia instance = null;
-        EstacionBase expResult = null;
+        int ID = 8;
+        Galaxia instance = Galaxia.obtenerInstancia();
+        EstacionBase expResult = Galaxia.obtenerInstancia().getEstacion(1, 3);
         EstacionBase result = instance.getEstacion(ID);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -342,14 +337,10 @@ public class GalaxiaTest {
     @Test
     public void testGetEstacion_int_int() {
         System.out.println("getEstacion");
-        int fila = 0;
-        int columna = 0;
-        Galaxia instance = null;
-        EstacionBase expResult = null;
-        EstacionBase result = instance.getEstacion(fila, columna);
+        Galaxia instance = Galaxia.obtenerInstancia();
+        EstacionBase expResult = instance.getEstacion(10);
+        EstacionBase result = instance.getEstacion(2, 0);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -358,10 +349,8 @@ public class GalaxiaTest {
     @Test
     public void testSimular() {
         System.out.println("simular");
-        Galaxia instance = null;
+        Galaxia instance = Galaxia.obtenerInstancia();
         instance.simular();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -370,12 +359,10 @@ public class GalaxiaTest {
     @Test
     public void testImprimirGalaxia() {
         System.out.println("imprimirGalaxia");
-        Galaxia instance = null;
-        String expResult = "";
+        Galaxia instance = Galaxia.obtenerInstancia();
+        String expResult = Galaxia.obtenerInstancia().imprimirGalaxia();
         String result = instance.imprimirGalaxia();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -385,10 +372,8 @@ public class GalaxiaTest {
     public void testToLog() {
         System.out.println("toLog");
         int turno = 0;
-        Galaxia instance = null;
-        instance.toLog(turno);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Galaxia.obtenerInstancia().toLog(turno);
     }
     
 }

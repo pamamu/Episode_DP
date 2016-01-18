@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,10 @@
  */
 package personajes;
 
+import estructura.Cerradura;
 import estructura.EstacionBase;
+import estructura.EstacionPuerta;
+import estructura.Galaxia;
 import estructura.Midicloriano;
 import etc.Camino;
 import java.util.ArrayList;
@@ -37,19 +40,46 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class PersonajeTest {
+    
+    private static Personaje instance;
     
     public PersonajeTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        EstacionPuerta puerta = new EstacionPuerta(24);
+        
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
+        
+        Cerradura cerradura = new Cerradura(4);
+
+        ArrayList<Midicloriano> combinacion = galaxia.generarMidiclorianosCerradura();
+
+        cerradura.setCombinacionInicial(combinacion);
+        cerradura.generarCombinacion();
+        cerradura.setEstado(false);
+
+        galaxia.getStarsgate().setCerradura(cerradura);
+
+        galaxia.construirGalaxia();
+        galaxia.generarLaberinto();
+        galaxia.getGrafo().floyd();
+        galaxia.getGrafo().warshall();
+        
+        instance = new Jedi('P', "PersonajeJediPrueba", 8, 4);
+        
+        System.out.println(galaxia.imprimirGalaxia());
     }
     
     @AfterClass
     public static void tearDownClass() {
+        int estaciones = Galaxia.obtenerInstancia().getIdEstacionPuerta();
+        
     }
     
     @Before
@@ -66,26 +96,12 @@ public class PersonajeTest {
     @Test
     public void testGetTurno() {
         System.out.println("getTurno");
-        Personaje instance = null;
-        int expResult = 0;
-        int result = instance.getTurno();
+        
+        Personaje personaje = new Imperial('K', "PersonajeImperialPrueba", 14, 8);
+        
+        int expResult = 8;
+        int result = personaje.getTurno();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getNombre method, of class Personaje.
-     */
-    @Test
-    public void testGetNombre() {
-        System.out.println("getNombre");
-        Personaje instance = null;
-        String expResult = "";
-        String result = instance.getNombre();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -94,12 +110,12 @@ public class PersonajeTest {
     @Test
     public void testGetEstacionPosicion() {
         System.out.println("getEstacionPosicion");
-        Personaje instance = null;
-        EstacionBase expResult = null;
-        EstacionBase result = instance.getEstacionPosicion();
+        
+        Personaje personaje = new Imperial('I', "PersonajeImperialPrueba", 14, 4);
+        
+        int expResult = 14;
+        int result = personaje.getEstacionPosicion().getID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -108,12 +124,11 @@ public class PersonajeTest {
     @Test
     public void testGetMarcaClase() {
         System.out.println("getMarcaClase");
-        Personaje instance = null;
-        char expResult = ' ';
+        
+        char expResult = 'P';
         char result = instance.getMarcaClase();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -122,12 +137,20 @@ public class PersonajeTest {
     @Test
     public void testIsGanador() {
         System.out.println("isGanador");
-        Personaje instance = null;
+        
+        Personaje personaje = new FamiliaReal('F', "PersonajeFRealPrueba", 1, 4);
+
         boolean expResult = false;
-        boolean result = instance.isGanador();
+        boolean result = personaje.isGanador();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        personaje.moverA(Galaxia.obtenerInstancia().getEstacionLiberty());
+        personaje.ganador = true;
+        expResult = true;
+        
+        result = personaje.isGanador();
+        
+        assertEquals(expResult, result);
     }
 
     /**
@@ -136,12 +159,26 @@ public class PersonajeTest {
     @Test
     public void testGetRuta() {
         System.out.println("getRuta");
-        Personaje instance = null;
-        LinkedList<Camino> expResult = null;
-        LinkedList<Camino> result = instance.getRuta();
+        
+        Personaje personaje = new Contrabandista('Z', "PersonajeContrabandistaPrueba", 10, 1);
+
+        ArrayList<Integer> camino = new ArrayList<>();
+        
+        //Seteamos un camino de ejemplo: mover el personaje hasta la posicion de la puerta desde la pos 8
+        //camino.add(10);
+        camino.add(10+5);        //Mueve al sur
+        camino.add(10+5+1);      
+        
+        personaje.setRuta(camino);
+        
+        System.out.println(Galaxia.obtenerInstancia().imprimirGalaxia());
+        
+        System.out.println(personaje.getRuta().toString());
+        
+        String expResult = "[S, E]";
+        String result = personaje.getRuta().toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -150,11 +187,23 @@ public class PersonajeTest {
     @Test
     public void testSetRuta_LinkedList() {
         System.out.println("setRuta");
-        LinkedList<Camino> ruta = null;
-        Personaje instance = null;
+        
+        LinkedList<Camino> ruta = new LinkedList<>();
+        
+        String expected = "[O, N, S, O, N, S, E]";
+        
+        //Seteamos una ruta de ejemplo: O, N, S, O, N, S, E
+        ruta.add(Camino.OESTE);
+        ruta.add(Camino.NORTE);
+        ruta.add(Camino.SUR);
+        ruta.add(Camino.OESTE);
+        ruta.add(Camino.NORTE);
+        ruta.add(Camino.SUR);
+        ruta.add(Camino.ESTE);
+        
         instance.setRuta(ruta);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(expected, ruta.toString());
     }
 
     /**
@@ -163,11 +212,23 @@ public class PersonajeTest {
     @Test
     public void testSetRuta_ArrayList() {
         System.out.println("setRuta");
-        ArrayList<Integer> camino = null;
-        Personaje instance = null;
-        instance.setRuta(camino);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Personaje personaje = new Contrabandista('C', "PersonajeContrabandistaPrueba", 11, 1);
+
+        String expected = "[S, S, S]";
+        ArrayList<Integer> camino = new ArrayList<>();
+        
+        //Seteamos un camino de ejemplo: mover el personaje hasta la posicion de la puerta desde la pos 8
+        
+        camino.add(11+5);        //Mueve al sur
+        camino.add(11+5+5);      //Mueve al sur
+        camino.add(11+5+5+5);    //Mueve al sur
+        
+        System.err.println(personaje.rutaToString());
+        
+        personaje.setRuta(camino);
+        
+        assertEquals(expected, personaje.getRuta().toString());
     }
 
     /**
@@ -176,11 +237,11 @@ public class PersonajeTest {
     @Test
     public void testRecogerMidicloriano() {
         System.out.println("recogerMidicloriano");
-        Midicloriano midicloriano = null;
-        Personaje instance = null;
+        Midicloriano midicloriano = new Midicloriano(42);
+        
+        String expected = " 42";
+        
         instance.recogerMidicloriano(midicloriano);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -189,10 +250,11 @@ public class PersonajeTest {
     @Test
     public void testMover() {
         System.out.println("mover");
-        Personaje instance = null;
-        instance.mover();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        if(!instance.getRuta().isEmpty()){
+            instance.mover();
+            System.err.println("Movido");
+        }
     }
 
     /**
@@ -201,10 +263,7 @@ public class PersonajeTest {
     @Test
     public void testAccion() {
         System.out.println("accion");
-        Personaje instance = null;
         instance.accion();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -213,12 +272,12 @@ public class PersonajeTest {
     @Test
     public void testEsImperial() {
         System.out.println("esImperial");
-        Personaje instance = null;
+        
+        Personaje personaje = new FamiliaReal('F', "PersonajeFRealPrueba", 1, 4);
+        
         boolean expResult = false;
         boolean result = instance.esImperial();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -227,10 +286,10 @@ public class PersonajeTest {
     @Test
     public void testFin() {
         System.out.println("fin");
-        Personaje instance = null;
-        instance.fin();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Personaje personaje = new FamiliaReal('F', "PersonajeFRealPrueba", 1, 4);
+        
+        personaje.fin();
     }
 
     /**
@@ -239,10 +298,9 @@ public class PersonajeTest {
     @Test
     public void testAccionPuerta() {
         System.out.println("accionPuerta");
-        Personaje instance = null;
-        instance.accionPuerta();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Personaje personaje = new Jedi('G', "PersonajeJediPrueba", 24, 4);
+        personaje.accionPuerta();
+        
     }
 
     /**
@@ -251,10 +309,8 @@ public class PersonajeTest {
     @Test
     public void testAccionEstacion() {
         System.out.println("accionEstacion");
-        Personaje instance = null;
+        
         instance.accionEstacion();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -263,10 +319,10 @@ public class PersonajeTest {
     @Test
     public void testGenerarCamino() {
         System.out.println("generarCamino");
-        Personaje instance = null;
-        instance.generarCamino();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Personaje personaje = new Contrabandista('h', "PersonajeFRealPrueba", 20, 4);
+        
+        personaje.generarCamino();
     }
 
     /**
@@ -275,12 +331,10 @@ public class PersonajeTest {
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        Personaje instance = null;
-        String expResult = "";
+        
+        String expResult = "jedi";
         String result = instance.getTipo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -289,13 +343,12 @@ public class PersonajeTest {
     @Test
     public void testCompareTo() {
         System.out.println("compareTo");
-        Personaje o = null;
-        Personaje instance = null;
-        int expResult = 0;
+        Personaje o = new FamiliaReal('F', "PersonajeFRealPrueba", 1, 4);
+        
+        int expResult = 1;
         int result = instance.compareTo(o);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -304,12 +357,10 @@ public class PersonajeTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Personaje instance = null;
-        String expResult = "";
+        
+        String expResult = "P";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -318,12 +369,19 @@ public class PersonajeTest {
     @Test
     public void testRutaToString() {
         System.out.println("rutaToString");
-        Personaje instance = null;
-        String expResult = "";
+        
+        LinkedList<Camino> ruta = new LinkedList<>();
+        
+        ruta.add(Camino.SUR);
+        ruta.add(Camino.NORTE);
+        ruta.add(Camino.NORTE);
+        ruta.add(Camino.OESTE);
+        
+        instance.setRuta(ruta);
+        
+        String expResult = " S N N O";
         String result = instance.rutaToString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -332,12 +390,20 @@ public class PersonajeTest {
     @Test
     public void testMidicloriansToString() {
         System.out.println("midicloriansToString");
-        Personaje instance = null;
-        String expResult = "";
+        
+        Midicloriano midi = new Midicloriano(4);
+        
+        System.err.println(instance.midicloriansToString());
+        
+        String expResult;
+        if(!instance.midiclorianos.isEmpty()){
+            expResult = " 42";
+        }else{
+            instance.recogerMidicloriano(midi);
+            expResult = " 4";
+        }
         String result = instance.midicloriansToString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -346,10 +412,8 @@ public class PersonajeTest {
     @Test
     public void testToLogini() {
         System.out.println("toLogini");
-        Personaje instance = null;
+        
         instance.toLogini();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -358,30 +422,9 @@ public class PersonajeTest {
     @Test
     public void testToLog() {
         System.out.println("toLog");
-        Personaje instance = null;
+        
         instance.toLog();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    public class PersonajeImpl extends Personaje {
-
-        public PersonajeImpl() {
-            super(' ', "", 0, 0);
-        }
-
-        public void accionPuerta() {
-        }
-
-        public void accionEstacion() {
-        }
-
-        public void generarCamino() {
-        }
-
-        public String getTipo() {
-            return "";
-        }
-    }
     
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package personajes;
 
+import estructura.Galaxia;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,15 +33,21 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class JediTest {
     
     public JediTest() {
     }
     
+    /**
+     * Creacion de la galaxia para poder probar un personaje
+     * Se necesita crear una galaxia para crear un personaje
+     */
     @BeforeClass
     public static void setUpClass() {
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, null, 5, 5);
     }
     
     @AfterClass
@@ -56,17 +63,19 @@ public class JediTest {
     }
 
     /**
-     * Test of getTipo method, of class Jedi.
+     * Test de getTipo, de clase Jedi.
+     * 
+     * Prueba para comprobar que la clase Jedi funciona (constructor)
+     * y metodo getTipo.
+     * 
      */
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        Jedi instance = null;
-        String expResult = "";
+        Jedi instance = new Jedi('J', "JediPrueba", 0, 0);
+        String expResult = "jedi";
         String result = instance.getTipo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

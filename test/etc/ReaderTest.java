@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package etc;
 
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,15 +33,18 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class ReaderTest {
+    
+    private static Reader instance;
     
     public ReaderTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws IOException {
+        instance = new Reader("./pruebaReader.txt");
     }
     
     @AfterClass
@@ -61,12 +65,11 @@ public class ReaderTest {
     @Test
     public void testGetDatosGalaxia() {
         System.out.println("getDatosGalaxia");
-        Reader instance = null;
-        String[] expResult = null;
+        
+        String[] expResult = {"GALAXIA","6","8","47","3"};
         String[] result = instance.getDatosGalaxia();
+        
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -75,12 +78,10 @@ public class ReaderTest {
     @Test
     public void testGetJedis() {
         System.out.println("getJedis");
-        Reader instance = null;
-        String[][] expResult = null;
+        
+        String[][] expResult = {{"JEDI","Finn","F","2"}};
         String[][] result = instance.getJedis();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -89,12 +90,11 @@ public class ReaderTest {
     @Test
     public void testGetContrabandistas() {
         System.out.println("getContrabandistas");
-        Reader instance = null;
-        String[][] expResult = null;
+        
+        String[][] expResult = {{"CONTRABANDISTA","BB-8","B","1"}};
         String[][] result = instance.getContrabandistas();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -103,12 +103,10 @@ public class ReaderTest {
     @Test
     public void testGetReales() {
         System.out.println("getReales");
-        Reader instance = null;
-        String[][] expResult = null;
+        
+        String[][] expResult = {{"FAMILIAREAL","Rey","R","1"}};
         String[][] result = instance.getReales();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -117,12 +115,10 @@ public class ReaderTest {
     @Test
     public void testGetImperiales() {
         System.out.println("getImperiales");
-        Reader instance = null;
-        String[][] expResult = null;
+        
+        String[][] expResult = {{"IMPERIAL","Kylo","K","1"}};
         String[][] result = instance.getImperiales();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package estructura;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class EstacionPuertaTest {
     
@@ -61,11 +62,11 @@ public class EstacionPuertaTest {
     @Test
     public void testSetCerradura() {
         System.out.println("setCerradura");
-        Cerradura cerradura = null;
-        EstacionPuerta instance = null;
+        Cerradura cerradura = new Cerradura(4);
+        EstacionPuerta instance = new EstacionPuerta(25);
+        
         instance.setCerradura(cerradura);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -74,10 +75,8 @@ public class EstacionPuertaTest {
     @Test
     public void testFin() {
         System.out.println("fin");
-        EstacionPuerta instance = null;
+        EstacionPuerta instance = new EstacionPuerta(25);
         instance.fin();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -86,12 +85,10 @@ public class EstacionPuertaTest {
     @Test
     public void testEsPuerta() {
         System.out.println("esPuerta");
-        EstacionPuerta instance = null;
-        boolean expResult = false;
+        EstacionPuerta instance = new EstacionPuerta(45);
+        boolean expResult = true;
         boolean result = instance.esPuerta();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class MidiclorianoTest {
     
@@ -61,12 +61,10 @@ public class MidiclorianoTest {
     @Test
     public void testGetID() {
         System.out.println("getID");
-        Midicloriano instance = null;
-        int expResult = 0;
+        Midicloriano instance = new Midicloriano(900);
+        int expResult = 900;
         int result = instance.getID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -75,12 +73,10 @@ public class MidiclorianoTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Midicloriano instance = null;
-        String expResult = "";
+        Midicloriano instance = new Midicloriano(-27);
+        String expResult = "-27";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -89,13 +85,11 @@ public class MidiclorianoTest {
     @Test
     public void testCompareTo() {
         System.out.println("compareTo");
-        Midicloriano o = null;
-        Midicloriano instance = null;
-        int expResult = 0;
+        Midicloriano o = new Midicloriano(900);
+        Midicloriano instance = new Midicloriano(901);;
+        int expResult = 1;
         int result = instance.compareTo(o);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

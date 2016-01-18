@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Pablo_Macias.
+ * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package estructura;
 
+import etc.Logger;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,7 +34,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pablo_Macias
+ * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
  */
 public class CerraduraTest {
     
@@ -42,6 +43,10 @@ public class CerraduraTest {
     
     @BeforeClass
     public static void setUpClass() {
+        EstacionPuerta puerta = new EstacionPuerta(24);
+        
+        //Creacion de una galaxia de prueba para probar el personaje
+        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
     }
     
     @AfterClass
@@ -62,12 +67,10 @@ public class CerraduraTest {
     @Test
     public void testAbierta() {
         System.out.println("Abierta");
-        Cerradura instance = null;
-        boolean expResult = false;
+        Cerradura instance = new Cerradura(3);
+        boolean expResult = true;
         boolean result = instance.Abierta();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -76,11 +79,15 @@ public class CerraduraTest {
     @Test
     public void testSetEstado() {
         System.out.println("setEstado");
+        
         boolean estado = false;
-        Cerradura instance = null;
+        
+        Cerradura instance = new Cerradura(4);
+        
+        boolean expResult = false;
         instance.setEstado(estado);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(expResult, estado);
     }
 
     /**
@@ -89,11 +96,14 @@ public class CerraduraTest {
     @Test
     public void testSetCombinacionInicial() {
         System.out.println("setCombinacionInicial");
-        ArrayList<Midicloriano> midiclorianosIniciales = null;
-        Cerradura instance = null;
-        instance.setCombinacionInicial(midiclorianosIniciales);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Cerradura instance = new Cerradura(4);
+        
+        ArrayList<Midicloriano> combinacion = 
+                Galaxia.obtenerInstancia().generarMidiclorianosCerradura();
+        
+        instance.setCombinacionInicial(combinacion);
+        
     }
 
     /**
@@ -102,11 +112,14 @@ public class CerraduraTest {
     @Test
     public void testConfigurarCerradura() {
         System.out.println("configurarCerradura");
-        ArrayList<Midicloriano> midiclorianos = null;
-        Cerradura instance = null;
+        
+        Cerradura instance = new Cerradura(2);
+        
+        ArrayList<Midicloriano> midiclorianos = 
+            Galaxia.obtenerInstancia().generarMidiclorianosCerradura();       
+        
         instance.configurarCerradura(midiclorianos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -115,10 +128,14 @@ public class CerraduraTest {
     @Test
     public void testGenerarCombinacion() {
         System.out.println("generarCombinacion");
-        Cerradura instance = null;
+        Cerradura instance = new Cerradura(2);
+        
+        ArrayList<Midicloriano> midiclorianos = 
+            Galaxia.obtenerInstancia().generarMidiclorianosCerradura();       
+        
+        instance.setCombinacionInicial(midiclorianos);
+        
         instance.generarCombinacion();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -127,13 +144,20 @@ public class CerraduraTest {
     @Test
     public void testProbarMidicloriano() throws Exception {
         System.out.println("probarMidicloriano");
-        Midicloriano midicloriano = null;
-        Cerradura instance = null;
-        boolean expResult = false;
+        
+        Cerradura instance = new Cerradura(4);
+        ArrayList<Midicloriano> combinacion = Galaxia.obtenerInstancia().generarMidiclorianosCerradura();
+
+        instance.setCombinacionInicial(combinacion);
+        instance.generarCombinacion();
+        instance.setEstado(false);
+        
+        Midicloriano midicloriano = combinacion.get(0);
+        
+        boolean expResult = true;
         boolean result = instance.probarMidicloriano(midicloriano);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -142,10 +166,8 @@ public class CerraduraTest {
     @Test
     public void testReiniciar() {
         System.out.println("reiniciar");
-        Cerradura instance = null;
+        Cerradura instance = new Cerradura(2);
         instance.reiniciar();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -154,10 +176,8 @@ public class CerraduraTest {
     @Test
     public void testComprobarEstado() {
         System.out.println("comprobarEstado");
-        Cerradura instance = null;
+        Cerradura instance = new Cerradura(9);
         instance.comprobarEstado();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -166,10 +186,8 @@ public class CerraduraTest {
     @Test
     public void testToLog() {
         System.out.println("toLog");
-        Cerradura instance = null;
+        Cerradura instance = new Cerradura(5);
         instance.toLog();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
