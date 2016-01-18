@@ -176,7 +176,7 @@ public class LightSide extends Personaje {
      * @param orientacion Orientacion con la que empieza en la enésima etapa del
      * método.
      * @pre Galaxia y grafo inicializado con con éxito
-     * @post SI la estacionOrigen es distinta a la estacionDestino se comprueban
+     * @post Si la estacionOrigen es distinta a la estacionDestino se comprueban
      * los 4 caminos posibles dependiendo de la orientación (siempre gira a la
      * derecha cuando hay posibilidad). Método recursivo.
      * @complex O(n^2)

@@ -122,7 +122,7 @@ public class Cerradura {
 
     /**
      * Método para mostrar el contenido de un arbol de midiclorianos a través de
-     * uina cadena
+     * una cadena
      *
      * @param arbol Arbol que se quiere mostrar
      * @return Devuelve cadena con el contenido del arbol
@@ -259,7 +259,7 @@ public class Cerradura {
      * @param midiclorianos Estructura de midiclorianos que se quieren insertar
      * en la cerradura
      * @pre Cerradura inicializada correctamente
-     * @post Combinación cerradura con datos de midiclorianos (párametro
+     * @post Combinación cerradura con datos de midiclorianos (parámetro
      * entrada)
      * @complex O(n)
      */
@@ -277,7 +277,7 @@ public class Cerradura {
      * midiclorianos iniciales guardados.
      *
      * @pre Cerradura inicializada correctamente
-     * @post - CombinacionIncio con la combinación inicial de la cerradura y
+     * @post - CombinacionInicio con la combinación inicial de la cerradura y
      * CombinacionCerradura con midiclorianos balanceados
      * @complex O(n)
      */

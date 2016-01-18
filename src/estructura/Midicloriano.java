@@ -34,7 +34,7 @@ public class Midicloriano implements Comparable<Midicloriano> {
 
 // CONSTRUCTORES ###########################################################
     /**
-     * Constructor paramétrizado del objeto Midicloriano
+     * Constructor parametrizado del objeto Midicloriano
      *
      * @param ID ID del midicloriano que se crea
      * @pre -
@@ -47,7 +47,7 @@ public class Midicloriano implements Comparable<Midicloriano> {
 
 // Getter & Setter #########################################################
     /**
-     * Método que devuelve el ID del midicliano
+     * Método que devuelve el ID del midicloriano
      *
      * @return ID del midicloriano
      * @pre Midicloriano inicializado correctamente
@@ -77,7 +77,7 @@ public class Midicloriano implements Comparable<Midicloriano> {
      * Método para comparar un Midicloriano con la instancia actual
      *
      * @param o Objeto Midicloriano con el que se desea comparar
-     * @return Entero indicando si es menor(número negaativo), igual(0) o
+     * @return Entero indicando si es menor(número negativo), igual(0) o
      * mayor(número positivo)
      * @pre Midicloriano inicializado correctamente
      * @post -

@@ -233,8 +233,8 @@ public class Galaxia {
     }
 
     /**
-     * Método que devuelve el turno de la Galxia
-     * 
+     * Método que devuelve el turno de la Galaxia
+     *
      * @return turno de la galaxia
      */
     public int getTurno() {
@@ -278,9 +278,9 @@ public class Galaxia {
     }
 
     /**
-     * TODO
+     * Método que devuelve la EDD de los Personajes
      *
-     * @return
+     * @return Devuelve el ArrayList de los Personajes.
      */
     public ArrayList<Personaje> getPersonajes() {
         return personajes;
@@ -400,8 +400,8 @@ public class Galaxia {
      * @post Genera un laberinto a través del Algoritmo de Kruskal ayudandose de
      * una matriz de enteros haciendo referencia a los IDS de las galaxias.
      * Sobre esta matriz se realizan los cálculos del ALgoritmo de Kruskal.
-     * Sobre el grafo de la gaxia se insertan arcos de las estaciones adyacentes
-     * según el Algoritmo.
+     * Sobre el grafo de la galaxia se insertan arcos de las estaciones
+     * adyacentes según el Algoritmo.
      * @complex O(n^3)
      *
      */
@@ -575,6 +575,12 @@ public class Galaxia {
         return Estaciones[fila][columna];
     }
 
+    /**
+     * Método que simula un turno en la galaxia.
+     * @pre Galaxia inicializada correctamente
+     * @post Acciona la galaxia en un determinado turno y lo muestra en el log
+     * @complex O(n^3)
+     */
     public void simular() {
         if (turno < 50 && !starsgate.cerradura.Abierta()) {
             accion(turno);

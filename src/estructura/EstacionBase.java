@@ -78,8 +78,11 @@ public class EstacionBase {
     }
     
     /**
-     *TODO
-     * @return
+     * Método que devuelve la EDD de los personajes
+     * @return Devuelve un vector de Object con los personajes de la estación.
+     * @pre EstaciónBase inicializada correctamente
+     * @post -
+     * @complex O(1)
      */
     public Object[] getPersonajes(){
         return this.personajes.toArray();
@@ -186,7 +189,7 @@ public class EstacionBase {
     /**
      * Método que devuelve si una estacion es de tipo puerta o no
      *
-     * @return Deuvelve valor booleano con información sobre si la pestacion es
+     * @return Devuelve valor booleano con información sobre si la pestacion es
      * una puerta o no. Devuelve false.
      * @pre EstacionBase inicializada correctamente
      * @post Devuelve false
@@ -248,7 +251,7 @@ public class EstacionBase {
      *
      * @pre EstacionBase inicializada con éxito
      * @post Escribe en el log información sobre el ID y los midiclorianos que
-     * contien la estación
+     * contiene la estación
      * @complex O(n)
      */
     public void toLog() {

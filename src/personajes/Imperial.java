@@ -125,9 +125,10 @@ public class Imperial extends Personaje {
 
     /**
      * Método que devuelve si es Imperial
+     *
      * @return TRUE
      * @pre Imperial inicializado correctamente
-     * @post - 
+     * @post -
      * @complex O(1)
      */
     @Override
@@ -147,7 +148,7 @@ public class Imperial extends Personaje {
      * estaciones al personaje a través del método setruta() y a su vez, para
      * que el perssonaje no llegue a algún momento donde se le acaben las
      * orientaciones del camino, se guarda la ruta del personaje en rutaInicial
-     * para poder recuperar la
+     * para poder recuperarla.
      * @complex O(n)
      */
     @Override
@@ -192,7 +193,7 @@ public class Imperial extends Personaje {
         }
     }
 
-        /**
+    /**
      * Método que devuelve el tipo del personaje
      *
      * @return String con tipo del personaje

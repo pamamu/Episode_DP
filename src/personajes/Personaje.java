@@ -46,7 +46,7 @@ public abstract class Personaje implements Comparable<Personaje> {
     /**
      * Bandera que indica si el personaje es ganador (TRUE) o no (FALSE)
      */
-    protected boolean ganador=false;
+    protected boolean ganador = false;
     /**
      * ED con midilorianos que porta el personaje
      */
@@ -104,14 +104,17 @@ public abstract class Personaje implements Comparable<Personaje> {
     }
 
     /**
-     * TODO
-     * @return
+     * Método que devuelve el nombre del Personaje
+     *
+     * @return Devuelve el valor del atributo nombre
+     * @pre Personaje inicializado correctamente
+     * @post -
+     * @complex O(1)
      */
     public String getNombre() {
         return nombre;
     }
 
-    
     /**
      * Método que devuelve la estacion donde se encuentra el personaje
      *
@@ -136,15 +139,25 @@ public abstract class Personaje implements Comparable<Personaje> {
         return marcaClase;
     }
 
+    /**
+     * Método que devuelve si el personaje es ganador
+     *
+     * @return Devuelve el vaalor del atributo ganador
+     * @pre Personaje inicializado correctamente
+     * @post -
+     * @complex O(1)
+     */
     public boolean isGanador() {
         return ganador;
     }
-    
 
     /**
      * Método que devuelve la ruta del Personaje
      *
      * @return Devuelve ruta del personaje
+     * @pre Personaje inicializado correctamente
+     * @post -
+     * @complex O(1)
      */
     public LinkedList<Camino> getRuta() {
         return ruta;
@@ -243,7 +256,6 @@ public abstract class Personaje implements Comparable<Personaje> {
     }
 
     // PÚBLICOS #################################################################
-
     /**
      * Inserta en la ED el midicloriano por parámetros
      *
@@ -293,10 +305,26 @@ public abstract class Personaje implements Comparable<Personaje> {
         turno++;
     }
 
+    /**
+     * Método para saber si el perosonaje es Imperial
+     *
+     * @return Devuelve falso.
+     * @pre Personaje inicializado correctamente
+     * @post -
+     * @complex O(1)
+     */
     public boolean esImperial() {
         return false;
     }
 
+    /**
+     * Método que indica que el personaje ha ganado.
+     *
+     * @pre Personaje inicializado correctamente
+     * @post Establece ganador a true y mueve al personaje a la estación de los
+     * ganadores.
+     * @complex O(1)
+     */
     public void fin() {
         if (!esImperial()) {
             ganador = true;
@@ -328,6 +356,12 @@ public abstract class Personaje implements Comparable<Personaje> {
      */
     public abstract void generarCamino();
 
+    /**
+     * Método que devuelve el tipo del personaje
+     *
+     * @see Imperial
+     * @see LightSide
+     */
     public abstract String getTipo();
 
     /**
@@ -358,6 +392,14 @@ public abstract class Personaje implements Comparable<Personaje> {
         return String.valueOf(marcaClase) /*+ "\n" + ruta.toString()*/;
     }
 
+    /**
+     * Método que convierte la ruta del personaje en un String
+     *
+     * @return Devuelve la ruta tal que "N S E O N S E O"
+     * @pre Personaje inicializada correctamente
+     * @post -
+     * @complex O(n)
+     */
     public String rutaToString() {
         String sruta = "";
         int longruta = ruta.size();
@@ -370,6 +412,14 @@ public abstract class Personaje implements Comparable<Personaje> {
         return sruta;
     }
 
+    /**
+     * Método que convierte los midiclorianos del personaje en String
+     *
+     * @return Devuelve los midiclorianos tal que "1 2 3 4 5 6"
+     * @pre Personaje inicializada correctamente
+     * @post -
+     * @complex O(n)
+     */
     public String midicloriansToString() {
         String smidiclorianos = "";
         for (int i = 0; i < midiclorianos.size(); i++) {
@@ -378,6 +428,13 @@ public abstract class Personaje implements Comparable<Personaje> {
         return smidiclorianos;
     }
 
+    /**
+     * Método que escribe en el Log información inicial sobre el personaje.
+     *
+     * @pre Personaje inicializada correctamente
+     * @post -
+     * @complex O(1)
+     */
     public void toLogini() {
         String info = "";
         info += "(ruta:";//Sec inicio
@@ -388,6 +445,13 @@ public abstract class Personaje implements Comparable<Personaje> {
         Logger.obtenerInstancia().escribeLog(info, 4);
     }
 
+    /**
+     * Método que escribe en el Log información sobre el personaje.
+     *
+     * @pre Personaje inicializada correctamente
+     * @post -
+     * @complex O(n)
+     */
     public void toLog() {
         String info = "";
         info += "(";//Parentesis inicio
