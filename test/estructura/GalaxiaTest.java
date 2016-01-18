@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import personajes.Personaje;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class GalaxiaTest {
     
@@ -166,6 +167,20 @@ public class GalaxiaTest {
         Galaxia instance = null;
         EstacionPuerta expResult = null;
         EstacionPuerta result = instance.getStarsgate();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getPersonajes method, of class Galaxia.
+     */
+    @Test
+    public void testGetPersonajes() {
+        System.out.println("getPersonajes");
+        Galaxia instance = null;
+        ArrayList<Personaje> expResult = null;
+        ArrayList<Personaje> result = instance.getPersonajes();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -333,6 +348,18 @@ public class GalaxiaTest {
         EstacionBase expResult = null;
         EstacionBase result = instance.getEstacion(fila, columna);
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of simular method, of class Galaxia.
+     */
+    @Test
+    public void testSimular() {
+        System.out.println("simular");
+        Galaxia instance = null;
+        instance.simular();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

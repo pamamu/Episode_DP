@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package GUI;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,11 +31,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
-public class OrientacionTest {
+public class MainTest {
     
-    public OrientacionTest() {
+    public MainTest() {
     }
     
     @BeforeClass
@@ -56,28 +55,13 @@ public class OrientacionTest {
     }
 
     /**
-     * Test of values method, of class Orientacion.
+     * Test of main method, of class Main.
      */
     @Test
-    public void testValues() {
-        System.out.println("values");
-        Orientacion[] expResult = null;
-        Orientacion[] result = Orientacion.values();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of valueOf method, of class Orientacion.
-     */
-    @Test
-    public void testValueOf() {
-        System.out.println("valueOf");
-        String name = "";
-        Orientacion expResult = null;
-        Orientacion result = Orientacion.valueOf(name);
-        assertEquals(expResult, result);
+    public void testMain() throws Exception {
+        System.out.println("main");
+        String[] args = null;
+        Main.main(args);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

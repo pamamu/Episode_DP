@@ -24,7 +24,7 @@ public class Estacion extends JPanel{
 	public Estacion(int id){
 		this.setLayout(layout);
 		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-		setBackground(Color.white);
+		setBackground(Color.black);
 		
 		//Configuramos la etiqueta del identificador de sala
 		idSala.setForeground(Color.blue);
@@ -34,7 +34,7 @@ public class Estacion extends JPanel{
 		this.add(idSala, BorderLayout.NORTH);
 		
 		//Configuramos la etiqueta del robot que hay en cada sala
-                robots.setForeground(Color.red);
+                robots.setForeground(Color.green);
                 fuente = new Font("Helvetica", Font.BOLD, 18);
                 robots.setFont(fuente);
                 this.add(robots, BorderLayout.CENTER);
@@ -58,7 +58,7 @@ public class Estacion extends JPanel{
 	
 	public void pintarParedes(){
 		Border border;
-		border = BorderFactory.createMatteBorder(paredes[0], paredes[1], paredes[2], paredes[3], Color.black);
+		border = BorderFactory.createMatteBorder(paredes[0], paredes[1], paredes[2], paredes[3], Color.red);
 		this.setBorder(border);		
 	}
 	

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({edd.GrafoTest.class, edd.ArbolTest.class})

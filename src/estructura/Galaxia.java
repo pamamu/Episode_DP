@@ -233,6 +233,15 @@ public class Galaxia {
     }
 
     /**
+     * Método que devuelve el turno de la Galxia
+     * 
+     * @return turno de la galaxia
+     */
+    public int getTurno() {
+        return turno;
+    }
+
+    /**
      * Método que devuelve el ID de la estacion conpuerta
      *
      * @return Devuelve ID de Starsgate
@@ -269,13 +278,14 @@ public class Galaxia {
     }
 
     /**
-     *  TODO
+     * TODO
+     *
      * @return
      */
-    public ArrayList<Personaje> getPersonajes(){
+    public ArrayList<Personaje> getPersonajes() {
         return personajes;
     }
-    
+
     /**
      * Método que introduce ED con ruta desde la estacion de inicio hasta
      * estación de fin.

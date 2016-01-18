@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,6 @@
  */
 package personajes;
 
-import estructura.Cerradura;
-import estructura.EstacionPuerta;
-import estructura.Galaxia;
-import estructura.Midicloriano;
-import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,40 +32,15 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class FamiliaRealTest {
-    
-    private static FamiliaReal instance;
     
     public FamiliaRealTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
-        
-        EstacionPuerta puerta = new EstacionPuerta(24);
-        
-        //Creacion de una galaxia de prueba para probar el personaje
-        Galaxia galaxia = Galaxia.obtenerInstancia(24, puerta, 5, 5);
-        
-        Cerradura cerradura = new Cerradura(4);
-
-        ArrayList<Midicloriano> combinacion = galaxia.generarMidiclorianosCerradura();
-
-        cerradura.setCombinacionInicial(combinacion);
-        cerradura.generarCombinacion();
-        cerradura.setEstado(false);
-
-        galaxia.getStarsgate().setCerradura(cerradura);
-
-        galaxia.construirGalaxia();
-        galaxia.generarLaberinto();
-        galaxia.getGrafo().floyd();
-        galaxia.getGrafo().warshall();
-        
-        instance = new FamiliaReal('F', "FamiliaRealPrueba", 0,0);
-        
     }
     
     @AfterClass
@@ -91,13 +61,10 @@ public class FamiliaRealTest {
     @Test
     public void testGenerarCamino() {
         System.out.println("generarCamino");
-        
+        FamiliaReal instance = null;
         instance.generarCamino();
-        
-        System.out.println(instance.rutaToString());
-        System.out.println(Galaxia.obtenerInstancia().imprimirGalaxia());
-        
-        assertEquals(instance.rutaToString(), " S S S E N E N E S S S E");
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -106,11 +73,12 @@ public class FamiliaRealTest {
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        
-        String expResult = "familiareal";
+        FamiliaReal instance = null;
+        String expResult = "";
         String result = instance.getTipo();
-        
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

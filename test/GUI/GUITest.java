@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,11 +32,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
-public class DPInitGUITest {
+public class GUITest {
     
-    public DPInitGUITest() {
+    public GUITest() {
     }
     
     @BeforeClass
@@ -56,61 +56,61 @@ public class DPInitGUITest {
     }
 
     /**
-     * Test of initMenus method, of class DPInitGUI.
+     * Test of initMenus method, of class GUI.
      */
     @Test
     public void testInitMenus() {
         System.out.println("initMenus");
-        DPInitGUI instance = new DPInitGUI();
+        GUI instance = new GUI();
         instance.initMenus();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of abrirInicio method, of class DPInitGUI.
+     * Test of abrirInicio method, of class GUI.
      */
     @Test
     public void testAbrirInicio() {
         System.out.println("abrirInicio");
-        DPInitGUI instance = new DPInitGUI();
+        GUI instance = new GUI();
         instance.abrirInicio();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of guardarLog method, of class DPInitGUI.
+     * Test of guardarLog method, of class GUI.
      */
     @Test
     public void testGuardarLog() {
         System.out.println("guardarLog");
-        DPInitGUI instance = new DPInitGUI();
+        GUI instance = new GUI();
         instance.guardarLog();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of salir method, of class DPInitGUI.
+     * Test of generarGalaxia method, of class GUI.
      */
     @Test
-    public void testSalir() {
-        System.out.println("salir");
-        DPInitGUI instance = new DPInitGUI();
-        instance.salir();
+    public void testGenerarGalaxia() {
+        System.out.println("generarGalaxia");
+        GUI instance = new GUI();
+        instance.generarGalaxia();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of main method, of class DPInitGUI.
+     * Test of salir method, of class GUI.
      */
     @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        DPInitGUI.main(args);
+    public void testSalir() {
+        System.out.println("salir");
+        GUI instance = new GUI();
+        instance.salir();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -1,19 +1,9 @@
 package GUI;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
 
 public class Tablero extends JPanel {
 

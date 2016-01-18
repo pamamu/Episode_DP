@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ import personajes.Personaje;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class EstacionBaseTest {
     
@@ -67,6 +67,20 @@ public class EstacionBaseTest {
         int expResult = 0;
         int result = instance.getID();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getPersonajes method, of class EstacionBase.
+     */
+    @Test
+    public void testGetPersonajes() {
+        System.out.println("getPersonajes");
+        EstacionBase instance = null;
+        Object[] expResult = null;
+        Object[] result = instance.getPersonajes();
+        assertArrayEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

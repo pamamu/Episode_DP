@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package GUI;
 
+import java.awt.event.FocusListener;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class PanelFicheroTest {
     
@@ -53,6 +54,19 @@ public class PanelFicheroTest {
     
     @After
     public void tearDown() {
+    }
+
+    /**
+     * Test of addFocusListener method, of class PanelFichero.
+     */
+    @Test
+    public void testAddFocusListener() {
+        System.out.println("addFocusListener");
+        FocusListener l = null;
+        PanelFichero instance = new PanelFichero();
+        instance.addFocusListener(l);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**

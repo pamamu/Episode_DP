@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class LoggerTest {
     
@@ -104,6 +104,20 @@ public class LoggerTest {
         int tipo = 0;
         Logger instance = null;
         instance.escribeLog(mensaje, tipo);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getBuffer method, of class Logger.
+     */
+    @Test
+    public void testGetBuffer() {
+        System.out.println("getBuffer");
+        Logger instance = null;
+        String expResult = "";
+        String result = instance.getBuffer();
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

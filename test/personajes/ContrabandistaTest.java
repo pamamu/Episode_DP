@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
  */
 package personajes;
 
-import estructura.Galaxia;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,23 +32,15 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class ContrabandistaTest {
     
     public ContrabandistaTest() {
     }
     
-    
-    /**
-     * Creacion de la galaxia para poder probar un personaje
-     * Se necesita crear una galaxia para crear un personaje
-     */
     @BeforeClass
     public static void setUpClass() {
-        //Creacion de una galaxia de prueba para probar el personaje
-        Galaxia galaxia = Galaxia.obtenerInstancia(24, null, 5, 5);
-        
     }
     
     @AfterClass
@@ -65,20 +56,17 @@ public class ContrabandistaTest {
     }
 
     /**
-     * Test de getTipo, de clase Contrabandista.
-     * 
-     * Prueba para comprobar que la clase contrabandista funciona (constructor)
-     * y metodo getTipo.
-     * 
+     * Test of getTipo method, of class Contrabandista.
      */
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        
-        Contrabandista instance = new Contrabandista('C', "ContrabandistaPrueba", 0, 0);
-        String expResult = "contrabandista";
+        Contrabandista instance = null;
+        String expResult = "";
         String result = instance.getTipo();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

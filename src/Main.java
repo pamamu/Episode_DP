@@ -1,5 +1,5 @@
 
-import GUI.DPInitGUI;
+import GUI.GUI;
 import estructura.Galaxia;
 import etc.Loader;
 import etc.Logger;
@@ -18,19 +18,9 @@ public class Main {
      * @throws IOException Lanzza una IOException
      */
     public static void main(String[] args) throws IOException {
-        
-        System.err.println(args.length);
 
         Logger log = Logger.obtenerInstancia();
-//        Loader cargador = new Loader();
-        
-        //Galaxia galaxia = Galaxia.obtenerInstancia();
-        
-        DPInitGUI ventana = new DPInitGUI();
-        //Simulacion de turnos
-//        for (int i = 0; i < 50; i++) {
-//            galaxia.simular();
-//        }
+        GUI ventana = new GUI();
         log.close();
     }
 

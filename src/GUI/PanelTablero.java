@@ -3,12 +3,11 @@ package GUI;
 import edd.Grafo;
 import estructura.EstacionBase;
 import estructura.Galaxia;
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,12 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import personajes.Personaje;
 
 public class PanelTablero extends JPanel {
@@ -32,6 +28,7 @@ public class PanelTablero extends JPanel {
     //Dimensiones del tablero
     private int dimX;
     private int dimY;
+    private int numturno = Galaxia.obtenerInstancia().getTurno();
     //Componentes de parte superior del panel: tabla de personajes
     private Galaxia galaxia = Galaxia.obtenerInstancia();
     private JTable tabla;
@@ -42,6 +39,7 @@ public class PanelTablero extends JPanel {
     private JPanel panelInferior = new JPanel();
     private JButton bGenerar = new JButton(new ImageIcon("images/laberinto.png"));
     private JButton bSimular = new JButton(new ImageIcon("images/play_verde.gif"));
+    private JLabel turno = new JLabel("", JLabel.CENTER);
     //Layout del panel principal
     private GridBagLayout layout = new GridBagLayout();
 
@@ -84,10 +82,18 @@ public class PanelTablero extends JPanel {
     }
 
     public void iniciarPanelInferior() {
+        Font fuente = new Font("Helvetica", Font.BOLD, 25);
+        turno.setFont(fuente);
+        turno.setBackground(Color.black);
+        turno.setForeground(Color.green);
+        turno.setText(String.valueOf(numturno));
+
         this.setLayout(new FlowLayout());
         panelInferior.add(bGenerar);
         panelInferior.add(bSimular);
+        panelInferior.add(turno);
 
+        turno.setToolTipText("Turno actual de la partida");
         bGenerar.setToolTipText("Tirar paredes");
         bSimular.setToolTipText("Iniciar simulaci��n");
         bSimular.setEnabled(false);
@@ -133,7 +139,7 @@ public class PanelTablero extends JPanel {
 
     public void addAccionesBotones() {
         // TODO: A�adir acciones sobre los botones (bGenerar = tirarParedes) (bSimular=InsertarPersonajes)
-                
+
         bGenerar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -146,12 +152,15 @@ public class PanelTablero extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 galaxia.simular();
-                
-                if(galaxia.getStarsgate().cerradura.Abierta()){
+
+                if (galaxia.getStarsgate().cerradura.Abierta()) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Puerta Abierta");
                     bSimular.setEnabled(false);
+                } else {
+                    numturno++;
+                    turno.setText(String.valueOf(numturno));
                 }
-                insertarRobots();
+                insertarPersonajes();
             }
         });
 
@@ -177,7 +186,7 @@ public class PanelTablero extends JPanel {
         //TODO: Habilitar el bot�n de simulaci�n
     }
 
-    public void insertarRobots() {
+    public void insertarPersonajes() {
         for (int i = 0; i < dimX * dimY; i++) {
             tablero.insertarPersonajeEstacion(' ', i);
         }

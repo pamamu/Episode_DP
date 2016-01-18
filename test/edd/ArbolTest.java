@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
  */
 package edd;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,31 +34,34 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class ArbolTest {
-    
+
+    private final ByteArrayOutputStream salida = new ByteArrayOutputStream();
+
     public ArbolTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
+
     }
 
     /**
-     * Test of getHijoIzq method, of class Arbol.
+     * Test del método getHijoIzq, de la clase Arbol.
      */
     @Test
     public void testGetHijoIzq() {
@@ -65,12 +70,10 @@ public class ArbolTest {
         Arbol expResult = null;
         Arbol result = instance.getHijoIzq();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getHijoDer method, of class Arbol.
+     * Test del método getHijoDer, de la clase Arbol.
      */
     @Test
     public void testGetHijoDer() {
@@ -79,12 +82,10 @@ public class ArbolTest {
         Arbol expResult = null;
         Arbol result = instance.getHijoDer();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getRaiz method, of class Arbol.
+     * Test del método getRaiz, de la clase Arbol.
      */
     @Test
     public void testGetRaiz() {
@@ -93,92 +94,141 @@ public class ArbolTest {
         Object expResult = null;
         Object result = instance.getRaiz();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of vacio method, of class Arbol.
+     * Test del método testVacio, de la clase Arbol.
      */
     @Test
     public void testVacio() {
         System.out.println("vacio");
         Arbol instance = new Arbol();
-        boolean expResult = false;
         boolean result = instance.vacio();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
     /**
-     * Test of insertar method, of class Arbol.
+     * Test del método Insertar, de la clase Arbol. Arbol Vacio
      */
     @Test
     public void testInsertar() {
         System.out.println("insertar");
-        Object dato = null;
+        Integer dato = null;
         Arbol instance = new Arbol();
-        boolean expResult = false;
         boolean result = instance.insertar(dato);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
     /**
-     * Test of pertenece method, of class Arbol.
+     * Test del método Insertar, de la clase Arbol. Arbol lleno con elemento
+     * igual
+     */
+    @Test
+    public void testInsertar2() {
+        System.out.println("insertar");
+        Integer dato = 5;
+        Arbol instance = new Arbol();
+        instance.insertar(dato);
+        boolean result = instance.insertar(dato);
+        assertFalse(result);
+    }
+
+    /**
+     * Test del método Insertar, de la clase Arbol. Arbol lleno con elemento
+     * distinto.
+     */
+    @Test
+    public void testInsertar3() {
+        System.out.println("insertar");
+        Integer dato = 5;
+        Arbol instance = new Arbol();
+        instance.insertar(3);
+        boolean result = instance.insertar(dato);
+        assertTrue(result);
+    }
+
+    /**
+     * Test del método Pertenece, de la clase Arbol. Arbol con raiz 5, se
+     * comprueba 5
      */
     @Test
     public void testPertenece() {
         System.out.println("pertenece");
-        Object dato = null;
+        Integer dato = 5;
         Arbol instance = new Arbol();
-        boolean expResult = false;
+        instance.insertar(dato);
         boolean result = instance.pertenece(dato);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
     /**
-     * Test of borrar method, of class Arbol.
+     * Test del método Pertenece, de la clase Arbol. Arbol con raiz 5, se
+     * comprueba 3
+     */
+    @Test
+    public void testPertenece2() {
+        System.out.println("pertenece");
+        Integer dato = 5;
+        Arbol instance = new Arbol();
+        instance.insertar(dato);
+        boolean result = instance.pertenece(3);
+        assertTrue(result);
+    }
+
+    /**
+     * Test del método Borrar, de la clase Arbol.
      */
     @Test
     public void testBorrar() {
         System.out.println("borrar");
-        Object dato = null;
+        Integer dato = 3;
         Arbol instance = new Arbol();
+        instance.insertar(dato);
         instance.borrar(dato);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance.getRaiz(), null);
     }
 
     /**
-     * Test of inOrden method, of class Arbol.
+     * Test del método InOrden, de la clase Arbol.
      */
     @Test
     public void testInOrden() {
         System.out.println("inOrden");
+        System.setOut(new PrintStream(salida));
         Arbol instance = new Arbol();
+        for (int i = 0; i < 5; i++) {
+            instance.insertar(i);
+        }
         instance.inOrden();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String out = "1\n2\n3\n4\n5\n";
+        assertEquals(salida.toString(), out);
+        System.setOut(null);
     }
 
     /**
-     * Test of esHoja method, of class Arbol.
+     * Test del método EsHoja, de la clase Arbol. Arbol con 1
      */
     @Test
     public void testEsHoja() {
         System.out.println("esHoja");
-        Object dato = null;
+        Integer dato = 1;
         Arbol instance = new Arbol();
-        boolean expResult = false;
+        instance.insertar(dato);
         boolean result = instance.esHoja(dato);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
-    
+
+    /**
+     * Test del método EsHoja, de la clase Arbol. Arbol con 1,2
+     */
+    @Test
+    public void testEsHoja2() {
+        System.out.println("esHoja");
+        Integer dato = 1;
+        Arbol instance = new Arbol();
+        instance.insertar(dato);
+        instance.insertar(2);
+        boolean result = instance.esHoja(dato);
+        assertFalse(result);
+    }
 }

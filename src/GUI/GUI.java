@@ -9,11 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +26,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class DPInitGUI extends JFrame {
+public class GUI extends JFrame {
     //Componente principal, panel con pesta�as
 
     private JTabbedPane pestañas = new JTabbedPane();
@@ -47,7 +44,7 @@ public class DPInitGUI extends JFrame {
     private JMenuItem salir = new JMenuItem("Salir");
     private JSeparator separador = new JSeparator();
 
-    public DPInitGUI() {
+    public GUI() {
         super("Episode DP");
 
         pestañas.add("Fichero Inicio", inicio);
@@ -83,6 +80,7 @@ public class DPInitGUI extends JFrame {
         archivo.add(guardarLog);
         archivo.addSeparator();
         archivo.add(salir);
+        log.setEditable(false);
 
         abrirInicio.addActionListener(new ActionListener() {
             @Override
@@ -121,7 +119,7 @@ public class DPInitGUI extends JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+               
             }
         });
         
@@ -195,7 +193,8 @@ public class DPInitGUI extends JFrame {
                 panelTablero = new PanelTablero(galaxia.getDimX(), galaxia.getDimY());
                 pestañas.add("Galaxia", panelTablero);
                 generarGalaxia.setEnabled(false);
-                inicio.setEnabled(false);     
+                abrirInicio.setEnabled(false);
+                inicio.setEditable(false);
                 } catch (NullPointerException e) {
                 JOptionPane.showMessageDialog(null, "Error en el fichero de inicio");
                                     }

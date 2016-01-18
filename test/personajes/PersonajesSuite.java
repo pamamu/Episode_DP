@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package estructura;
+package personajes;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,8 +35,8 @@ import org.junit.runners.Suite;
  * @author Pablo_Macias
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({estructura.EstacionBaseTest.class, estructura.CerraduraTest.class, estructura.EstacionPuertaTest.class, estructura.GalaxiaTest.class, estructura.MidiclorianoTest.class})
-public class EstructuraSuite {
+@Suite.SuiteClasses({personajes.ImperialTest.class, personajes.JediTest.class, personajes.FamiliaRealTest.class, personajes.LightSideTest.class, personajes.ContrabandistaTest.class, personajes.PersonajeTest.class})
+public class PersonajesSuite {
 
     @BeforeClass
     public static void setUpClass() throws Exception {

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Fernando Gonzalez < fernandogv.inf@gmail.com >.
+ * Copyright 2016 Pablo_Macias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fernando Gonzalez < fernandogv.inf@gmail.com >
+ * @author Pablo_Macias
  */
 public class PanelTableroTest {
     
@@ -61,7 +61,7 @@ public class PanelTableroTest {
     @Test
     public void testIniciarListaRobots() {
         System.out.println("iniciarListaRobots");
-        PanelTablero instance = new PanelTablero();
+        PanelTablero instance = null;
         instance.iniciarListaRobots();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -73,7 +73,7 @@ public class PanelTableroTest {
     @Test
     public void testIniciarTablero() {
         System.out.println("iniciarTablero");
-        PanelTablero instance = new PanelTablero();
+        PanelTablero instance = null;
         instance.iniciarTablero();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -85,7 +85,7 @@ public class PanelTableroTest {
     @Test
     public void testIniciarPanelInferior() {
         System.out.println("iniciarPanelInferior");
-        PanelTablero instance = new PanelTablero();
+        PanelTablero instance = null;
         instance.iniciarPanelInferior();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -97,7 +97,7 @@ public class PanelTableroTest {
     @Test
     public void testAñadirComponentes() {
         System.out.println("a\u00f1adirComponentes");
-        PanelTablero instance = new PanelTablero();
+        PanelTablero instance = null;
         instance.añadirComponentes();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -109,7 +109,7 @@ public class PanelTableroTest {
     @Test
     public void testAddAccionesBotones() {
         System.out.println("addAccionesBotones");
-        PanelTablero instance = new PanelTablero();
+        PanelTablero instance = null;
         instance.addAccionesBotones();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -121,7 +121,7 @@ public class PanelTableroTest {
     @Test
     public void testTirarParedes() {
         System.out.println("tirarParedes");
-        PanelTablero instance = new PanelTablero();
+        PanelTablero instance = null;
         instance.tirarParedes();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -131,10 +131,10 @@ public class PanelTableroTest {
      * Test of insertarRobots method, of class PanelTablero.
      */
     @Test
-    public void testInsertarRobots() {
+    public void testInsertarPersonajes() {
         System.out.println("insertarRobots");
-        PanelTablero instance = new PanelTablero();
-        instance.insertarRobots();
+        PanelTablero instance = null;
+        instance.insertarPersonajes();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
