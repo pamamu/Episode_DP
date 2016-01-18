@@ -236,6 +236,9 @@ public class Galaxia {
      * Método que devuelve el turno de la Galaxia
      *
      * @return turno de la galaxia
+     * @pre Galaxia inicializada con éxito
+     * @post -
+     * @complex O(1)
      */
     public int getTurno() {
         return turno;
@@ -281,6 +284,9 @@ public class Galaxia {
      * Método que devuelve la EDD de los Personajes
      *
      * @return Devuelve el ArrayList de los Personajes.
+     * @pre Galaxia inicializada con éxito
+     * @post -
+     * @complex O(1)
      */
     public ArrayList<Personaje> getPersonajes() {
         return personajes;
@@ -577,6 +583,7 @@ public class Galaxia {
 
     /**
      * Método que simula un turno en la galaxia.
+     *
      * @pre Galaxia inicializada correctamente
      * @post Acciona la galaxia en un determinado turno y lo muestra en el log
      * @complex O(n^3)

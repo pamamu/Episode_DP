@@ -94,7 +94,6 @@ public class EstacionBase {
      * @pre EstacionBase inicializada con éxito
      * @post -
      * @complex O(1)
-
      */
     public ArrayList<Midicloriano> getMidiclorianos() {
         return midiclorianos;

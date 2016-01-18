@@ -146,7 +146,7 @@ public class GUI extends JFrame {
                 }
                 fr.close();
             } catch (Exception e) {
-                // TODO: handle exception
+                JOptionPane.showMessageDialog(null, "Error en el archivo de inicio");
             }
         }
     }
