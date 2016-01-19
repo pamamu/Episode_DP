@@ -1,0 +1,8 @@
+--Este archivo compone la prueba de la clase READER
+--Galaxia
+GALAXIA#6#8#47#3#
+--Personajes de la simulación
+FAMILIAREAL#Rey#R#1#
+JEDI#Finn#F#2#
+IMPERIAL#Kylo#K#1#
+CONTRABANDISTA#BB-8#B#1#
